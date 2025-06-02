@@ -1,0 +1,51 @@
+//////////////////////////////////////////////////////////////////
+//	  uhvi rules		  				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.47			   			//
+//////////////////////////////////////////////////////////////////
+
+// "uhvi" is "v20 dg" in Virtuoso
+
+rule uhvi.1 {
+	caption "diff/tap cannot straddle UHVI"
+	select -cut diff uhvi ;
+}
+
+rule uhvi.2 {
+	caption "poly cannot straddle UHVI"
+	select -cut poly uhvi ;
+}
+
+NOT pwbm lv_net pwbm_not_LV
+ 
+rule uhvi.3 {
+	caption "pwbm must be enclosed by UHVI (exempt inside areaid:lvnet)"
+	select -inside -not pwbm_not_LV uhvi ;
+}
+
+rule uhvi.4 {
+	caption "dnwell cannot straddle UHVI"
+	select -cut dnwell uhvi ;
+}
+
+//rule uhvi.5 {
+//	caption "UHVI must enclose areaid.ext"
+//	caption "omitted; areaid.ext is not used anymore"
+//}
+
+// the wording of this rule implies that all dnwell must be enclosed by UHVI
+// but appears that is not the case, areas simply cannot straddle
+// this is covered by rule uhvi.4
+
+//rule uhvi.6 {
+//	caption "UHVI must enclose dnwell"
+//	NOT dnwell UHVI ;
+//}
+
+// rules 7-9 do not have numbers in the DRM
+// "natfet.dg" does not seem to exist anymore
+//rule uhvi.7 "natfet.dg must be enclosed by UHVI layer by at least N/A"
+//rule uhvi.8 "Minimum width of natfet.dg: N/A"
+//rule uhvi.9 "Minimum spacing of natfet.dg N/A"
+
+

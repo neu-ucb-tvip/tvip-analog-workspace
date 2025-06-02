@@ -1,0 +1,310 @@
+//////////////////////////////////////////////////////////////////
+//	 m1 rules			 			//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.23			  			//
+//////////////////////////////////////////////////////////////////
+
+
+// met1 fill added to met1 in layer_defs
+
+rule m1.1 {
+	caption "Width of metal1: 0.140 um"
+	inte met1 -lt 0.140 -output region 
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+// Spacing rules:  Huge met1 and regular met1
+//
+// met1_fill is now part of met1
+//   if fill shapes have different rules, 
+//   spacing checks could be broken out using met1_dg, met1_fill
+//
+//  Need to find met1 features "attached to or extending from huge_met1" up to 0.28
+// 	huge_met1:  met1 with width > 3.0
+//
+// min spacing (met1 attached to huge_met1) to met1:  0.28
+// min spacing HUGE to met1:  0.28
+// min spacing met1 to met1:  0.14  
+
+rule m1.2 {
+	caption "Spacing of metal1 to metal1: 0.140 um"
+	exte met1 -lt 0.140 -single_point -output region
+}
+
+// To find met1 that is attached / extending up to 0.28 um:
+//	[1] Remove (NOT) huge_met1 from met1
+//	[2] Size huge_met1 by 0.28 um
+//	[3] AND [1] [2] to get the extending features; but:
+//	[4] Keep only those [3] shapes that touch huge_met1
+//	(to avoid getting met1 shapes that are nearby but not attached)
+
+NOT met1 huge_met1 met1_not_huge ;
+size huge_met1 -by 0.28 -outputlayer huge_met1_028
+AND met1_not_huge huge_met1_028 met1_huge_and ;
+select -touch met1_huge_and huge_met1 -outputlayer met1_touching_huge
+
+rule m1.3a { 
+	caption "Min spacing of features attached to or extending from huge_met1"
+	caption "for a distance of up to 0.280 um to metal1: 0.280 um"
+	caption "(rule not checked over non-huge met1 features)"
+	exte met1_touching_huge met1 -lt 0.280 -single_point -output region
+}
+
+rule m1.3b {
+	caption "Min spacing of huge_met1 to metal1 excluding features checked by m1.3a: 0.280 um"
+	exte huge_met1 met1 -lt 0.280 -single_point -output region
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+// *****************************************************************************************
+// ********************************************
+// M1 enclosure of MCON
+//   rules m1.4:  minimum M1 enclosure of MCON is 0.030 um
+//   rules m1.4a: For certain cells, minimum M1 enclosure of MCON is 0.005 um 
+//
+// These cells allow met1 enclosure of mcon to be 0.005 um:
+//  s8cell_ee_plus_sseln_a s8cell_ee_plus_sseln_b s8cell_ee_plus_sselp_a s8cell_ee_plus_sselp_b s8fpls_pl8 s8fs_cmux4_fm
+//
+// NOTE:  there is a limitation with using GDS out and Pegasus
+// The same cellname from two different libraries will cause one of the cells to renamed,
+//   as the cells in the GDS file must have unique names
+// By default, one of the cells will be renamed with a suffix; here is an example from the PIPO log file:
+//
+//   INFO (XSTRM-223): 3. Translating cellView QA_S130_DRC/s8fs_cmux4_fm/layout as STRUCTURE s8fs_cmux4_fm.
+//   INFO (XSTRM-223): 5. Translating cellView QA_S130_DRC_alt/s8fs_cmux4_fm/layout as STRUCTURE s8fs_cmux4_fm_2.
+//							^^
+// Because of this, "inside_cell" will find "s8fs_cmux4_fm" but not "s8fs_cmux4_fm_2"
+// Wildcards could be used -- "s8fs_cmux4_fm_2" for example,
+//   but then "s8fpls_pl8_*" will cause Pegasus to incorrectly find:  "s8fpls_pl8_mr_no_m1"
+
+inside_cell mcon  
+	s8cell_ee_plus_sseln_a s8cell_ee_plus_sseln_b s8cell_ee_plus_sselp_a 
+	s8cell_ee_plus_sselp_b s8fpls_pl8 s8fs_cmux4_fm -outputlayer mcon_m1.4a ;
+
+NOT mcon mcon_m1.4a mcon_m1.4
+
+//  edge_select added to find enclosure of 0.0
+//  this gives cleaner results than using the abut option.
+
+rule m1.4 {
+	caption "Mcon must be enclosed by Met1 by at least: 0.030 um"
+	caption "(Rule exempted for cell names documented in rule m1.4a)"
+	enc mcon_m1.4 met1 -lt 0.030 -output region
+	edge_select mcon_m1.4 met1 ;
+}
+
+// "-abut" will find enclosure of 0.0 (not found by default by the enc command)
+
+rule m1.4a {
+	caption "Mcon must be enclosed by Met1 by at least: 0.005"
+	caption "(for cell names s8cell_ee_plus_sseln_a, s8cell_ee_plus_sseln_b, s8cell_ee_plus_sselp_a,"
+	caption "s8cell_ee_plus_sselp_b, s8fpls_pl8, and s8fs_cmux4_fm)"
+	enc mcon_m1.4a met1 -lt 0.005 -abut -output region
+}
+// ********************************************
+// *****************************************************************************************
+
+
+#IFNDEF CU
+	rule m1.5 {
+	caption "AL Flow - Mcon must be enclosed by Met1 on one of two adjacent sides by at least: 0.060 um" 
+	rect_enc mcon met1 -good 0.060 0.000 0.060 0.000
+	}
+#ENDIF  // ifndef CU
+
+rule m1.6 {
+	caption "Min metal1 area: 0.083 sq um"
+	area met1 -lt 0.083
+}
+
+rule m1.7 {
+	caption "Min area of metal1 holes: 0.140 sq um"
+	holes met1 -outputlayer m1.7_a
+	area m1.7_a -lt 0.140
+}
+
+// rules m1.pd.1, m1.pd.2a, m1.pd.2b -- SEE BELOW
+//	see below
+
+
+//rule m1.11 {
+//	caption "Max width of metal1 after slotting: 4.000 um"
+//	caption "   TBA   "
+//}
+
+
+
+// rules m1.13, m1.14, m1.14a -- SEE BELOW
+
+
+#IFDEF CU
+  #IFDEF NC
+	rule m1.11 {
+	  caption "Max width of metal1 (CU) after slotting: 4.000 um"
+	  caption "Guideline only"
+	  with_width met1 -gt 4.000 ;
+	}
+  #ENDIF  // ifdef NC
+  
+  rule m1.12 {
+	caption "Cu Flow - Add slots and remove vias and contacts if met1 (CU) wider than > 3.200"
+	with_width met1 -gt 3.200 ;
+  }
+
+  rule m1.15 {
+	caption "Cu Flow - Mcon must be enclosed by Met1 on one of two adjacent sides by at least: 0.030 um" 
+	rect_enc mcon met1 -good 0.030 0.000 0.030 0.000
+  }
+
+#ENDIF  // ifdef CU
+
+
+// *****************************************************************************************
+// *****************************************************************************************
+// DENSITY
+// ********************************************
+
+#IFNDEF CU
+
+// Oxide pattern density is pattern density after oversizing the metal and fill by 0.6
+// there are also mask layers but the designer should not see these
+
+// met1 includes met1 dg and met1 fill
+
+  size met1 -by 0.6 -outputlayer met1_oxide
+
+// AL met1 Density 
+
+  rule m1.pd.1 {
+ 	caption "m1.pd.1: Min MM1_oxide_Pattern_density (AL): 0.70"
+	caption "m1.pd.2a: Rule m1.pd.1 has to be checked by dividing the chip into square regions of width and length equal to 700 um"
+	caption "m1.pd.2b: Rule m1.pd.1 has to be checked by dividing the chip into steps of 70 um"
+	caption "NOTE: MM1_oxide_Pattern is all met1 sized by 0.6 um"
+	caption "  rdb file:  m1.pd1.rdb"
+	density met1_oxide -lt 0.70 -window 700 -step 70 -rdb "m1.pd1.rdb"
+}
+#ELSE
+
+// CU met1 Density
+
+// rules m1.13, m1.14, m1.14a 
+//	 "Max pattern density (PD) of met1: 0.77"
+//	 "Met1 PD window size == 50.00 um"
+//	 "Met1 PD window step == 25.00 um"
+
+// These rules specify "met1" and not met1 oxide, so do not use the sized met1 
+
+  rule m1.13 {
+ 	caption "m1.13: Max pattern density (PD) of met1 (CU): 0.77"
+	caption "m1.14: Met1 PD window size 50 um"
+	caption "m1.14a: Met1 PD window step 25 um"
+	caption "  rdb file:  m1.13.rdb"
+	density met1 -gt 0.77 -window 50 -step 25  -rdb "m1.13.rdb"
+  }
+#ENDIF  // ifndef CU
+
+
+// *****************************************************************************************
+// met1 Recommended Chip-Level Density rules
+
+//  Algorithm should flag errors, for met1, if ANY of the following is true:
+//  An entire 700x700 window is covered by cmm1 waffleDrop, and met1 < 70% for same window 
+//  80-100% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 65% for same window 
+//  60-80% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 60% for same window 
+//  50-60% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 50% for same window
+//  40-60% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 40% for same window
+//  30-40% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 30% for same window
+//  Exclude cells whose are is below 40Kum**2.
+//  NOTE: Required for IP, Recommended for Chip-level.
+// *****************************************************************************************
+
+//  My notes / implementation
+//
+// [1] Caption will only include the actual range that creates a violation
+// [2] For now, I am NOT excluding cells below area of 40,000um**2
+// [3] Unclear if a step should be used; maybe 350um ?
+// [4] Rule names "m1.den#"
+// [5] For range:
+//	 "entire 700x700 window" is 100%
+//	 So for "80-100%", since 100% is already covered, I use 80% <= density < 100%
+//	 Similarly, for the other ranges, I use:
+//	60% <= density < 80%
+//	50% <= density < 60%
+//	40% <= density < 50%
+//	30% <= density < 40%
+
+
+//  DRM refers to "cmm1 waffleDrop" 
+//
+//  Here it is in layer_def file:
+//
+// layer_def cmm1_waffle_drop	  1261
+// layer_map 62 -datatype 24 1261	//cmm1,waffle drop,62:24
+//
+//  Here it is in the GDS map file:
+//
+// cmm1	fill_block	  62	  24
+
+
+#IFDEF RC 
+
+  density cmm1_waffle_drop -eq 1.00 -window 700  -outputlayer cmm1_pd1   -rdb "cmm1.pd1.rdb"
+
+  rule m1.RC.pd1 { 
+	caption "Recommended at Chip Level:"
+	caption "An entire 700x700 window is covered by cmm1 waffleDrop, and met1 < 70% for same window"
+	caption "  rdb file:  m1.RC.pd1.rdb"
+	density met1 -lt 0.70 -inside_of layer cmm1_pd1 -window 700  -rdb "m1.RC.pd1.rdb" ;
+  }
+
+// "-ltge" means:  less than 1.00  &  greater than 0.80
+
+  density cmm1_waffle_drop -ltge 0.80 1.00 -window 700  -outputlayer cmm1_pd2   -rdb "cmm1.pd2.rdb"
+
+  rule m1.RC.pd2 { 
+	caption "Recommended at Chip Level:"
+	caption "80-100% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 65% for same window"
+	density met1 -lt 0.65 -inside_of layer cmm1_pd2 -window 700  -rdb "m1.RC.pd2.rdb" ;
+	caption "  rdb file:  m1.RC.pd2.rdb"
+  }
+
+  density cmm1_waffle_drop -ltge 0.60 0.80 -window 700  -outputlayer cmm1_pd3  -rdb "cmm1.pd3.rdb"
+
+  rule m1.RC.pd3 { 
+	caption "Recommended at Chip Level:"
+	caption "60-80% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 60% for same window" 
+	caption "  rdb file:  m1.RC.pd3.rdb"
+	density met1 -lt 0.60 -inside_of layer cmm1_pd3 -window 700  -rdb "m1.RC.pd3.rdb" ;
+  }
+
+  density cmm1_waffle_drop -ltge 0.50 0.60 -window 700  -outputlayer cmm1_pd4  -rdb "cmm1.pd4.rdb"
+
+  rule m1.RC.pd4 { 
+	caption "Recommended at Chip Level:"
+	caption "50-60% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 50% for same window" 
+	caption "  rdb file:  m1.RC.pd4.rdb"
+	density met1 -lt 0.50 -inside_of layer cmm1_pd4 -window 700 -rdb "m1.RC.pd4.rdb" ;
+  }
+
+  density cmm1_waffle_drop -ltge 0.40 0.50 -window 700  -outputlayer cmm1_pd5  -rdb "cmm1.pd5.rdb"
+
+  rule m1.RC.pd5 { 
+	caption "Recommended at Chip Level:"
+	caption "40-50% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 40% for same window" 
+	caption "  rdb file:  m1.RC.pd5.rdb"
+	density met1 -lt 0.40 -inside_of layer cmm1_pd5 -window 700  -rdb "m1.RC.pd5.rdb" ;
+  }
+
+  density cmm1_waffle_drop -ltge 0.30 0.40 -window 700 -step 350 -outputlayer cmm1_pd6  -rdb "cmm1.pd6.rdb"
+
+  rule m1.RC.pd6 { 
+	caption "Recommended at Chip Level:"
+	caption "30-40% of 700x700 window is covered by cmm1 waffleDrop, and met1 < 30% for same window" 
+	caption "  rdb file:  m1.RC.pd6.rdb"
+	density met1 -lt 0.30 -inside_of layer cmm1_pd6 -window 700 -rdb "m1.RC.pd6.rdb" ;
+  }
+
+#ENDIF  // ifdef RC
+

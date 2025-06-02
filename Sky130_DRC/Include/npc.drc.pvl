@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////
+//	  npc rules		   				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.16			   			//
+//////////////////////////////////////////////////////////////////
+
+
+rule npc.1 {
+	caption "Min width of NPC: 0.270 um"
+	inte npc -lt 0.270 -output region
+}
+
+rule npc.2 {
+	caption "Min spacing of NPC to NPC: 0.270 um"
+	caption "Rule npc.3 Manual merge if less than minimum"
+	exte npc -lt 0.270 -single_point -output region
+}
+
+//rule npc.3 {
+//	caption "Manual merge if less than minimum"
+//}
+
+rule npc.4 {
+	caption "Spacing (no overlap) of NPC to Gate: 0.090 um"
+	exte npc gate -lt 0.090 -single_point -overlap -output region
+}
+
+//rule npc.5 {
+//	caption "Max enclosure of poly overlapping slotted_licon1 by npcm: 0.095 um"
+//	caption "(merge between adjacent short edges of the slotted_licons if space < min)"
+//	caption " TBA "
+//	select -cut poly slotted_licon -outputlayer npc.5_a
+//	enc npc.5_a npcm -lt 0.095 -output region
+//}
+
+

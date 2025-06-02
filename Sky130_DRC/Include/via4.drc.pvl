@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////
+//	 via4 rules		   				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.32			   			//
+//////////////////////////////////////////////////////////////////
+
+
+select -inside via4 SEALID -outputlayer via4.insideSR
+NOT	via4 via4.insideSR via4.outsideSR ;
+
+rule via4.1 {
+	caption "Min and max L and W of via4 == 0.800 um"
+	rect_chk -not via4.outsideSR -eq 0.800 -by -eq 0.800 -orthogonal_only
+}
+
+rule via4.2 {
+	caption "Spacing of via4 to via4: 0.800 um"
+	exte via4 -lt 0.800 -single_point -output region
+}
+
+
+rule via4.3 {
+	  caption "Only min. square via4s are allowed except die seal ring where via4s are (via4 CD)*L == 0.80 * L"
+	  caption " this seal ring via4 does not have W = 0.80 um"
+	  rect_chk -not via4.insideSR -eq 0.80 ;
+}
+
+rule via4.4 {
+	caption "Via4 must be enclosed by Met4 by at least: 0.190 um"
+	enc via4 met4 -lt 0.190 -outside_also -output region
+	edge_select via4 met4 ;
+}
+
+#IFDEF CU
+
+	//rule via4.irdrc.1 {
+	//	caption "	TBA   "
+	//}
+
+	//rule via4.irdrc.2 {
+	//	caption "	TBA   "
+	//}
+
+	//rule via4.irdrc.3 {
+	//	caption "	TBA   "
+	//}
+
+	//rule via4.irdrc.4 {
+	//	caption "	TBA   "
+	//}
+#ENDIF  // ifdef CU
+

@@ -1,0 +1,97 @@
+//////////////////////////////////////////////////////////////////
+//	 via3 rules		   				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.28			   			//
+//////////////////////////////////////////////////////////////////
+
+
+// For vias3s inside of seal ring (SEALID) or areaid.mt: 
+// via3s must be *completely* inside to satisfy the condition
+
+	select -inside  via3 SEALID -outputlayer via3.insideSR
+	NOT	 via3 via3.insideSR via3.outsideSR ;
+	
+	select -inside via3 areaid.mt -outputlayer via3.areaid.mt
+	NOT	via3 via3.areaid.mt via3.not_areaid.mt ;
+	
+	NOT via3.not_areaid.mt via3.insideSR via3_neither ;
+
+#IFNDEF CU
+
+//  vias3s inside areaid.mt and SEALID have separate rules
+
+	rule via3.1 {
+	caption "Al Flow - Min and max L and W of via3 (except for rule via3.1a) == 0.200 um"
+	rect_chk -not via3_neither -eq 0.200 -by -eq 0.200 -orthogonal_only
+	}
+
+	rule via3.1a {
+	caption "Al Flow - Two sizes of square via3 allowed inside areaid.mt: 0.200um and 0.800um"
+	rect_chk -not via3.areaid.mt -eq 0.200 -by -eq 0.200 -orthogonal_only -outputlayer via3.not0.2
+	rect_chk -not via3.not0.2 -eq 0.800 -by -eq 0.800 -orthogonal_only
+
+	}
+
+	rule via3.2 {
+	caption "AL Flow - Spacing of via3 to via3: 0.200 um"
+	exte via3 -lt 0.200 -single_point -output region
+	}
+
+	rule via3.3 {
+	  caption "AL Flow - Only min. square via3s are allowed except die seal ring where via3s are (via3 CD)*L == 0.20 * L"
+	  caption " this seal ring via3 does not have W = 0.2 um"
+	  rect_chk -not via3.insideSR -eq 0.20 ;
+}
+
+	rule via3.4 {
+	caption "AL Flow - Via3 must be enclosed by Met3 by at least: 0.060 um"
+	enc via3 met3 -lt 0.060 -outside_also -output region
+	edge_select via3 met3 ;
+	}
+
+	rule via3.5 {
+	caption "AL Flow - Via3 must be enclosed by Met3 on one of two adjacent sides by at least: 0.090 um"
+	rect_enc via3 met3 -good 0.090 0.000 0.090 0.000
+	}
+#ENDIF  // ifndef CU
+
+#IFDEF CU
+	rule via3.11 {
+	caption "Cu FLow - Min and max L and W of via3 == 0.210 um"
+	rect_chk -not via3 -eq 0.210 -by -eq 0.210 -orthogonal_only
+	}
+
+	rule via3.12 {
+	caption "Cu Flow - Spacing of via3 to via3: 0.180 um"
+	exte via3 -lt 0.180 -single_point -output region
+	}
+
+	rule via3.13 {
+	caption "Cu Flow - Via3 must be enclosed by Met3 by at least: 0.055 um"   
+	enc via3 met3 -lt 0.055 -output region
+	edge_select via3 met3
+	}
+
+	//rule via3.14 {
+	//	caption "Cu Flow - Min Spacing betweeb via3 rows: 0.350 um"
+	//	caption "	TBA   "
+	//}
+
+	//rule via3.irdrc.1 {
+	//	caption "	TBA   "
+	//}
+
+	//rule via3.irdrc.2 {
+	//	caption "	TBA   "
+	//}
+
+	//rule via3.irdrc.3 {
+	//	caption "	TBA   "
+	//}
+
+	//rule via3.irdrc.4 {
+	//	caption "	TBA   "
+	//}
+
+#ENDIF  // ifdef CU
+

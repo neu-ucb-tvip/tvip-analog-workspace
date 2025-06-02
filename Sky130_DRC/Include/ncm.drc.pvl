@@ -1,0 +1,74 @@
+//////////////////////////////////////////////////////////////////
+//	  ncm rules		   				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.9						//
+//////////////////////////////////////////////////////////////////
+
+
+rule ncm.1 {
+	caption "Width of ncm: 0.380 um"
+	inte ncm -lt 0.380 -single_point -output region
+}
+
+rule ncm.2a {
+	caption "Spacing of ncm to ncm: 0.380 um"
+	exte ncm -lt 0.380 -single_point -output region
+}
+
+//rule ncm.2b {
+//	caption "Manual merge ncm if space is below minimum"
+//	}
+
+
+rule ncm.3 {
+	caption "Min enclosure of P+diff by Ncm: 0.180 um"
+	enc pdiff Ncm -lt 0.180 -output region
+}
+
+// areaid.de == diode
+// areaid.ed == esd
+
+and pdiff ( NOT areaid.ed areaid.de ) -outputlayer pdiff_edde
+
+// Could lump ncm.3 & ncm.4 together since the value is the same
+// keeping separate to explicitly show ncm.4 results
+// also this will make future edits easier
+
+rule ncm.4 {
+	caption "Min enclosure of P+diff within (areaid:ed AndNot areaid:de) by Ncm: 0.180 um"
+	enc pdiff_edde Ncm -lt 0.180 -output region
+}
+
+// I interpret the ncm.5 and ncm.6 spacing rules to imply that touching (space = 0.0) is a violation
+
+rule ncm.5 {
+	caption "Min space, no overlap, between ncm and (LVTN_gate) OR (diff containing lvtn): 0.230 um
+	select -enclose diff lvtn -outputlayer ncm.5_a
+	or LVTN_gate ncm.5_a -outputlayer ncm.5_b
+// this will find space < 0.23 and overlap cases
+	exte ncm ncm.5_b -lt 0.230 -overlap -single_point -output region -outputlayer ncm.5_c
+// find touching cases
+	select -touch ncm ncm.5_b -outputlayer ncm.5_touch  
+	or ncm.5_c ncm.5_touch
+
+}
+
+rule ncm.6 {
+	caption "Min space, no overlap, between ncm and nfet: 0.200 um"
+// this will find space < 0.20 and overlap cases
+	exte ncm nfet -lt 0.200 -overlap -single_point -output region -outputlayer ncm.6_a
+// find touching cases
+	select -touch ncm nfet -outputlayer ncm.6_touch
+	or ncm.6_a ncm.6_touch
+}
+
+rule ncm.7 {
+	caption "Min area of ncm: 0.265 sq um"
+	area ncm -lt 0.265 
+}
+
+rule ncm.8 {
+	caption "Min area of ncm Holes: 0.265 sq um"
+	holes ncm -outputlayer ncm.8_a
+	area ncm.8_a -lt 0.265
+}

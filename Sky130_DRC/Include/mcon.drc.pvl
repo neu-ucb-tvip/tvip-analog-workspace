@@ -1,0 +1,46 @@
+//////////////////////////////////////////////////////////////////
+//	  mcon(ct) rules		  			//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.20			   			//
+//////////////////////////////////////////////////////////////////
+
+rule ct.1 {
+	caption "Min and max L and W of mcon: 0.170 um"
+	rect_chk mcon -ne 0.170 -orthogonal_only
+}
+
+rule ct.2 {
+	caption "Spacing of mcon to mcon: 0.190 um"
+	exte mcon -lt 0.190 -single_point -output region
+}
+
+// rule ct.1 is sufficient since the size of mcon in the seal ring is the same (0.17)
+
+//rule ct.3 {
+//	caption "Only min. square mcons are allowed except die seal ring where mcons are 0.17 um"
+//}
+
+// since min enclosure is 0.0, and mcon uncovered by LI is an error, rule ct.4 is unecessary
+
+//rule ct.4 { 
+//	caption "Mcon must be enclosed by LI by at least 0.0 um"
+//}
+
+
+//rule ct.irdrop.1 {
+//	caption "For 1 <= n <= 10 contacts on the same connector,"
+//	caption "mcon area pre- and post- Cu conversion must differ by no more than 0.2 um"
+//	caption "	TBA   "
+//}
+
+//rule ct.irdrop.2 {
+//	caption "For 11 <= n <= 100 contacts on the same connector,"
+//	caption "mcon area pre- and post- Cu conversion must differ by no more than 0.3 um"
+//	caption "	 TBA	"
+
+//rule ct.ipdrop.3 {
+//	caption "For n > 100 contacts on the same connector,"
+//	caption "mcon area pre- and post- Cu conversion must differ by no more than 0.7 um"
+//	caption "	 TBA	"
+//}
+

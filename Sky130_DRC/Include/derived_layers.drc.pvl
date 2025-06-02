@@ -1,0 +1,159 @@
+//////////////////////////////////////////////////////////////////
+//	  Derived Layers		  			//
+// Version 0.0_2.3  May 19, 2025				//
+//////////////////////////////////////////////////////////////////
+
+select -outside pad areaid.ft -outputlayer bondPad
+
+and capm met2 -outputlayer bottom_plate_pvsTmp1
+size bottom_plate_pvsTmp1 -by 3.00 -outputlayer bottom_plate
+
+select -enclose capm via2 -gt 1 -outputlayer capacitor
+select -cut -not capm via2 -outputlayer dummy_capacitor
+
+select -label poly -textname "dummy_poly" -textlayer text -outputlayer dummy_poly
+
+holes SEALID -outputlayer Chip_extent_pvsTmp1
+or Chip_extent_pvsTmp1 SEALID -outputlayer Chip_extent
+
+or cfom cp1m_mk cmm1_mk cmm2_mk -outputlayer Diecut_pmm_pvsTmp1
+not areaid.dt Diecut_pmm_pvsTmp1 -outputlayer Diecut_pmm
+
+with_width met1 -gt 3.000 -outputlayer huge_met1
+with_width met2 -gt 3.000 -outputlayer huge_met2
+with_width met3 -gt 3.000 -outputlayer huge_met3
+with_width met4 -gt 3.000 -outputlayer huge_met4
+with_width met5 -gt 3.000 -outputlayer huge_met5
+
+with_width pad -gt 100.000 -outputlayer hugePad
+
+not Chip_extent nwell -outputlayer pwell
+
+select -touch ptap pwell_res -outputlayer pwell_terminal  //djb
+
+and pwell dnwell -outputlayer iso_pwell
+
+and poly diff -outputlayer gate_a
+select -donut -not gate_a -outputlayer gate
+not gate nwell -outputlayer nfet
+and gate nwell -outputlayer pfet
+
+select -inside gate lvtn -outputlayer LVTN_Gate
+
+//not diff nwell -outputlayer ndiff
+//and diff nwell -outputlayer pdiff
+
+
+//////////////////////////////////////////////////////////////////
+// DIFF and TAP Layers
+//
+// tap is no longer a separate layer
+// diff and tap are the same layer on mask
+// 
+// From layer_defs:
+//   drawn tap:  tap_dg 
+//   drawn diff: diff_dg, diff_fill
+//   input diff: diff_or (OR diff_dg diff_fill)
+
+// diff_in:  OR (diff dg) (diff fill) (tap dg)
+// diff_all: diff_in NOT tap
+// diff:	 diff_all NOT (diff res)
+// ntap: 	AND (nsdm diff_in nwell) NOT poly
+// ptap: 	(nsdm diff_in NOT nwell) NOT poly  ; also remove (dnwell NOT ptub)
+// tap: 	OR (ntap ptap)
+
+OR diff_or tap_dg diff_in ;
+
+and diff_in nwell diff_nwell ;
+not diff_in nwell diff_not_nwell ;
+
+and diff_nwell psdm -outputlayer pdiff
+and diff_not_nwell nsdm -outputlayer ndiff
+
+AND diff_nwell nsdm ntap1 ;
+AND diff_not_nwell psdm ptap1 ;
+
+not ntap1 poly  ntap ;
+not ptap1 poly  ptap ;	// ;ss  do we need to remove dnwell related taps (ptub) ?
+//not ptap2 (not dnwell ptub)  ptap ;
+
+or ptap ntap -outputlayer tap
+
+not diff_in tap -outputlayer diff_all ;
+
+not diff_all diff_res -outputlayer diff
+
+not ( not ( and diff nsdm ) poly )  ntap -outputlayer nsd
+not ( not ( and diff psdm ) poly )  ptap -outputlayer psd
+//and ( and diff_in psdm ) ptub -outputlayer ptubtap
+
+or tap diff_all -outputlayer diffTap
+
+
+//////////////////////////////////////////////////////////////////
+
+and diff hvi -outputlayer hdiff
+
+or diff tap -outputlayer poly_licon1_pvsTmp1
+not poly_licon1_pvsTmp1 poly -outputlayer poly_licon1_pvsTmp2
+select -cut -not licon1 poly_licon1_pvsTmp2 -outputlayer poly_licon1
+
+and tap licon1 -outputlayer tap_licon
+not tap poly -outputlayer tap_notPoly
+select -inside tap nwell -outputlayer tap_nwell
+
+not nwell hvi -outputlayer Var_channel_pvsTmp1
+and poly tap -outputlayer Var_channel_pvsTmp2
+and Var_channel_pvsTmp2 Var_channel_pvsTmp1 -outputlayer Var_channel_pvsTmp3
+not Var_channel_pvsTmp3 areaid.ce -outputlayer Var_channel
+
+select -cut tap Var_channel -outputlayer VaracTap
+
+//	  Other
+
+select -enclose met4 met4_fuse -outputlayer fuse
+not fuse met4_fuse -outputlayer fuse_contact
+select -enclose -not met4 via3 -outputlayer fuse_shield_a
+select -enclose -not fuse_shield_a via4 fuse_shield_b
+rect_chk fuse_shield_b -eq 0.500 -by -eq 2.400 -outputlayer fuse_shield
+
+
+// and rpm psdm -outputlayer prec_resistor
+// this is better (poly is poly_df OR poly_fill) :
+and poly ( and poly_res ( and ( or rpm urpm ) psdm ) ) -outputlayer prec_resistor
+select -enclose poly prec_resistor -outputlayer poly_prec_resistor
+
+
+and nwell hvi -outputlayer nhvi
+select -inside nwell areaid.hl -outputlayer nhl
+or nhvi nhl -outputlayer hv_nwell
+
+and tap hvi -outputlayer htap
+
+select -inside poly vhvi -outputlayer VHVPoly
+and VHVPoly diff -outputlayer VHVGate
+
+and diff tap -outputlayer dtap
+and dtap vhvi -outputlayer dhvi
+not dhvi poly -outputlayer dpoly
+not dpoly diff_res -outputlayer VHVSourceDrain
+
+connect li1 poly -by licon1
+connect met1 li1 -by mcon
+connect met2 met1 -by via1
+connect met3 met2 -by via2
+connect met4 met3 -by via3
+connect met5 met4 -by via4
+
+// Seal Ring
+// SEALID is the drawn sealring layer (areaid.sl)
+// sealring:  (sealring with hole) enclosing both: (diff with hole) (nsm with hole)
+//   there might be better, more complete derivations
+//   sealring has 4 rings of diff; diff has rectangles on "cfom maskDrop"
+//   there are also structures in the corners ("cdnm mask" & "cpdm mask")
+
+select -donut SEALID -outputlayer sealring_donut
+select -donut diff -outputlayer sealring_diff
+select -donut nsm -outputlayer sealring_nsm
+select -enclose (select -enclose sealring_donut sealring_diff) (select -enclose sealring_donut sealring_nsm) -outputlayer sealring
+

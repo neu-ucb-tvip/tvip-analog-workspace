@@ -1,0 +1,229 @@
+//////////////////////////////////////////////////////////////////
+//	 m3 rules			 			//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.27			   			//
+//////////////////////////////////////////////////////////////////
+
+rule m3.1 {
+	caption "Width of metal3: 0.300 um"
+	inte met3 -lt 0.300 -output region
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+// Spacing rules:  Huge met3 and regular met3
+// 	huge_met3: met3 with width > 3.0
+//
+// See m1 rules for methodology description
+// 
+// min spacing (met3 attached to huge_met3) to met3:  0.40
+// min spacing HUGE to met3:  0.40
+// min spacing met3 to met3:  0.30  
+
+rule m3.2 {
+	caption "Spacing of metal3 to metal3: 0.300 um"
+	exte met3 -lt 0.300 -single_point -output region
+}
+
+//rule m3.3a {
+//	caption "Min spacing of features attached to or extending from huge_met3"
+//	caption "for a distance of up to 0.480 um to metal3 "
+//	caption "(rule not checked over non-huge met3 features)"
+//	caption "   DRM has not values; not coded "
+//}
+
+//rule m3.3b {
+//	caption "Min spacing of huge_met3 to metal3 excluding features checked by m3.3a "
+//	caption "   DRM has not values; not coded "
+//}
+
+NOT met3 huge_met3 met3_not_huge ;
+size huge_met3 -by 0.40 -outputlayer huge_met3_040
+AND met3_not_huge huge_met3_040 met3_huge_and ;
+select -touch met3_huge_and huge_met3 -outputlayer met3_touching_huge
+
+rule m3.3c {
+	caption "Min spacing of features attached to or extending from huge_met3"
+	caption "for a distance of up to 0.400 um to metal3: 0.400 um"
+	caption "(rule not checked over non-huge met3 features)"
+	exte met3_touching_huge met3 -lt 0.400 -single_point -output region
+}
+
+rule m3.3d {
+	caption "Min spacing of huge_met3 to metal3 excluding features checked by m3.3c: 0.400 um"
+	exte huge_met3 met3 -lt 0.400 -single_point -output region
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+#IFNDEF CU
+	rule m3.4 {
+	caption "AL Flow - via2 must be enclosed by Met3 by at least: 0.065 um"
+	enc via2 met3 -lt 0.065 -output region
+	edge_select via2 met3 ;  // finds 0.0 enc 
+	}
+#ENDIF  // ifndef CU
+
+//rule m3.5 {
+//	caption "via2 must be enclosed by Met3 on one of two adjacent sides by at least " 
+//	caption "	N/A   "
+//}
+
+//rule m3.5a {
+//	caption "Via2 must be enclosed by Met3 on all sides by at least"
+//	caption "(Rule not checked on a layout when it satisfies both rules m3.4 and m3.5)"
+//	caption "	N/A	"
+//}
+
+rule m3.6 {
+	caption "Min metal3 area: 0.240 sq um"
+	area met3 -lt 0.240
+}
+
+#IFDEF CU
+	rule m3.7 {
+	caption "Cu Flow - Min area of metal3 holes: 0.200 sq um"
+	holes met3 -outputlayer m3.7_a
+	area m3.7_a -lt 0.200
+	}
+#ENDIF  // ifdef CU
+
+
+// rules m3.13, m3.14, m3.14a -- SEE BELOW
+
+#IFDEF CU
+	rule m3.11 {
+	caption "Cu Flow - Max width of metal3: 4.000 um"
+	with_width met3 -gt 4.000
+	}
+
+	rule m3.12 {
+	  caption "Cu Flow - Add slots and remove vias and contacts if met3 wider than > 3.200"
+	  with_width met3 -gt 3.200 ;
+	}
+
+	rule m3.15 {
+	caption "Cu Flow - via1 must be enclosed by Met3 on one of two adjacent sides by at least: 0.060 um" 
+	rect_enc via1 met3 -good 0.060 0.000 0.060 0.000
+	}
+
+#ENDIF  // ifdef CU
+
+
+// *****************************************************************************************
+// *****************************************************************************************
+// DENSITY
+// ********************************************
+
+#IFNDEF CU
+
+// Oxide pattern density is pattern density after oversizing the metal and fill by 0.6
+// there are also mask layers but the designer should not see these
+
+// met3 includes met3 dg and met3 fill
+
+  size met3 -by 0.6 -outputlayer met3_oxide
+
+// AL met3 Density 
+
+  rule m3.pd.1 {
+ 	caption "m3.pd.1: Min MM3_oxide_Pattern_density (AL): 0.70"
+	caption "m3.pd.2a: Rule m3.pd.1 has to be checked by dividing the chip into square regions of width and length equal to 700 um"
+	caption "m3.pd.2b: Rule m3.pd.1 has to be checked by dividing the chip into steps of 70 um"
+	caption "NOTE: MM3_oxide_Pattern is all met3 sized by 0.6 um"
+	density met3_oxide -lt 0.70 -window 700 -step 70 -rdb "m3.pd1.rdb"
+  }
+#ELSE
+
+// CU met3 Density
+
+// rules m3.13, m3.14, m3.14a 
+//	 "Max pattern density (PD) of met3: 0.77"
+//	 "met3 PD window size == 50.00 um"
+//	 "met3 PD window step == 25.00 um"
+
+// These rules specify "met3" and not met3 oxide, so do not use the sized met3 
+
+  rule m3.13 {
+ 	caption "m3.13: Max pattern density (PD) of met3 (CU): 0.77"
+	caption "m3.14: met3 PD window size 50 um"
+	caption "m3.14a: met3 PD window step 25 um"
+	caption "  rdb file:  m3.13.rdb"
+	density met3 -gt 0.77 -window 50 -step 25  -rdb "m3.13.rdb"
+  }
+#ENDIF  // ifndef CU
+
+
+// *****************************************************************************************
+// met3 Recommended Chip-Level Density rules
+
+//  Algorithm should flag errors, for met3, if ANY of the following is true:
+//  An entire 700x700 window is covered by cmm3 waffleDrop, and met3 < 70% for same window 
+//  80-100% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 65% for same window 
+//  60-80% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 60% for same window 
+//  50-60% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 50% for same window
+//  40-60% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 40% for same window
+//  30-40% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 30% for same window
+//  Exclude cells whose are is below 40Kum**2.
+//  NOTE: Required for IP, Recommended for Chip-level.
+// *****************************************************************************************
+
+#IFDEF RC 
+
+  density cmm3_waffle_drop -eq 1.00 -window 700  -outputlayer cmm3_pd1   -rdb "cmm3.pd1.rdb"
+
+  rule m3.RC.pd1 { 
+	caption "Recommended at Chip Level:"
+	caption "An entire 700x700 window is covered by cmm3 waffleDrop, and met3 < 70% for same window"
+	caption "  rdb file:  m3.RC.pd1.rdb"
+	density met3 -lt 0.70 -inside_of layer cmm3_pd1 -window 700  -rdb "m3.RC.pd1.rdb" ;
+  }
+
+// "-ltge" means:  less than 1.00  &  greater than 0.80
+
+  density cmm3_waffle_drop -ltge 0.80 1.00 -window 700  -outputlayer cmm3_pd2   -rdb "cmm3.pd2.rdb"
+
+  rule m3.RC.pd2 { 
+	caption "Recommended at Chip Level:"
+	caption "80-100% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 65% for same window"
+	density met3 -lt 0.65 -inside_of layer cmm3_pd2 -window 700  -rdb "m3.RC.pd2.rdb" ;
+	caption "  rdb file:  m3.RC.pd2.rdb"
+  }
+
+  density cmm3_waffle_drop -ltge 0.60 0.80 -window 700  -outputlayer cmm3_pd3  -rdb "cmm3.pd3.rdb"
+
+  rule m3.RC.pd3 { 
+	caption "Recommended at Chip Level:"
+	caption "60-80% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 60% for same window" 
+	caption "  rdb file:  m3.RC.pd3.rdb"
+	density met3 -lt 0.60 -inside_of layer cmm3_pd3 -window 700  -rdb "m3.RC.pd3.rdb" ;
+  }
+
+  density cmm3_waffle_drop -ltge 0.50 0.60 -window 700  -outputlayer cmm3_pd4  -rdb "cmm3.pd4.rdb"
+
+  rule m3.RC.pd4 { 
+	caption "Recommended at Chip Level:"
+	caption "50-60% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 50% for same window" 
+	caption "  rdb file:  m3.RC.pd4.rdb"
+	density met3 -lt 0.50 -inside_of layer cmm3_pd4 -window 700 -rdb "m3.RC.pd4.rdb" ;
+  }
+
+  density cmm3_waffle_drop -ltge 0.40 0.50 -window 700  -outputlayer cmm3_pd5  -rdb "cmm3.pd5.rdb"
+
+  rule m3.RC.pd5 { 
+	caption "Recommended at Chip Level:"
+	caption "40-50% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 40% for same window" 
+	caption "  rdb file:  m3.RC.pd5.rdb"
+	density met3 -lt 0.40 -inside_of layer cmm3_pd5 -window 700  -rdb "m3.RC.pd5.rdb" ;
+  }
+
+  density cmm3_waffle_drop -ltge 0.30 0.40 -window 700 -step 350 -outputlayer cmm3_pd6  -rdb "cmm3.pd6.rdb"
+
+  rule m3.RC.pd6 { 
+	caption "Recommended at Chip Level:"
+	caption "30-40% of 700x700 window is covered by cmm3 waffleDrop, and met3 < 30% for same window" 
+	caption "  rdb file:  m3.RC.pd6.rdb"
+	density met3 -lt 0.30 -inside_of layer cmm3_pd6 -window 700 -rdb "m3.RC.pd6.rdb" ;
+  }
+
+#ENDIF  // ifdef RC

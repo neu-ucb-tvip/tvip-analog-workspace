@@ -1,0 +1,47 @@
+//////////////////////////////////////////////////////////////////
+//	  tunm rules		  				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.11			   			//
+//////////////////////////////////////////////////////////////////
+
+rule tunm.1 {
+	caption "Min width of tunm: 0.410 um"
+	inte tunm -lt 0.410 -single_point -output region
+}
+
+rule tunm.2 {
+	caption "Min spacing of tunm to tunm: 0.500 um"
+	exte tunm -lt 0.500 -single_point -output region
+}
+
+rule tunm.3 {
+	caption "Extension of tunm beyond (poly and diff): 0.095 um"
+	enc tunm gate -lt 0.095 -single_point -output region
+}
+
+rule tunm.4 {
+	caption "Min spacing of tunm to (poly and diff) outside tunm: 0.095 um"
+	select -outside gate tunm -outputlayer tunm.4_a
+	exte tunm tunm.4_a -lt 0.095 -single_point -output region
+}
+
+rule tunm.5 {
+	caption "(poly and diff) may not straddle tunm"
+	select -cut gate tunm
+}
+
+rule tunm.6a {
+	caption "Tunm outside deep n-well is not allowed"
+	not tunm nwell
+}
+
+rule tunm.7 {
+	caption "Min tunm area: 0.672 sq um"
+	area tunm -lt 0.672
+}
+
+rule tunm.8 {
+	caption "tunm must be enclosed by areaid.ce"
+	not tunm areaid.ce
+}
+

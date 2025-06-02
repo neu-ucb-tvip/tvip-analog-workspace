@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////
+//	  nsm rules		   				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.29			   			//
+//////////////////////////////////////////////////////////////////
+
+
+rule nsm.1 {
+	caption "Min width of nsm: 3.000 um"
+	inte nsm -lt 3.000 -single_point -output region
+}
+
+rule nsm.2 {
+	caption "Min spacing of nsm to nsm: 4.000 um"
+	exte nsm nsm -lt 4.000 -single_point -output region
+}
+
+//  AL only
+//rule nsm.3 {
+//	caption "Min spacing, no overlap, between NSM_keepout to diff.dg, tap.dg, fom.dy, cfom.dg, cfom.mk,"
+//	caption "poly.dg, p1m.mk, li1.dg, cli1m.mk, metX.dg (X=1 to 5) and cmmX.mk (X=1 to 5)."
+//	caption "Exempt the following from the check: (a) cell name nikon and (b) diff ring inside areaid.sl: 1.000 um"
+//}
+
+//rule nsm.3a {
+//	caption "Min enclosure of diff.dg, tap.dg, fom.dy, cfom.dg, cfom.mk, poly.dg, p1m.mk, li1.dg, cli1m.mk, "
+//	caption "metX.dg (X=1 to 5) and cmmX.mk (X=1 to 5) by areaid.ft. Exempt the following from the check: "
+//	caption "(a) cell name s8Fab_crntic (b) blankings in the frame (rule uses areaid.dt for exemption): 3.000 um"
+//}
+
+//rule nsm.3b {
+//	caption "Min spacing between areaid.dt to diff.dg, tap.dg, fom.dy, cfom.dg, cfom.mk, poly.dg, p1m.mk, li1.dg, "
+//	caption "cli1m.mk, metX.dg (X=1 to 5) and cmmX.mk (X=1 to 5). Exempt the following from the check: "
+//	caption "(a) blankings in the frame (rule uses areaid.dt for exemption): 3.000 um "
+//}
+
+

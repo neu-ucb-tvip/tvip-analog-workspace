@@ -1,0 +1,42 @@
+// *************************************************************** //
+// Sky130 Open Source PVL DRC Deck                                 //
+// Version 0.0_2.3  May 19, 2025                                              //
+// *************************************************************** //
+
+README
+
+This directory:  Sky130_DRC_rev_0.0_2.3
+
+[1] Environment Variable
+
+You must set the "PEGASUS_DRC" variable to point to this directory
+
+Do this before starting Virtuoso:
+ 
+% setenv PEGASUS_DRC {path}/Sky130_DRC_rev_0.0_2.3
+
+You can also do this inside of Virtuoso with this CIW command:
+
+setShellEnvVar("PEGASUS_DRC" "{path}/Sky130_DRC_rev_0.0_2.3")
+
+[2] Primary DRC file
+
+The top DRC file:  Sky130_DRC_rev_0.0_2.3/sky130_rev_0.0_2.3.drc.pvl
+
+In the Pegausas DRC UI, go to Rules -> Tech&Rules -> Add... (on the right under "Rules")
+
+[3] Configurator file
+
+There is a configurator file to allow setting switches in the UI.
+
+Configurator file:  Sky130_DRC_rev_0.0_2.3/sky130.drc.cfg
+
+In the Pegausas DRC UI, go to Rules -> Configurator -> Input (... on the right for browser)
+
+[4] Rule Groups
+
+Groups are used to arrange rules by layer/type (M1, VIA2, etc.). 
+You can see these in the UI by gonig to DRC Options -> Rule Selector
+NOTE: when you load the configurator or change switches, 
+  you will need to "Reload Rules" at the bottom of Rule Selector to update
+

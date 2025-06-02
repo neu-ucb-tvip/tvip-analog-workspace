@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////
+//	  hvi rules		   				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.37			   			//
+//////////////////////////////////////////////////////////////////
+
+// "hvi" is "v5 dg" in some Virtuoso libraries
+// layer_def hvi	   1011
+// layer_map 75 -datatype 20 1011	//hvi,drawing,75:20
+// v5	   drawing	   75	   20
+
+
+//  hvi.1 and hvi.5 may generate false errors
+//	Equivalent checks for hvi.1 use 0.02 um
+//	hvi.5 has no equivalent check
+
+#IFNDEF FALSEOFF
+rule hvi.1 {
+	caption "Min width of Hvi: 0.600 um"
+	caption "  NOTE: possible false errors due to out-of-date DRM information"
+	inte hvi -lt 0.600 -single_point -output region
+}
+rule hvi.5 {
+	caption "Min space between hvi and nwell (exclude coincident edges): 0.700 um"
+	caption "  NOTE: possible false errors due to out-of-date DRM information"
+	exte hvi nwell -lt 0.700 -single_point -output region
+}
+#ENDIF
+
+rule hvi.2a {
+	caption "Min spacing of Hvi to Hvi: 0.700 um"
+	exte hvi hvi -lt 0.700 -single_point -output region
+}
+
+//rule hvi.2b {
+//	caption "Manual merge if space is below minimum"
+//	caption "Not Coded"
+//}
+
+rule hvi.4 {
+	caption "Hvi must not overlap tunm"
+	and hvi tunm
+}
+

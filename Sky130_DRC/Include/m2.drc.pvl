@@ -1,0 +1,220 @@
+//////////////////////////////////////////////////////////////////
+//	 m2 rules			 			//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.25			   			//
+//////////////////////////////////////////////////////////////////
+
+
+// met2 fill added to met2 in layer_defs
+
+rule m2.1 {
+	caption "Width of metal2: 0.140 um"
+	inte met2 -lt 0.140 -output region
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// Spacing rules:  Huge met2 and regular met2
+// 	huge_met2: met2 with width > 3.0
+//
+// See m1 rules for methodology description
+// 
+// min spacing (met2 attached to huge_met2) to met2:  0.28
+// min spacing HUGE to met2:  0.28
+// min spacing met2 to met2:  0.14  
+
+rule m2.2 {
+	caption "Spacing of metal2 to metal2: 0.140 um"
+	exte met2 -lt 0.140 -single_point -output region
+}
+
+NOT met2 huge_met2 met2_not_huge ;
+size huge_met2 -by 0.28 -outputlayer huge_met2_028
+AND met2_not_huge huge_met2_028 met2_huge_and ;
+select -touch met2_huge_and huge_met2 -outputlayer met2_touching_huge
+
+rule m2.3a {
+	caption "Min spacing of features attached to or extending from huge_met2"
+	caption "for a distance of up to 0.280 um to metal2: 0.280 um"
+	caption "(rule not checked over non-huge met2 features)"
+	exte met2_touching_huge met2 -lt 0.280 -single_point -output region
+}
+
+rule m2.3b {
+	caption "Min spacing of huge_met2 to metal2 excluding features checked by m2.3a: 0.280 um"
+	exte huge_met2 met2 -lt 0.280 -single_point -output region
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+//rule m2.3c {
+//	caption "Min spacing between floating_met2 with AR_met2_A: 0.05 and AR_met2_B: 0.032"
+//	caption "outside areaid.sc must be greater than: 0.145 um"
+//	caption "	Recommended Rule - not coded	"
+//}
+
+
+#IFNDEF CU
+	rule m2.4 {
+	caption "AL Flow - via1 must be enclosed by Met2 by at least: 0.055 um"
+	enc via1 met2 -lt 0.055 -output region
+	edge_select via1 met2 ;  // finds 0.0 enc
+	}
+
+	rule m2.5 {
+	caption "AL Flow - via1 must be enclosed by Met2 on one of two adjacent sides by at least: 0.085 um" 
+	rect_enc via1 met2 -good 0.085 0.000 0.085 0.000
+	}
+#ENDIF  // ifndef CU
+
+rule m2.6 {
+	caption "Min metal2 area: 0.067 sq um"
+	area met2 -lt 0.067
+}
+
+rule m2.7 {
+	caption "Min area of metal2 holes: 0.140 sq um"
+	holes met2 -outputlayer m2.7_a
+	area m2.7_a -lt 0.140
+}
+
+
+// rules m2.13, m2.14, m2.14a -- SEE BELOW
+
+#IFDEF CU
+	rule m2.11 {
+	caption "Cu Flow - Max width of metal2: 4.000 um"
+	with_width met2 -gt 4.000
+	}
+
+	rule m2.12 {
+	  caption "Cu Flow - Add slots and remove vias and contacts if met2 wider than > 3.200"
+	  with_width met2 -gt 3.200 ;
+	}
+
+	rule m2.15 {
+	caption "Cu Flow - via1 must be enclosed by Met2 on one of two adjacent sides by at least: 0.040 um" 
+	rect_enc via1 met2 -good 0.040 0.000 0.040 0.000
+	}
+
+#ENDIF  // ifdef CU
+
+
+// *****************************************************************************************
+// *****************************************************************************************
+// DENSITY
+// ********************************************
+
+#IFNDEF CU
+
+// Oxide pattern density is pattern density after oversizing the metal and fill by 0.6
+// there are also mask layers but the designer should not see these
+
+// met2 includes met2 dg and met2 fill
+
+  size met2 -by 0.6 -outputlayer met2_oxide
+
+// AL met2 Density 
+
+  rule m2.pd.1 {
+ 	caption "m2.pd.1: Min MM2_oxide_Pattern_density (AL): 0.70"
+	caption "m2.pd.2a: Rule m2.pd.1 has to be checked by dividing the chip into square regions of width and length equal to 700 um"
+	caption "m2.pd.2b: Rule m2.pd.1 has to be checked by dividing the chip into steps of 70 um"
+	caption "NOTE: MM2_oxide_Pattern is all met2 sized by 0.6 um"
+	density met2_oxide -lt 0.70 -window 700 -step 70 -rdb "m2.pd1.rdb"
+  }
+#ELSE
+
+// CU met2 Density
+
+// rules m2.13, m2.14, m2.14a 
+//	 "Max pattern density (PD) of met2: 0.77"
+//	 "met2 PD window size == 50.00 um"
+//	 "met2 PD window step == 25.00 um"
+
+// These rules specify "met2" and not met2 oxide, so do not use the sized met2 
+
+  rule m2.13 {
+ 	caption "m2.13: Max pattern density (PD) of met2 (CU): 0.77"
+	caption "m2.14: met2 PD window size 50 um"
+	caption "m2.14a: met2 PD window step 25 um"
+	caption "  rdb file:  m2.13.rdb"
+	density met2 -gt 0.77 -window 50 -step 25  -rdb "m2.13.rdb"
+  }
+#ENDIF  // ifndef CU
+
+
+// *****************************************************************************************
+// met2 Recommended Chip-Level Density rules
+
+//  Algorithm should flag errors, for met2, if ANY of the following is true:
+//  An entire 700x700 window is covered by cmm2 waffleDrop, and met2 < 70% for same window 
+//  80-100% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 65% for same window 
+//  60-80% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 60% for same window 
+//  50-60% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 50% for same window
+//  40-60% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 40% for same window
+//  30-40% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 30% for same window
+//  Exclude cells whose are is below 40Kum**2.
+//  NOTE: Required for IP, Recommended for Chip-level.
+// *****************************************************************************************
+
+#IFDEF RC 
+
+  density cmm2_waffle_drop -eq 1.00 -window 700  -outputlayer cmm2_pd1   -rdb "cmm2.pd1.rdb"
+
+  rule m2.RC.pd1 { 
+	caption "Recommended at Chip Level:"
+	caption "An entire 700x700 window is covered by cmm2 waffleDrop, and met2 < 70% for same window"
+	caption "  rdb file:  m2.RC.pd1.rdb"
+	density met2 -lt 0.70 -inside_of layer cmm2_pd1 -window 700  -rdb "m2.RC.pd1.rdb" ;
+  }
+
+// "-ltge" means:  less than 1.00  &  greater than 0.80
+
+  density cmm2_waffle_drop -ltge 0.80 1.00 -window 700  -outputlayer cmm2_pd2   -rdb "cmm2.pd2.rdb"
+
+  rule m2.RC.pd2 { 
+	caption "Recommended at Chip Level:"
+	caption "80-100% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 65% for same window"
+	density met2 -lt 0.65 -inside_of layer cmm2_pd2 -window 700  -rdb "m2.RC.pd2.rdb" ;
+	caption "  rdb file:  m2.RC.pd2.rdb"
+  }
+
+  density cmm2_waffle_drop -ltge 0.60 0.80 -window 700  -outputlayer cmm2_pd3  -rdb "cmm2.pd3.rdb"
+
+  rule m2.RC.pd3 { 
+	caption "Recommended at Chip Level:"
+	caption "60-80% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 60% for same window" 
+	caption "  rdb file:  m2.RC.pd3.rdb"
+	density met2 -lt 0.60 -inside_of layer cmm2_pd3 -window 700  -rdb "m2.RC.pd3.rdb" ;
+  }
+
+  density cmm2_waffle_drop -ltge 0.50 0.60 -window 700  -outputlayer cmm2_pd4  -rdb "cmm2.pd4.rdb"
+
+  rule m2.RC.pd4 { 
+	caption "Recommended at Chip Level:"
+	caption "50-60% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 50% for same window" 
+	caption "  rdb file:  m2.RC.pd4.rdb"
+	density met2 -lt 0.50 -inside_of layer cmm2_pd4 -window 700 -rdb "m2.RC.pd4.rdb" ;
+  }
+
+  density cmm2_waffle_drop -ltge 0.40 0.50 -window 700  -outputlayer cmm2_pd5  -rdb "cmm2.pd5.rdb"
+
+  rule m2.RC.pd5 { 
+	caption "Recommended at Chip Level:"
+	caption "40-50% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 40% for same window" 
+	caption "  rdb file:  m2.RC.pd5.rdb"
+	density met2 -lt 0.40 -inside_of layer cmm2_pd5 -window 700  -rdb "m2.RC.pd5.rdb" ;
+  }
+
+  density cmm2_waffle_drop -ltge 0.30 0.40 -window 700 -step 350 -outputlayer cmm2_pd6  -rdb "cmm2.pd6.rdb"
+
+  rule m2.RC.pd6 { 
+	caption "Recommended at Chip Level:"
+	caption "30-40% of 700x700 window is covered by cmm2 waffleDrop, and met2 < 30% for same window" 
+	caption "  rdb file:  m2.RC.pd6.rdb"
+	density met2 -lt 0.30 -inside_of layer cmm2_pd6 -window 700 -rdb "m2.RC.pd6.rdb" ;
+  }
+
+#ENDIF  // ifdef RC

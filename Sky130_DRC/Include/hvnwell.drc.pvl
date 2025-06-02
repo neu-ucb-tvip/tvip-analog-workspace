@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////
+//	  hvnwell rules		   //
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.38			   //
+//////////////////////////////////////////////////////////////////
+
+// multiple minimum spacings for nwell regions with different voltages
+
+#IFNDEF FALSEOFF
+rule hvnwell.8 {
+	caption "Min space between HV_nwell and any nwell on different nets: 2.000 um"
+	caption "  NOTE: possible false errors due to out-of-date DRM information"
+	exte nwell nwell -lt 2.000 -single_point -output region
+}
+#ENDIF
+
+
+select -cut nwell hvi -outputlayer nwell_ovlp_hvi
+
+rule hvnwell.9 {
+	caption "(Nwell overlapping hvi) must be enclosed by hvi"
+	NOT nwell_ovlp_hvi hvi ;
+}
+
+//rule hvnwell.10 {
+//	caption "LVnwell and HnWell should not be on the same net (for the purposes of this check, short the connectivity through resistors);"
+//	caption 'Exempt HnWell with li nets tagged "lv_net" using text.dg and Hnwell connected to nwell overlapping areaid.hl"
+//	caption "Not Coded"
+//}
+
+//rule hvnwell.11 {
+//	caption "Nwell connected to the nets mentioned in the 'Power_Net_Hv' field of the latcup GUI must be enclosed by hvi"
+//	caption "(exempt nwell inside areaid.hl). Also for the purposes of this check, short the connectivity through resistors."
+//	caption "(The rule will be checked in the latchup run and exempted for cells 's8tsg5_tx_ibias_gen' and 's8bbcnv_psoc3p_top_18',"
+//	caption "'rainier_top, indus_top*', rainier_top, manas_top, ccg3_top')"
+//	caption "Not Coded"
+//}

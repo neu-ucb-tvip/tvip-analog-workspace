@@ -1,0 +1,168 @@
+//////////////////////////////////////////////////////////////////
+//	  Other Rules		  				//
+// Version 0.0_2.3  May 19, 2025				//
+//////////////////////////////////////////////////////////////////
+//
+// Other rules:
+//	contacts and vias must be covered by metals
+//	res layers must fit exactly inside drawing layers
+//	metals cannot be drawn over blockage layers
+//
+//////////////////////////////////////////////////////////////////
+// Data checks
+
+exception_severity circle 4 ;
+
+
+//////////////////////////////////////////////////////////////////
+// Contacts and Vias
+
+// licon inside LI and (poly or diff) covered by rule licon.4
+
+rule licon.cover {
+	caption "poly licon must be inside npc"
+	caption "Not explicitly in DRM as of May 1, 2025"
+	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
+	NOT (AND licon1 poly) npc ;
+}
+rule ct.cover {
+	caption "mcon must be inside met1 and li1"
+	caption "Not explicitly in DRM as of May 1, 2025"
+	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
+	OR (NOT mcon met1) (NOT mcon li1) ;
+}
+rule via1.cover {
+	caption "via1 must be inside met2 and met1"
+	caption "Not explicitly in DRM as of May 1, 2025"
+	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
+	OR (NOT via1 met2) (NOT via1 met1) ;
+}
+rule via2.cover {
+	caption "via2 must be inside met3 and met2"
+	caption "Not explicitly in DRM as of May 1, 2025"
+	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
+	OR (NOT via2 met3) (NOT via2 met2) ;
+}
+rule via3.cover {
+	caption "via3 must be inside met4 and met3"
+	caption "Not explicitly in DRM as of May 1, 2025"
+	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
+	OR (NOT via3 met4) (NOT via3 met3) ;
+}
+rule via4.cover {
+	caption "via4 must be inside met5 and met4"
+	caption "Not explicitly in DRM as of May 1, 2025"
+	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
+	OR (NOT via4 met5) (NOT via4 met4) ;
+}
+
+
+//////////////////////////////////////////////////////////////////
+//  Res layers 
+
+select -cut -not diff_res li1 -outputlayer diffres_maybe
+NOT diff_dg diffres_maybe  diff_dg_not_res ;
+
+//select -touch -not diffres_maybe diff_dg_not_res -eq 2 -outputlayer diffres_not_touch_2
+
+rule difftap.res { 
+  caption "diff res must fit exactly inside diff drawing"
+  select -touch -not diffres_maybe diff_dg_not_res -eq 2 ;
+  select -cut diff_res diff ;
+}
+
+select -cut -not li1_res li1 -outputlayer lires_maybe
+NOT li1_dg lires_maybe  li_dg_not_res
+
+//select -touch -not lires_maybe li_dg_not_res -eq 2 -outputlayer lires_not_touch_2
+
+rule li.res { 
+  caption "li res must fit exactly inside li drawing"
+  select -touch -not lires_maybe li_dg_not_res -eq 2 ;
+  select -cut li1_res li1 ;
+}
+
+select -cut -not met1_res li1 -outputlayer met1res_maybe
+NOT met1_dg met1res_maybe  met1_dg_not_res ;
+
+rule m1.res { 
+  caption "met1 res must fit exactly inside met1 drawing"
+  select -touch -not met1res_maybe met1_dg_not_res -eq 2 ;
+  select -cut met1_res met1 ;
+}
+
+select -cut -not met2_res li1 -outputlayer met2res_maybe
+NOT met2_dg met2res_maybe  met2_dg_not_res ;
+
+rule m2.res { 
+  caption "met2 res must fit exactly inside met2 drawing"
+  select -touch -not met2res_maybe met2_dg_not_res -eq 2 ;
+  select -cut met2_res met2 ;
+}
+
+select -cut -not met3_res li1 -outputlayer met3res_maybe
+NOT met3_dg met3res_maybe  met3_dg_not_res ;
+
+rule m3.res { 
+  caption "met3 res must fit exactly inside met3 drawing"
+  select -touch -not met3res_maybe met3_dg_not_res -eq 2 ;
+  select -cut met3_res met3 ;
+}
+
+select -cut -not met4_res li1 -outputlayer met4res_maybe
+NOT met4_dg met4res_maybe  met4_dg_not_res ;
+
+rule m4.res { 
+  caption "met4 res must fit exactly inside met4 drawing"
+  select -touch -not met4res_maybe met4_dg_not_res -eq 2 ;
+  select -cut met4_res met4 ;
+}
+
+select -cut -not met5_res li1 -outputlayer met5res_maybe
+NOT met5_dg met5res_maybe  met5_dg_not_res ;
+
+rule m5.res { 
+  caption "met5 res must fit exactly inside met5 drawing"
+  select -touch -not met5res_maybe met5_dg_not_res -eq 2 ;
+  select -cut met5_res met5 ;
+}
+
+//////////////////////////////////////////////////////////////////
+//  Blocking layers 
+
+rule li.block {
+ 	caption "li cannot overlap li blockage"
+	AND li1 li1_block ;
+}
+rule m1.block {
+	  caption "met1 cannot overlap met1 blockage"
+	  AND met1 met1_block ;
+}
+rule m2.block {
+	  caption "met2 cannot overlap met2 blockage"
+	  AND met2 met2_block ;
+}
+rule m3.block {
+	  caption "met3 cannot overlap met3 blockage"
+	  AND met3 met3_block ;
+}
+rule m4.block {
+	  caption "met4 cannot overlap met4 blockage"
+	  AND met4 met4_block ;
+}
+rule m5.block {
+ 	caption "met5 cannot overlap met5 blockage"
+	AND met5 met5_block ;
+}
+
+//////////////////////////////////////////////////////////////////
+//  Fuse layers 
+
+rule "m4.fuse" {
+	caption "m4.fuse: Use of the met4 fuse layer is prohibited"
+	copy met4_fuse ;
+}
+rule "m4.target" {
+	caption "m4.target: Use of the fuse target layer is prohibited"
+	copy target ;
+}

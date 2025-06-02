@@ -1,0 +1,4 @@
+envSetVal("viva.graphFrame" "background" 'string "white")
+envSetVal("viva.trace" "lineThickness" 'string "medium")
+envSetVal("viva.graphLabel" "font" 'string "Default,14,-1,5,50,0,0,0,0,0")
+envSetVal("viva.axis" "font" 'string "Default,14,-1,5,50,0,0,0,0,0")

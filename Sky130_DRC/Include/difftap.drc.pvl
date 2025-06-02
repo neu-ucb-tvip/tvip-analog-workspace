@@ -1,0 +1,108 @@
+//////////////////////////////////////////////////////////////////
+//	  difftap rules		   				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.10			 		  	//
+//////////////////////////////////////////////////////////////////
+
+
+// areaid.sc = areaid standardc
+
+rule difftap.1 {
+	caption "Minimun width of diff: 0.150 um"
+	inte diff -lt 0.150 -output region
+}
+
+select -inside gate areaid.sc -outputlayer gate_areaid.sc
+NOT gate gate_areaid.sc gate_not_areaid.sc
+
+rule difftap.2 {
+	caption "Minimum channel width (Diff And Poly) except for FETs inside areaid.sc:: 0.420 um"
+	caption "Rule exempted in the SP8* flows only, for the cells listed in rule difftap.2a"
+	caption "Exemption TBA"
+	not diff gate_not_areaid.sc -outputlayer difftap.2_b
+	edge_boolean -not -coincident_only gate_not_areaid.sc difftap.2_b -outputlayer difftap.2_c
+	inte difftap.2_c -lt 0.420 -output region
+}
+
+//rule difftap.2a {
+//	caption "Minimum channel width (Diff And Poly): TBA for cell names s8cell_ee_plus_sseln_a,"
+//	caption "s8cell_ee_plus_sseln_b, s8cell_ee_plus_sselp_a, s8cell_ee_plus_sselp_b, "
+//	caption "s8fpls_pl8, s8fpls_rdrv4 , s8fpls_rdrv4f and s8fpls_rdrv8 "
+//	TBD
+//}
+
+rule difftap.2b {
+	caption "Minimum channel width (Diff and Poly) for FETs inside areaid.sc"
+	not diff gate_not_areaid.sc -outputlayer difftap.2b_b
+	edge_boolean -not -coincident_only gate_not_areaid.sc difftap.2b_b -outputlayer difftap.2b_c
+	inte difftap.2b_c -lt 0.360 -output region
+}
+
+rule difftap.3 {
+	caption "Minimum spacing of diff to diff 0.270 um"
+	exte diff -lt 0.270 -notch also -output region
+}
+
+rule difftap.4 {
+	caption "Min tap bound by one diffusion 0.290 um"
+	select -touch tap diff -eq 1 -outputlayer difftap.4_a
+	inte difftap.4_a -lt 0.290 -output region
+}
+
+rule difftap.5 {
+	caption "Min tap bound by two diffusions 0.400 um"
+	select -touch tap diff -eq 2 -outputlayer difftap.5_a
+	inte difftap.5_a -lt 0.400 -output region
+}
+
+rule difftap.6 {
+	caption "Diff and tap are not allowed to extend beyond their abutting edge"
+	edge_boolean -coincident_only diff tap -outputlayer difftap.6_a
+	edge_select -coincident_only diff tap -outputlayer difftap.6_b
+	edge_boolean -coincident_only -not difftap.6_a difftap.6_b
+}
+
+rule difftap.7 {
+	caption "Spacing of diff/tap abutting edge to a non-coinciding diff or tap edge: 0.130 um"
+	edge_boolean -coincident_only diff tap -outputlayer difftap.7_a
+	exte difftap.7_a tap -ltgt 0.0 0.130 -measure all -output region
+	edge_boolean -coincident_only tap diff -outputlayer difftap.7_b
+	exte difftap.7_b diff -ltgt 0.0 0.130 -measure all -output region
+}
+
+// uhvi == v20 in Virtuoso
+
+rule difftap.8 {
+	caption "Enclosure of (p+) diffusion by N-well. Rule exempted inside UHVI: 0.180 um"
+	not pdiff_actual UHVI -outputlayer difftap.8_a
+	enc difftap.8_a nwell -lt 0.180 -output region
+}
+
+rule difftap.9 {
+	caption "Spacing of (n+) diffusion to N-well outside UHVI: 0.340 um"
+	not ndiff_actual UHVI -outputlayer difftap.9_a
+	exte difftap.9_a nwell -lt 0.340 -overlap -single_point -output region
+}
+
+rule difftap.10 {
+	caption "Enclosure of (n+) tap by N-well. Rule exempted inside UHVI: 0.180 um"
+	not ntap_actual UHVI -outputlayer difftap.10_a
+	enc difftap.10_a nwell -lt 0.180 -output region
+}
+
+rule difftap.11 {
+	caption "Spacing of (p+) tap to N-well. Rule exempted inside UHVI: 0.130 um"
+	not ptap_actual UHVI -outputlayer difftap.11_a
+	exte difftap.11_a nwell -lt 0.130 -output region
+}
+
+//rule difftap.12 {
+//	caption "GUIDELINE: ESD_nwell_tap is considered shorted to the abutting diff"
+//	caption "NOT CHECKED BY DRC"
+//}
+
+//rule difftap.13 {
+//	caption "Diffusion or the RF FETS in Table H5 is defined by Ldiff and Wdiff."
+//	caption "NOT CHECKED, Informational statement"
+//}
+

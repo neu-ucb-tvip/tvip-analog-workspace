@@ -1,0 +1,440 @@
+//////////////////////////////////////////////////////////////////
+//	  General rules (FIXME)		   			//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.1						//
+//////////////////////////////////////////////////////////////////
+
+// Data Integrity
+
+//////////////////////////////////////////////////////////////////
+// Offgrid for mask layers
+
+// offgrid is in DBU; 5 dbu = 0.005 um
+
+//  offgrid  5 ;
+
+// Offgrid for mask layers
+// rule x.1a { not implemented }
+
+// Offgrid for drawing layers
+
+rule x.1b { 
+	caption "Data for SKY130 layout and mask on all layers
+	caption "except those mentioned in 1a must be on a grid
+	caption "of 0.005 um (except inside Seal ring)"
+	caption "	NOTE: Seal ring not currently excluded"
+	offgrid nwell 5 ;
+	offgrid diff 5 ;
+	offgrid dnwell 5 ;
+	offgrid lvtn 5 ;
+	offgrid hvtp 5 ;
+	offgrid hvi 5 ;	// v5
+	offgrid vhvi 5 ;	// v12
+	offgrid uhvi 5 ;	// v20
+	offgrid tunm 5 ;
+	offgrid poly 5 ;
+	offgrid npc 5 ;
+	offgrid nsdm 5 ;
+	offgrid psdm 5 ;
+	offgrid licon1 5 ;
+	offgrid li1 5 ;
+	offgrid mcon 5 ;
+	offgrid met1 5 ;	
+	offgrid via1 5 ;
+	offgrid met2 5 ;
+	offgrid via2 5 ;
+	offgrid met3 5 ;	
+	offgrid via3 5 ;
+	offgrid met4 5 ;	
+	offgrid via4 5 ;
+	offgrid met5 5 ;	
+	offgrid nsm 5 ;
+	offgrid pad 5 ;
+	offgrid hvntm 5 ;
+	offgrid pnp 5 ;
+	offgrid capacitor 5 ;
+	offgrid ncm 5 ;
+	offgrid inductor 5 ;
+	offgrid rpm 5 ;
+	offgrid hvtr 5 ;
+}
+
+//////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+// Layer angles
+// RULES x.2, x.3, x.3a
+
+// rule  x.2 not done
+// rule  x.2a not done
+// rule  x.3  -- only check for non-45
+
+// rect_chk [ -not ] LAYER -orthogonal_only LayerOut  // selects SHAPES
+
+// find shapes that are NOT rectangles orthogonal to the axes:
+
+rect_chk -not nwell	-orthogonal_only	nwell_not_rect
+rect_chk -not diff	-orthogonal_only	diff_not_rect
+rect_chk -not dnwell	-orthogonal_only	dnwell_not_rect
+rect_chk -not lvtn	-orthogonal_only      	lvtn_not_rect  
+rect_chk -not hvtp	-orthogonal_only      	hvtp_not_rect  
+rect_chk -not hvi	-orthogonal_only     	hvi_not_rect   
+rect_chk -not vhvi	-orthogonal_only      	vhvi_not_rect  
+rect_chk -not uhvi	-orthogonal_only      	uhvi_not_rect  
+rect_chk -not tunm	-orthogonal_only      	tunm_not_rect  
+rect_chk -not poly	-orthogonal_only      	poly_not_rect  
+rect_chk -not npc	-orthogonal_only     	npc_not_rect   
+rect_chk -not nsdm	-orthogonal_only      	nsdm_not_rect  
+rect_chk -not psdm	-orthogonal_only      	psdm_not_rect  
+rect_chk -not licon1	-orthogonal_only	licon_not_rect
+rect_chk -not li1	-orthogonal_only      	li1_not_rect   
+rect_chk -not mcon	-orthogonal_only        mcon_not_rect
+rect_chk -not met1	-orthogonal_only        met1_not_rect
+rect_chk -not via1	-orthogonal_only        via1_not_rect
+rect_chk -not met2	-orthogonal_only        met2_not_rect
+rect_chk -not via2	-orthogonal_only        via2_not_rect
+rect_chk -not met3	-orthogonal_only        met3_not_rect
+rect_chk -not via3	-orthogonal_only        via3_not_rect
+rect_chk -not met4	-orthogonal_only        met4_not_rect
+rect_chk -not via4	-orthogonal_only        via4_not_rect
+rect_chk -not met5	-orthogonal_only        met5_not_rect
+rect_chk -not nsm	-orthogonal_only        nsm_not_rect 
+rect_chk -not pad	-orthogonal_only        pad_not_rect 
+rect_chk -not hvntm	-orthogonal_only	hvntm_not_rect
+rect_chk -not pnp	-orthogonal_only	pnp_not_rect
+rect_chk -not ncm	-orthogonal_only	ncm_not_rect
+rect_chk -not hvtr	-orthogonal_only	hvtr_not_rect
+rect_chk -not capacitor	-orthogonal_only	capacitor_not_rect
+rect_chk -not inductor	-orthogonal_only	inductor_not_rect
+
+
+//////////////////////////////////////////////////////////////////
+// these layers must be orthogonal :
+
+rule x.2.licon {
+	caption "Angles permitted on licon: 90"
+  	copy licon_not_rect ;
+}
+rule x.2.mcon {
+	caption "Angles permitted on mcon: 90"
+  	copy mcon_not_rect ;
+}
+rule x.2.via1 {
+	caption "Angles permitted on via: 90"
+  	copy via1_not_rect ;
+}
+rule x.2.via2 {
+	caption "Angles permitted on via2: 90"
+  	copy via2_not_rect ;
+}
+rule x.2.via3 {
+	caption "Angles permitted on via3: 90"
+  	copy via3_not_rect ;
+}
+rule x.2.via4 {
+	caption "Angles permitted on via4: 90"
+  	copy via4_not_rect ;
+}
+
+//////////////////////////////////////////////////////////////////
+
+// these layers can have 45 degree edges (but must be 45 or 90)
+//  nwell, dnwell, hvtp, tunm, npc, nsdm, psdm, 
+//  met1, met2, met3, met4, met5, nsm, pad, hvntm, 
+//  capacitor, ncm, inductor, hvtr 
+//  metop1 - metopt5 [ ?? ]
+
+// angle LAYER -ne 90 LayerOut // selects EDGES
+
+// shapes that passed rect_chk abover are obviously OK
+// there isn't a way to check for "multiples of 45" 
+// and there is not "orthogonal" option to angle (0 & 90 different),
+// so, first rule out 45, then look for angles 0 < angle < 90
+
+rule x.3a.nwell {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  nwell has non-45 degree edge "
+  	angle (angle nwell_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.dnwell {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  dnwell has non-45 degree edge "
+  	angle (angle dnwell_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.hvtp {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  hvtp has non-45 degree edge "
+  	angle (angle hvtp_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3.diff {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  diff has non-45 degree edge "
+  	angle (angle diff_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.tunm {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  tunm has non-45 degree edge "
+  	angle (angle tunm_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3.poly {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  poly has non-45 degree edge "
+  	angle (angle poly_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.npc {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  npc has non-45 degree edge "
+  	angle (angle npc_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.nsdm {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  nsdm has non-45 degree edge "
+  	angle (angle nsdm_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.psdm {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  psdm has non-45 degree edge "
+  	angle (angle psdm_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3.li1 {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  li has non-45 degree edge "
+  	angle (angle li1_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.met1 {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  met1 has non-45 degree edge "
+  	angle (angle met1_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.met2 {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  met2 has non-45 degree edge "
+  	angle (angle met2_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.met3 {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  met3 has non-45 degree edge "
+  	angle (angle met3_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.met4 {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  met4 has non-45 degree edge "
+  	angle (angle met4_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.met5 {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  met5 has non-45 degree edge "
+  	angle (angle met5_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.nsm {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  nsm has non-45 degree edge "
+  	angle (angle nsm_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.pad {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  pad has non-45 degree edge "
+  	angle (angle pad_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.hvntm {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  hvntm has non-45 degree edge "
+  	angle (angle hvntm_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.capacitor {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  capacitor has non-45 degree edge "
+  	angle (angle capacitor_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.ncm {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  ncm has non-45 degree edge "
+  	angle (angle ncm_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.inductor {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  inductor has non-45 degree edge "
+  	angle (angle inductor_not_rect -ne 45) -ltgt 0 90 ;
+}
+rule x.3a.hvtr {
+	caption "Angles permitted on all other layers except WLCSP layers: 45"
+	caption "  hvtr has non-45 degree edge "
+  	angle (angle hvtr_not_rect -ne 45) -ltgt 0 90 ;
+}
+//////////////////////////////////////////////////////////////////
+
+
+// rule x.4  Electromigration - Guideline; not covered by DRC
+
+
+//////////////////////////////////////////////////////////////////
+// rules x.5
+// pin not covered by drawing layer
+
+rule x.5.nwell {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - nwell'
+  	NOT nwell_pin nwell ;
+}
+rule x.5.diff {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - diff'
+  	NOT diff_pin diff_dg ;
+}
+rule x.5.poly {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - poly'
+  	NOT poly_pin poly_dg ;
+}
+rule x.5.li {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - LI'
+  	NOT li1_pin li1_dg ;
+}
+rule x.5.m1 {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met1'
+  	NOT met1_pin met1_dg ;
+}
+rule x.5.m2 {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met2'
+  	NOT met2_pin met2_dg ;
+}
+rule x.5.m3 {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met3'
+  	NOT met3_pin met3_dg ;
+}
+rule x.5.m4 {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met4'
+  	NOT met4_pin met4_dg ;
+}
+rule x.5.m5 {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met5'
+  	NOT met5_pin met5_dg ;
+}
+rule x.5.pad {
+	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - pad'
+  	NOT pad_pin pad ;
+}
+
+//////////////////////////////////////////////////////////////////
+// rule x.6  All intra-layer separation checks will include a notch check
+// rule x.7  Mask layer line and space checks must be done on all layers
+//	Implemented in layer spacing checks
+//////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+// rule x.8  Use of aresid "core" layer ("coreid") must be approved by technology
+// 	Guideline only
+
+#IFNDEF NC
+  rule x.8 {
+	caption 'GUIDELINE: Use of areaid "core" layer ("coreid") must be approved by technology'
+	copy areaid.ce ;
+  }
+#ENDIF 
+//////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+// rule x.9  Shapes on maskAdd or maskDrop layers ("serifs") are allowed in core only
+//////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+// rule x.10  res purpose layer for (diff, poly) cannot overlap licon1
+
+rule x.10.diff {
+	caption "res purpose layer for diff cannot overlap licon1"
+	AND diff_res licon1 ; 
+}
+rule x.10.poly {
+	caption "res purpose layer for poly cannot overlap licon1"
+	AND poly_res licon1 ; 
+}
+
+//////////////////////////////////////////////////////////////////
+// rule x.11  Fuses do not appear to be no longer supported 
+//////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+// Frame only rules - not implemented
+// rule x.n12ar  
+// rule x.12d  
+// rule x.12e  
+/////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+// Lower left corner of data must be at origin
+//
+// Check that lower left of data is at origin:
+//	Make 4 squares, one in each quadrant, 0.005 x 0.005 (size doesn't matter)
+//	Each square should have 2 of its edges along the X-Y axes
+
+
+layer_def quadrant1 9991
+layer_def quadrant2 9992
+layer_def quadrant3 9993
+layer_def quadrant4 9994
+
+create_polygon  0.000  0.000 0.005 0.005 quadrant1 ; // 1st quadrant
+create_polygon -0.005  0.000 0.000 0.005 quadrant2 ; // 2nd quadrant
+create_polygon -0.005 -0.005 0.000 0.000 quadrant3 ; // 3rd quadrant
+create_polygon  0.000 -0.005 0.005 0.000 quadrant4 ; // 4th quadrant
+
+extent -layer SEALID -outputlayer SEALID_extent
+
+// proper SEALID should:
+//	enclose quadrant1 shape
+// 	touch quadrant2 & quadrant4 shapes
+//      be outside quadrant3 shape
+
+// find SEALID_extent interacting quadrant shapes correctly, AND with SEALID_encloses_quadrant1
+
+select -enclose SEALID_extent quadrant1 -outputlayer SEALID_quadrant1
+select -touch SEALID_quadrant1 quadrant2 -outputlayer SEALID_quadrant12
+select -outside SEALID_quadrant12 quadrant3 -outputlayer SEALID_quadrant123
+select -touch SEALID_quadrant123 quadrant4 -outputlayer SEALID_quadrant1234
+
+rule x.19 {
+	caption "Lower left corner of the seal ring should be at origin (0,0)"
+	not SEALID_extent SEALID_quadrant1234
+}
+
+
+//////////////////////////////////////////////////////////////////
+// rule x.13  No values specified
+// rule x.14  No values specified
+//////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+// Seal Rings rules (SEALID)
+
+// example seal rings have diff
+//rule x.23a 
+//rule x.23b 
+
+rule x.23c.poly {
+	caption "areaid.sl (seal ring) must not overlap poly"
+	AND SEALID poly ;
+}
+rule x.23c.li1 {
+	caption "areaid.sl (seal ring) must not overlap li1"
+	AND SEALID li1 ;
+}
+rule x.23c.met1 {
+	caption "areaid.sl (seal ring) must not overlap met1"
+	AND SEALID met1 ;
+}
+rule x.23c.met2 {
+	caption "areaid.sl (seal ring) must not overlap met2"
+	AND SEALID met2 ;
+}
+rule x.23c.met3 {
+	caption "areaid.sl (seal ring) must not overlap met3"
+	AND SEALID met3 ;
+}
+rule x.23c.met4 {
+	caption "areaid.sl (seal ring) must not overlap met4"
+	AND SEALID met4 ;
+}
+rule x.23c.met5 {
+	caption "areaid.sl (seal ring) must not overlap met5"
+	AND SEALID met5 ;
+}
+
+// x.23d, x.23e will be found by x.23c
+

@@ -1,0 +1,49 @@
+//////////////////////////////////////////////////////////////////
+//	  photo rules		 				//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.15						//
+//////////////////////////////////////////////////////////////////
+
+
+// photo layer is:  areaid.po
+
+select -enclose (AND areaid.po dnwell) nwell -outputlayer photo 
+
+//rule photo.1 { 
+//	caption "rules dnwell.3 and nwell.5 are exempted for photoDiode"
+//}
+	
+rule photo.2 {
+	caption "Min/Max width of photoDiode "
+	inte photo -lt 3.0 -output region
+}
+	
+rule photo.3 {
+	caption "Min spacing between photoDiode "
+	exte photo -lt 5.0 -output region
+}
+
+// rule photo.4 {
+//	caption "Min spacing between photoDiode and deep nwell " 
+
+// rule photo.5 {
+//	caption "photoDiode edges must be coincident with areaid.po " 
+
+// rule photo.6 {
+//	caption "photoDiode must be enclised by dnwell ring " 
+
+// rule photo.7 {
+//	caption "photoDiode must be enclose by p+ tap ring " 
+
+// rule photo.8 {
+//	caption "Min/Max width of nwell inside photoDiode " 
+
+// rule photo.9 {
+//	caption "Min/Max enclosure of nwell by photoDiode" 
+
+// rule photo.10 {
+//	caption "Min/Max width of tap inside photoDiode" 
+
+// rule photo.11 {
+//	caption "Min/Max enclosure of tap by nwell inside photoDiode" 
+

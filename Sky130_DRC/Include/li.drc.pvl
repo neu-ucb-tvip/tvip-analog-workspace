@@ -1,0 +1,67 @@
+//////////////////////////////////////////////////////////////////
+//	  li rules						//
+// Version 0.0_2.3  May 19, 2025				//
+// DRM Section 5.7.19			   			//
+//////////////////////////////////////////////////////////////////
+
+
+rule li.1 {
+	caption "Width of LI (except for li.1a): 0.170 um"
+	inside_cell -not li1_dg "s8rf2_xcmvpp_hd5_*" -outputlayer li.1_a
+	inte li.1_a -lt 0.170 -output region
+}
+
+rule li.1a {
+	caption "Width of LI inside of cells with name s8rf2_xcmvpp_hd5_*: 0.140 um"
+	inside_cell li1_dg "s8rf2_xcmvpp_hd5_*" -outputlayer li.1a_a
+	inte li.1a_a -lt 0.140 -output region
+}
+
+//rule li.2 {
+//	caption "GUIDELINE: Max ratio of length to width of LI without licon or mcon 
+//	caption "NOT CHECKED in DRC (Should review with dfm_property)"
+//}
+
+	inside_cell -not li1_dg "s8rf2_xcmvpp_hd5_*" -outputlayer li.3_a
+	inside_cell li1_dg "s8rf2_xcmvpp_hd5_*" -outputlayer li.3a_a
+
+rule li.3 {
+	caption "Spacing of LI to LI (except for li.3a): 0.170 um"
+	exte li.3_a -lt 0.170 -single_point -output region
+}
+
+rule li.3a {
+	caption "Spacing of LI to LI inside cells with names s8rf2_xcmvpp_hd5_*: 0.140 um"
+	exte li.3a_a -lt 0.140 -single_point -output region
+	exte li.3_a li.3a_a -lt 0.140 -single_point -output region
+}
+
+rule li.5 {
+	caption "Enclosure of licon by one of two adjacent LI sides: 0.080 um"
+	rect_enc licon1 li1 -good 0.000 0.080 0.000 0.080
+}
+
+rule li.6 {
+	caption "Min area of Li: 0.056 sq um"
+	area li1 -lt 0.056
+}
+   
+// areaid.ed == areaid esd
+// this is needed for rule li.7
+
+select -inside li1_res areaid.ed li1_res_esd
+NOT li1_res li1_res_esd li1_res_not_esd
+
+rule li.7 {
+	caption "Min LI resistor width 0.29 um (rule exempted within areaid.ed)"
+	caption "Inside areaid.ed, min width of the li resistor is determined by rule li.1)"
+	inte li1_res_not_esd -lt 0.290 -output region
+}
+
+rule li.7.esd {
+	caption "Min LI resistor width inside areaid.ed 0.17 um"
+	caption "Note: LI resistors inside cells with name s8rf2_xcmvpp_hd5_* NOT considered" 
+	inte li1_res_esd -lt 0.170 -output region
+}
+
+
