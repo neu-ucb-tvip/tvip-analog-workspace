@@ -25,8 +25,3 @@ export SPECTRE_HOME=<INSERT SPECTRE PATH HERE>
 
 # If you are on the BWRC servers,
 #EMX_HOME=/tools/cadence/EMX/EMX20232
-
-# Coventor MEMS+
-# Uncomment ONLY if you have MEMS+ installed and are able to provide the path and license.
-#export MEMSPLUS_HOME=<INSERT MEMS+ PATH HERE>
-#export MCOSMLD_LICENSE_FILE=<INSERT MEMS+ LICENSE HERE>
