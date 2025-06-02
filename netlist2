@@ -1,0 +1,49 @@
+************************************************************************
+* auCdl Netlist:
+* 
+* Library Name:  Bandgap-reference-replace
+* Top Cell Name: bg_replace2
+* View Name:     schematic
+* Netlisted on:  May  3 17:52:46 2025
+************************************************************************
+
+*.BIPOLAR
+*.RESI = 2000 
+*.RESVAL
+*.CAPVAL
+*.DIOPERI
+*.DIOAREA
+*.EQUATION
+*.SCALE METER
+*.MEGA
+.PARAM
+
+
+
+************************************************************************
+* Library Name: Bandgap-reference-replace
+* Cell Name:    bg_replace2
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT bg_replace2 En GND VBG VDD
+*.PININFO En:I VBG:O GND:B VDD:B
+MNM5 net57 En VBG GND nfet_01v8_lvt W=1.68u L=150n M=1
+MNM1 net50 net49 net53 GND nfet_01v8_lvt W=840n L=150n M=1
+MNM4 net49 net49 net52 GND nfet_01v8_lvt W=3.36u L=150n M=1
+MNM6 net48 En net47 GND nfet_01v8_lvt W=3.36u L=150n M=1
+MNM3 net53 En net55 GND nfet_01v8_lvt W=840n L=150n M=1
+MNM2 net52 En net51 GND nfet_01v8_lvt W=3.36u L=150n M=1
+MNM9 net50 net47 GND GND nfet_01v8_lvt W=3.36u L=150n M=1
+MNM7 net47 net49 GND GND nfet_01v8_lvt W=3.36u L=150n M=1
+MNM10 net56 En GND GND nfet_01v8_lvt W=840n L=150n M=1
+MNM8 net51 En GND GND nfet_01v8_lvt W=840n L=150n M=1
+MNM0 net54 En GND GND nfet_01v8_lvt W=840n L=150n M=1
+MPM1 net49 net50 VDD VDD pfet_01v8_lvt W=4.4u L=350n M=1
+MPM0 net50 net50 VDD VDD pfet_01v8_lvt W=1.1u L=350n M=1
+MPM2 net57 net50 VDD VDD pfet_01v8_lvt W=1.1u L=350n M=1
+RR2 VDD net48 GND $[res_high_po_0p35] r=1.79139K w=350n l=1.08u
+RR1 VBG net56 GND $[res_high_po_0p35] r=7.26445K w=350n l=6u
+RR0 net55 net54 GND $[res_high_po_0p35] r=1.79139K w=350n l=1.08u
+.ENDS
+
