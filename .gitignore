@@ -122,3 +122,10 @@ scratch.sh
 
 # Put all your local, streamed-in libraries in this file!
 cds.lib.temp
+
+.DS_Store
+node_modules/
+
+# IDE related files
+.vscode/
+.vsconfig
