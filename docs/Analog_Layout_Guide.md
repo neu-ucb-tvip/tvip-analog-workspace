@@ -4,6 +4,9 @@ authors:
   - name: "Daniel Lovell"
     email: "dlovell98@berkeley.edu"
     affiliation: "University of California, Berkeley"
+  - name: "Nikhil Jain"
+    email: "njail_cal@berkeley.edu"
+    affiliation: "University of California, Berkeley"
 lastUpdated: 2025-06-06
 ---
 
@@ -109,6 +112,34 @@ slightly in parameters like $V_{TH}$ or sheet resistance.
 ### Common-centroid and interdigitation
 
 Common-centroid layout arranges matched devices (like current-mirror transistors or differential pairs) such that any gradient across the die affects each device in the same way. Placing device segments in an interleaved pattern (e.g., "ABBAABBA" or similar) ensures that if there is a continuous gradient from left to right, each transistor or unit gets an equal piece of that gradient. This dramatically reduces offset due to wafer-level or chip-level process gradients.
+
+#### A Concrete Example: 5T OTA Input Pair
+
+For example, in the input stage of a five-transistor operational transconductance amplifier (5T OTA), the differential input transistors are often interleaved. Rather than placing all $V_{in}^+$ transistors in one row and all $V_{in}^-$ transistors in another, they are mixed. The image below shows the highlighted nets for such an input pair.
+
+<img src="./images/common_centroid_5t_input_pair.png" alt="5T Input Pair Net Highlighting" width="600px">
+
+The method used here is called **common-centroid** layout. The idea is that the "center of mass" (the geometric average of the centers of each unit transistor) is identical for both halves of the differential pair. This is important because process gradients across the wafer can cause mismatch in device parameters. By ensuring a common centroid, the layout becomes resilient to linear gradients. For any linear variation, the average device parameter will be a function of the average transistor position. The figure below illustrates the common centroid for the same input pair.
+
+<img src="./images/common_centroid_5t_input_pair_centroid.png" alt="5T Input Pair Common Centroid" width="600px">
+
+#### Mathematical Justification
+
+The mathematical basis for common-centroid layout relies on averaging out process gradients. Consider a linear variation in transistor mobility ($\mu$) across the x-y plane of the die:
+
+$$
+\mu(x,y) = m_1 x + m_2 y
+$$
+
+The average mobility, $\mu_{avg}$, for a composite transistor made of $M$ unit cells located at positions $(x_i, y_i)$ is:
+
+$$
+\mu_{avg} = \frac{1}{M} \sum_{i=1}^{M} \mu(x_i,y_i) = \frac{1}{M} \sum_{i=1}^{M} (m_1 x_i + m_2 y_i) = m_1 \frac{\sum x_i}{M} + m_2 \frac{\sum y_i}{M} = m_1 x_{avg} + m_2 y_{avg}
+$$
+
+This shows that the average mobility is a function only of the transistor's average position, or centroid, $(x_{avg}, y_{avg})$. If two transistors are laid out to share the same centroid, their average mobilities will be identical, even in the presence of a linear gradient.
+
+Since drain current $I_D \propto \mu$, the total current for a composite device is proportional to $\mu_{avg}$. Therefore, ensuring a common centroid leads to matched I-V characteristics, mitigating the effects of linear process gradients.
 
 <img src="./images/common_centroid_arrays.png" alt="common centroid arrays" width="600px">
 
