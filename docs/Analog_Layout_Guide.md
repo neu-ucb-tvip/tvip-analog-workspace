@@ -1,3 +1,12 @@
+---
+title: Analog Layout Guide
+authors:
+  - name: "Daniel Lovell"
+    email: "dlovell98@berkeley.edu"
+    affiliation: "University of California, Berkeley"
+lastUpdated: 2025-06-06
+---
+
 # Analog Layout Guide 
 
 ## Best references
@@ -59,10 +68,9 @@ Instead of just placing body contacts on the left and right (or top and bottom),
 The ring can act like a shield that helps keep substrate noise out (or in). In sensitive analog circuits, this can be very important for performance.
 
 Fully surrounding devices with taps can reduce latch-up risk by providing abundant substrate tie points. 
-- **In the Intel 16 process, it is MANDATORY that any device which connects to a bump be enclosed by a guard ring.**    
 
 Another benefit, for PMOS devices and deep NWELL NMOS, is that the entire perimeter of the
- device is tied to the desired well potential which will minimize uneven substrate gradients.
+device is tied to the desired well potential which will minimize uneven substrate gradients.
 
 ## Layout matching
 

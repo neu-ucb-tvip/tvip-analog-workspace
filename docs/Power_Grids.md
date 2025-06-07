@@ -1,3 +1,12 @@
+---
+title: Power Grids in VLSI
+authors:
+  - name: "Daniel Lovell"
+    email: "dlovell98@berkeley.edu"
+    affiliation: "University of California, Berkeley"
+lastUpdated: 2025-06-06
+---
+
 # Power Grids in VLSI
 
 ## Introduction 
