@@ -67,7 +67,6 @@ map
 vue.*
 *.LAYOUT_ERRORS
 *.RESULTS
-*.vue
 *.gdsOut
 signoff
 icv_runs

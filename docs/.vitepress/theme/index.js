@@ -4,9 +4,11 @@ import { useData, useRoute } from 'vitepress';
 import './custom.css'
 import codeblocksFold from 'vitepress-plugin-codeblocks-fold'; // import method
 import 'vitepress-plugin-codeblocks-fold/style/index.css'; // import style
+import Layout from './Layout.vue'
 
 export default {
     ...DefaultTheme,
+    Layout,
     enhanceApp(ctx) {
         DefaultTheme.enhanceApp(ctx);
 
