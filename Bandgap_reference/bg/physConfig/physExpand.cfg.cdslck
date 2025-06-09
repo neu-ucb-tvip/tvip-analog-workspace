@@ -1,0 +1,16 @@
+#
+# Edit Lock-Stake file. CAUTION: Please do not change.
+#
+# Information about current Edit Lock Owner.
+#
+LockStakeVersion               1.1
+LoginName                      cs199-cdt
+HostName                       eda-1.EECS.Berkeley.EDU
+ProcessIdentifier              150650
+ProcessCreationTime_UTC        1749243853
+ProcessCreationTime_Readable   Fri Jun  6 14:04:13 2025 PDT
+AppIdentifier                  /share/instsww/cadence/IC618/tools/dfII/bin/64bit/virtuoso
+OSType                         lnx86
+ReasonForPlacingEditLock       
+FilePathUsedToEditLock         /home/aa/users/cs199-cdt/cadence/Bandgap_reference/bg/physConfig/physExpand.cfg
+TimeEditLocked                 Mon Jun  9 14:55:02 2025 PDT
