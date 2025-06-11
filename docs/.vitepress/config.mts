@@ -14,7 +14,8 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Analog Layout Guide', link: '/Analog_Layout_Guide' },
-      { text: 'Power Grids', link: '/Power_Grids' }
+      { text: 'Power Grids', link: '/Power_Grids' },
+      { text: 'Impedance Matching', link: '/impedance-matching' }
     ],
 
     sidebar: [ 
@@ -22,7 +23,8 @@ export default defineConfig({
         text: 'Documentation',
         items: [
           { text: 'Analog Layout Guide', link: '/Analog_Layout_Guide' },
-          { text: 'Power Grids', link: '/Power_Grids' }
+          { text: 'Power Grids', link: '/Power_Grids' },
+          { text: 'Impedance Matching', link: '/impedance-matching' }
         ]
       }
     ],
