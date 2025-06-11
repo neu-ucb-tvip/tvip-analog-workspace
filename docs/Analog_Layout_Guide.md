@@ -5,7 +5,7 @@ authors:
     email: "dlovell98@berkeley.edu"
     affiliation: "University of California, Berkeley"
   - name: "Nikhil Jain"
-    email: "njail_cal@berkeley.edu"
+    email: "njain_cal@berkeley.edu"
     affiliation: "University of California, Berkeley"
 lastUpdated: 2025-06-06
 ---

@@ -2,7 +2,7 @@
 title: Impedance Matching
 authors:
   - name: "Nikhil Jain"
-    email: "njail_cal@berkeley.edu"
+    email: "njain_cal@berkeley.edu"
     affiliation: "University of California, Berkeley"
 lastUpdated: 2025-06-10
 ---
