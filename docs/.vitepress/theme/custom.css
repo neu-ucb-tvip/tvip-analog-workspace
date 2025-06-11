@@ -4,3 +4,25 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+
+.vp-doc img {
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+img:hover {
+    transform: scale(1.01);
+}
+
+.medium-zoom-overlay {
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+  
+.medium-zoom-image--opened {
+    z-index: 1001;
+}

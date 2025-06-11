@@ -16,7 +16,7 @@ lastUpdated: 2025-06-06
 
 ### Core layout and packaging
 
-[Razavi Analog CMOS - Ch.19 Layout and Packaging](./Razavi_Analog_CMOS_-_Ch.19_Layout_and_Packaging.pdf)
+[Razavi Analog CMOS - Ch.19 Layout and Packaging](/resources/Razavi_Analog_CMOS_-_Ch.19_Layout_and_Packaging.pdf)
 
 Topics covered by Razavi Ch.19:
 - Analog layout techniques and best practices
@@ -31,18 +31,18 @@ Topics covered by Razavi Ch.19:
 
 Ali Niknejad Spring 2021 EE 194/290C Lecture series:
 
-- [Lecture 1 - Virtuoso Introduction](./resources/Niknejad_290C_Lecture-1-Virtuoso_Intro.pdf)
-- [Lecture 2 - Layout](./resources/Niknejad_290C_Lecture-2-Layout.pdf)
-- [Lecture 3 - Matching](./resources/Niknejad_290C_Lecture-3-Matching.pdf)
+- [Lecture 1 - Virtuoso Introduction](/resources/Niknejad_290C_Lecture-1-Virtuoso_Intro.pdf)
+- [Lecture 2 - Layout](/resources/Niknejad_290C_Lecture-2-Layout.pdf)
+- [Lecture 3 - Matching](/resources/Niknejad_290C_Lecture-3-Matching.pdf)
 
-[Maloberti Layout of Analog CMOS ICs](./resources/Maloberti_Layout_of_Analog_CMOS_ICs.pdf)
+[Maloberti Layout of Analog CMOS ICs](/resources/Maloberti_Layout_of_Analog_CMOS_ICs.pdf)
 
-[Lienig, Scheible, "Fundamentals of Layout Design for Electronic Circuits," Springer 2020](./Lienig_Fundamentals_of_Layout_Design_for_Electronic_Circuits.pdf)
+[Lienig, Scheible, "Fundamentals of Layout Design for Electronic Circuits," Springer 2020](/resources/Lienig_Fundamentals_of_Layout_Design_for_Electronic_Circuits.pdf)
 
 ### Passive component layout
 
-- [Niknejad 242B Module 1.3 - Passives](./resources/Niknejad_242B_Module_1_3_Passives-2.pdf)
-- [Chien 240B Lecture 3 - Passives](./resources/Chien_240B_lec3_passives.pdf)
+- [Niknejad 242B Module 1.3 - Passives](/resources/Niknejad_242B_Module_1_3_Passives-2.pdf)
+- [Chien 240B Lecture 3 - Passives](/resources/Chien_240B_lec3_passives.pdf)
 
 
 ## Substrate and body contacts 
