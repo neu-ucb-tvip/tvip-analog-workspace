@@ -4,3 +4,5 @@ DEFINE     sky130_fd_pr_main ./libs/sky130_fd_pr_main
 DEFINE     tvip_example tvip_example
 DEFINE     Bandgap_reference    ./Bandgap_reference
 DEFINE     2#2e4GHz_LO ./2#2e4GHz_LO
+DEFINE 	   Passive_mixer ./Passive_Mixer
+
