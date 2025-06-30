@@ -1,4 +1,5 @@
-DEFINE     analogLib    $CDSHOME/tools/dfII/etc/cdslib/artist/analogLib
-DEFINE     basic        $CDSHOME/tools/dfII/etc/cdslib/basic
-DEFINE sky130_fd_pr_main ./libs/sky130_fd_pr_main
-DEFINE tvip_example /bwrcq/C/dlovell98/sky130/tvip-analog-workspace/tvip_example
+DEFINE     analogLib    $CDS_HOME/tools/dfII/etc/cdslib/artist/analogLib
+DEFINE     basic        $CDS_HOME/tools/dfII/etc/cdslib/basic
+DEFINE     sky130_fd_pr_main ./libs/sky130_fd_pr_main
+DEFINE     tvip_example tvip_example
+DEFINE     Bandgap_reference    ./Bandgap_reference
