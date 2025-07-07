@@ -16,6 +16,10 @@ export PATH=${CDS_HOME}/tools/dfII/bin:${PATH}
 export PATH=${CDS_HOME}/tools/bin:${PATH}
 export PATH=${SPECTRE_HOME}/bin:${PATH}
 export PATH=${EMX_HOME}/bin:${PATH}
+export PATH=${PVS_HOME}/bin:${PATH}
+
+# PEGASUS DRC setup
+export PEGASUS_DRC=${WORK_DIR}/Sky130_DRC
 
 # Virtuoso options
 export SPECTRE_DEFAULTS=-E

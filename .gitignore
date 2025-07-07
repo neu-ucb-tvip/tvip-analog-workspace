@@ -27,6 +27,7 @@ lsyncd.status
 # generated files/directories
 calibre_run
 icv_run*
+pvs_run*
 gen_libs
 pvs_run
 # cds.lib
