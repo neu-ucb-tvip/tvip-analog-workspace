@@ -39,6 +39,7 @@ This is a Cadence Virtuoso workspace for working with the Cadence-provided Skywa
 2. **Populate the required paths in `setup.sh`:**
    - `LM_LICENSE_FILE`: Path to your license file
    - `CDS_HOME`: Path to your Cadence installation
+   - `PVS_HOME`: Path to your PVS installation
    - `SPECTRE_HOME`: Path to your Spectre installation
 
 ### Server-Specific Configuration
@@ -53,6 +54,9 @@ source /tools/flexlm/flexlm.sh
 
 # Cadence
 export CDS_HOME=/tools/cadence/IC/IC231_ISR9
+
+# PVS
+export PVS_HOME=/tools/cadence/PVS/PVS231
 
 # Spectre
 export SPECTRE_HOME=/tools/cadence/SPECTRE/SPECTRE231
@@ -69,6 +73,9 @@ export LM_LICENSE_FILE=<POPULATE ME>
 # Cadence
 export CDS_HOME=/share/instsww/cadence/IC618
 
+# PVS
+export PVS_HOME=<POPULATE ME>
+
 # Spectre
 export SPECTRE_HOME=<POPULATE ME>
 ```
@@ -82,6 +89,9 @@ export LM_LICENSE_FILE=<POPULATE ME>
 
 # Cadence
 export CDS_HOME=/usr/eesww/cadence/IC618
+
+# PVS
+export PVS_HOME=<POPULATE ME>
 
 # Spectre
 export SPECTRE_HOME=<POPULATE ME>
@@ -105,3 +115,8 @@ Then start Virtuoso:
 ```bash
 virtuoso &
 ```
+## Licensing
+
+The custom designs in this repository are licensed under the BSD 3-Clause license, as specified in the `LICENSE` file.
+
+The Sky130 PDK resources provided by Cadence are covered by the Cadence Public License Version 1.0. A copy of this license, `LICENSE.cadence`, is included in the directories containing these resources.
