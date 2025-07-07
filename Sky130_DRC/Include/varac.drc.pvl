@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  varac rules		 				//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.14			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -24,7 +24,7 @@ rule varac.3 {
 
 //rule varac.4 {
 //	caption "Min spacing of licon on tap to Var_channel: 0.250 um"
-//	exte licon1 Var_channel -lt 0.250 -single_point -output region
+//	exte licon Var_channel -lt 0.250 -single_point -output region
 //}
 
 rule varac.5 {

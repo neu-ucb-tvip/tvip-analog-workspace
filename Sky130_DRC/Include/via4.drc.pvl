@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	 via4 rules		   				//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.32			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -25,9 +25,13 @@ rule via4.3 {
 	  rect_chk -not via4.insideSR -eq 0.80 ;
 }
 
+// remove "-outside_also" modifier which finds via4 edges outside of met4 ;
+//   Rules via4.cover.1 & via4.cover.2 are added to find via4 regions not inside met4 & met5
+// edge_select added to find 0.0 enclosure
+
 rule via4.4 {
 	caption "Via4 must be enclosed by Met4 by at least: 0.190 um"
-	enc via4 met4 -lt 0.190 -outside_also -output region
+	enc via4 met4 -lt 0.190 -output region
 	edge_select via4 met4 ;
 }
 

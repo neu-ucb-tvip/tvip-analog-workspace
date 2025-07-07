@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	 m2 rules			 			//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.25			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -56,16 +56,21 @@ rule m2.3b {
 
 
 #IFNDEF CU
-	rule m2.4 {
-	caption "AL Flow - via1 must be enclosed by Met2 by at least: 0.055 um"
-	enc via1 met2 -lt 0.055 -output region
-	edge_select via1 met2 ;  // finds 0.0 enc
-	}
+   rule m2.4a {
+	caption "CDR: AL Flow - via1 outside areaid.ce must be enclosed by met2 by at least: 0.055 um"
+	enc (NOT via1 areaid.ce) met2 -lt 0.055 -output region
+	edge_select (NOT via1 areaid.ce) met2 ;  // finds 0.0 enc
+   }
+   rule m2.4b {
+	caption "CDR: AL Flow - via1 inside areaid.ce must be enclosed by met2 by at least: 0.045 um"
+	enc (AND via1 areaid.ce) met2 -lt 0.045 -output region
+	edge_select (AND via1 areaid.ce) met2 ;  // finds 0.0 enc
+   }
 
-	rule m2.5 {
-	caption "AL Flow - via1 must be enclosed by Met2 on one of two adjacent sides by at least: 0.085 um" 
-	rect_enc via1 met2 -good 0.085 0.000 0.085 0.000
-	}
+   rule m2.5 {
+	caption "CDR: AL Flow - via1 outside areaid.ce must be enclosed by met2 on one of two adjacent sides by at least: 0.085 um" 
+	rect_enc (NOT via1 areaid.ce) met2 -good 0.085 0.000 0.085 0.000
+   }
 #ENDIF  // ifndef CU
 
 rule m2.6 {
@@ -106,7 +111,9 @@ rule m2.7 {
 // DENSITY
 // ********************************************
 
-#IFNDEF CU
+#IFNDEF NODEN
+
+ #IFNDEF CU
 
 // Oxide pattern density is pattern density after oversizing the metal and fill by 0.6
 // there are also mask layers but the designer should not see these
@@ -117,14 +124,15 @@ rule m2.7 {
 
 // AL met2 Density 
 
-  rule m2.pd.1 {
- 	caption "m2.pd.1: Min MM2_oxide_Pattern_density (AL): 0.70"
-	caption "m2.pd.2a: Rule m2.pd.1 has to be checked by dividing the chip into square regions of width and length equal to 700 um"
-	caption "m2.pd.2b: Rule m2.pd.1 has to be checked by dividing the chip into steps of 70 um"
-	caption "NOTE: MM2_oxide_Pattern is all met2 sized by 0.6 um"
-	density met2_oxide -lt 0.70 -window 700 -step 70 -rdb "m2.pd1.rdb"
-  }
-#ELSE
+    rule m2.pd.1 {
+ 	caption "CDR: m2.pd.1: Min met2 oxide pattern density (AL): 80%"
+	caption "  700 square micron window stepped at 70 um "
+	caption "  NOTE: 'met2 oxide pattern' is all met2 sized by 0.6 um"
+	caption "  rdb file:  m2.pd1.rdb"
+	density met2_oxide -lt 0.80 -window 700 -step 70 -inside_of layer fill_area -rdb "m2.pd1.rdb"
+    }
+  
+ #ELSE
 
 // CU met2 Density
 
@@ -142,7 +150,7 @@ rule m2.7 {
 	caption "  rdb file:  m2.13.rdb"
 	density met2 -gt 0.77 -window 50 -step 25  -rdb "m2.13.rdb"
   }
-#ENDIF  // ifndef CU
+ #ENDIF  // ifndef CU
 
 
 // *****************************************************************************************
@@ -159,7 +167,7 @@ rule m2.7 {
 //  NOTE: Required for IP, Recommended for Chip-level.
 // *****************************************************************************************
 
-#IFDEF RC 
+ #IFDEF RC 
 
   density cmm2_waffle_drop -eq 1.00 -window 700  -outputlayer cmm2_pd1   -rdb "cmm2.pd1.rdb"
 
@@ -217,4 +225,6 @@ rule m2.7 {
 	density met2 -lt 0.30 -inside_of layer cmm2_pd6 -window 700 -rdb "m2.RC.pd6.rdb" ;
   }
 
-#ENDIF  // ifdef RC
+ #ENDIF  // ifdef RC
+
+#ENDIF // NODEN

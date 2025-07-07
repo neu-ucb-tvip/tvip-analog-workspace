@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	 m5 rules			 			//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.33			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -16,8 +16,9 @@ rule m5.2 {
 }
 
 rule m5.3 {
-	caption "via4 must be enclosed by Met5 by at least: 0.310 um"
+	caption "CDR: via4 must be enclosed by Met5 by at least: 0.310 um"
 	enc via4 met5 -lt 0.310 -output region
+	edge_select via4 met5 ;  // finds 0.0 enc
 }
 
 rule m5.4 {

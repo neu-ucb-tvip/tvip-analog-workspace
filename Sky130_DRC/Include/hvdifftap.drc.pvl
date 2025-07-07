@@ -1,12 +1,11 @@
 //////////////////////////////////////////////////////////////////
 //	  hvdifftap rules		 			//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.39			  			//
 //////////////////////////////////////////////////////////////////
 
-
 rule hvdifftap.14 {
-	caption "Min width of diff inside Hvi, except HV Pdiff resistors (hvdifftap.14a): 0.290 um"
+	caption "Min width of diff (not tap) inside Hvi, except HV Pdiff resistors (hvdifftap.14a): 0.290 um"
 	and diff hvi -outputlayer hvdiff
 	inte (select -interact -not hvdiff diff_res) -lt 0.290 -single_point -output region
 }
@@ -37,7 +36,8 @@ rule hvdifftap.16 {
 }
 
 rule hvdifftap.17 {
-	caption "P+ Hdiff or Pdiff inside areaid:hvnwell must be enclosed by Hv_nwell by at least ….[Rule exempted inside UHVI]: 0.330 um"
+	caption "P+ Hdiff or Pdiff inside areaid:hvnwell must be enclosed by Hv_nwell by at least: 0.330 um"
+	caption "  Rule exempted inside UHVI "
 	select -outside -not pdiff areaid.hl -outputlayer hvdifftap.17_a
 	enc hvdifftap.17_a hv_nwell -lt 0.330 -output region
 }

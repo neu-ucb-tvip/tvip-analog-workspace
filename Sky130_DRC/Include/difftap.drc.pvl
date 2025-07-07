@@ -1,99 +1,176 @@
 //////////////////////////////////////////////////////////////////
 //	  difftap rules		   				//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.10			 		  	//
 //////////////////////////////////////////////////////////////////
 
-
 // areaid.sc = areaid standardc
+// areaid.ce = areaid core
+
+// shapes considered inside CORE or STANDARDC only if they are completely inside
+
+// Note that "diff" does not contain "tap" shapes
+// "diff_in" contains diff:dg and tap:dg
+
+select -inside  diff areaid.ce -outputlayer diff_core ;
+select -outside diff areaid.ce -outputlayer diff_notcore ;
+select -cut  diff_in areaid.ce -outputlayer diff_cut_core ;
+
+select -inside gate areaid.ce -outputlayer gate_core ;
+NOT gate gate_core -outputlayer gate_notcore ;
+
+select -inside gate_notcore areaid.sc -outputlayer gate_SC
+NOT gate_notcore gate_SC  -outputlayer gate_not_SC ;
+
+select -inside  tap areaid.ce -outputlayer tap_core ;
+select -outside tap areaid.ce -outputlayer tap_notcore ;
+
+//////////////////////////////////////////////////////////////////
+// diff width rules
+
+
+// Rules  difftap.1 1a 1b  ** apply the same to diff and tap **
 
 rule difftap.1 {
-	caption "Minimun width of diff: 0.150 um"
-	inte diff -lt 0.150 -output region
+	caption "CDR: Minimum width of diff or tap outside areaid.ce: 0.150 um"
+	inte (OR diff_notcore tap_notcore) -lt 0.150 -output region
 }
 
-select -inside gate areaid.sc -outputlayer gate_areaid.sc
-NOT gate gate_areaid.sc gate_not_areaid.sc
+rule difftap.1a {
+	caption "CDR: Minimum width of diff or tap inside areaid.ce: 0.140 um"
+	inte (OR diff_core tap_core) -lt 0.140 -output region
+}
+
+rule difftap.1b {
+	caption "CDR: Minimum width of diff or tap crossing areaid.ce: 0.150 um"
+	inte diff_cut_core -lt 0.150 -abut -lt 90 -single_point -output region 
+}
+
+// rules difftap.2 & difftap.2b only apply to gates outside of CORE
 
 rule difftap.2 {
-	caption "Minimum channel width (Diff And Poly) except for FETs inside areaid.sc:: 0.420 um"
-	caption "Rule exempted in the SP8* flows only, for the cells listed in rule difftap.2a"
-	caption "Exemption TBA"
-	not diff gate_not_areaid.sc -outputlayer difftap.2_b
-	edge_boolean -not -coincident_only gate_not_areaid.sc difftap.2_b -outputlayer difftap.2_c
+	caption "Min channel width (Diff And Poly) for FETs outside areaid.sc and outside areaid.ce : 0.42 um"
+	not diff_notcore gate_not_SC -outputlayer difftap.2_b
+	edge_boolean -not -coincident_only gate_not_SC difftap.2_b -outputlayer difftap.2_c
 	inte difftap.2_c -lt 0.420 -output region
 }
 
-//rule difftap.2a {
-//	caption "Minimum channel width (Diff And Poly): TBA for cell names s8cell_ee_plus_sseln_a,"
-//	caption "s8cell_ee_plus_sseln_b, s8cell_ee_plus_sselp_a, s8cell_ee_plus_sselp_b, "
-//	caption "s8fpls_pl8, s8fpls_rdrv4 , s8fpls_rdrv4f and s8fpls_rdrv8 "
-//	TBD
-//}
-
 rule difftap.2b {
-	caption "Minimum channel width (Diff and Poly) for FETs inside areaid.sc"
-	not diff gate_not_areaid.sc -outputlayer difftap.2b_b
-	edge_boolean -not -coincident_only gate_not_areaid.sc difftap.2b_b -outputlayer difftap.2b_c
+	caption "Min channel width (Diff and Poly) for FETs inside areaid.sc but outside areaid.ce : 0.36 um"
+	not diff_notcore gate_SC -outputlayer difftap.2b_b
+	edge_boolean -not -coincident_only gate_SC difftap.2b_b -outputlayer difftap.2b_c
 	inte difftap.2b_c -lt 0.360 -output region
 }
 
-rule difftap.3 {
-	caption "Minimum spacing of diff to diff 0.270 um"
-	exte diff -lt 0.270 -notch also -output region
+rule difftap.2c {
+	caption "Min channel width in areaid.ce: 0.14 um"
+	inte ( edge_boolean -coincident_only -inside (AND gate areaid.ce) diff ) -lt 0.14 -abut -lt 90 -output region
 }
 
+// difftap.2a is obsolete
+//rule difftap.2a {
+//	caption "Min channel width (Diff And Poly): TBA for cell names s8cell_ee_plus_sseln_a,"
+//	caption "s8cell_ee_plus_sseln_b, s8cell_ee_plus_sselp_a, s8cell_ee_plus_sselp_b, "
+//	caption "s8fpls_pl8, s8fpls_rdrv4 , s8fpls_rdrv4f and s8fpls_rdrv8 "
+//}
+
 rule difftap.4 {
-	caption "Min tap bound by one diffusion 0.290 um"
-	select -touch tap diff -eq 1 -outputlayer difftap.4_a
+	caption "Min width of tap butting diffusion: 0.290 um"
+	select -touch tap diff_in -eq 1 -outputlayer difftap.4_a
 	inte difftap.4_a -lt 0.290 -output region
 }
 
-rule difftap.5 {
-	caption "Min tap bound by two diffusions 0.400 um"
-	select -touch tap diff -eq 2 -outputlayer difftap.5_a
-	inte difftap.5_a -lt 0.400 -output region
+rule difftap.5a {
+	caption "Min width of tap outside areaid.ce butting and between diffusion: 0.400 um"
+	inte (edge_boolean -coincident_only -outside (not tap areaid.ce) diff) -lt 0.40 -abut -lt 90 -output region
 }
 
-rule difftap.6 {
-	caption "Diff and tap are not allowed to extend beyond their abutting edge"
-	edge_boolean -coincident_only diff tap -outputlayer difftap.6_a
-	edge_select -coincident_only diff tap -outputlayer difftap.6_b
-	edge_boolean -coincident_only -not difftap.6_a difftap.6_b
+rule difftap.5b {
+	caption "Min width of tap inside areaid.ce butting and between diffusion: 0.380 um"
+	inte (edge_boolean -coincident_only -outside (and tap areaid.ce) diff) -lt 0.380 -abut -lt 90 -output region
 }
+
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+// diff spacing rules
+
+rule difftap.3 {
+	caption "CDR: Minimum spacing of diff to diff: 0.270 um"
+	exte diff_in -lt 0.270 -notch also -output region
+}
+
+exte nsdm diff_and_psdm -lt 0.13 -metric opposite -para ONLY -output region -outputlayer diff_nbutting
+exte psdm diff_and_nsdm -lt 0.13 -metric opposite -para ONLY -output region -outputlayer diff_pbutting
 
 rule difftap.7 {
 	caption "Spacing of diff/tap abutting edge to a non-coinciding diff or tap edge: 0.130 um"
-	edge_boolean -coincident_only diff tap -outputlayer difftap.7_a
-	exte difftap.7_a tap -ltgt 0.0 0.130 -measure all -output region
-	edge_boolean -coincident_only tap diff -outputlayer difftap.7_b
-	exte difftap.7_b diff -ltgt 0.0 0.130 -measure all -output region
+	OR diff_nbutting diff_pbutting ;
 }
 
-// uhvi == v20 in Virtuoso
-
-rule difftap.8 {
-	caption "Enclosure of (p+) diffusion by N-well. Rule exempted inside UHVI: 0.180 um"
-	not pdiff_actual UHVI -outputlayer difftap.8_a
-	enc difftap.8_a nwell -lt 0.180 -output region
-}
+NOT diff_and_nsdm areaid.ce ndiff_notcore
+AND diff_and_nsdm areaid.ce ndiff_core
 
 rule difftap.9 {
 	caption "Spacing of (n+) diffusion to N-well outside UHVI: 0.340 um"
-	not ndiff_actual UHVI -outputlayer difftap.9_a
+//	not ndiff_actual UHVI -outputlayer difftap.9_a
+	not ndiff_notcore UHVI -outputlayer difftap.9_a
 	exte difftap.9_a nwell -lt 0.340 -overlap -single_point -output region
-}
-
-rule difftap.10 {
-	caption "Enclosure of (n+) tap by N-well. Rule exempted inside UHVI: 0.180 um"
-	not ntap_actual UHVI -outputlayer difftap.10_a
-	enc difftap.10_a nwell -lt 0.180 -output region
 }
 
 rule difftap.11 {
 	caption "Spacing of (p+) tap to N-well. Rule exempted inside UHVI: 0.130 um"
 	not ptap_actual UHVI -outputlayer difftap.11_a
 	exte difftap.11_a nwell -lt 0.130 -output region
+}
+
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+// diff enclosure rules
+
+// uhvi == v20 
+// areaid.ed : ESD
+
+rule difftap.8a {
+	caption "Min enclosure of (p+) diffusion by N-well: 0.180 um"
+	caption "Rule exempted inside: UHVI / areaid.ed (ESD) / areaid.ce (CORE) "
+	not (not (not pdiff_actual UHVI) areaid.ed) areaid.ce -outputlayer difftap.8_a
+	enc difftap.8_a nwell -lt 0.180 -output region
+}
+
+rule difftap.8b {
+	caption "Min enclosure of (p+) diffusion in areaid.ce by N-well: 0.150 um"
+	AND pdiff_actual areaid.ce -outputlayer difftap.8b_a
+	enc difftap.8b_a nwell -lt 0.150 -output region
+}
+
+rule difftap.8c {
+	caption "Min enclosure of adjacent sides of (p+) diffusion in areaid.ce by N-well: 0.180 um"
+	select -inside pdiff_actual areaid.ce -outputlayer difftap.8c_a
+	rect_enc difftap.8c_a nwell -good 0.18 0.00 0.18 0.00
+}
+
+rule difftap.10a {
+	caption "Min enclosure of (n+) tap by N-well: 0.180 um"
+	caption "Rule exempted inside: UHVI / areaid.ed (ESD) / areaid.ce (CORE) "
+	not (not (not ntap_actual UHVI) areaid.ed) areaid.ce -outputlayer difftap.10_a
+	enc difftap.10_a nwell -lt 0.180 -output region
+}
+
+rule difftap.10b {
+	caption "Min enclosure of (n+) tap in areaid.ce by N-well: 0.150 um"
+	AND ntap_actual areaid.ce -outputlayer difftap.10b_a
+	enc difftap.10b_a nwell -lt 0.150 -output region
+}
+
+//////////////////////////////////////////////////////////////////
+
+rule difftap.6 {
+	caption "Diff and tap are not allowed to extend beyond their abutting edge"
+	edge_boolean -coincident_only diff tap -outputlayer difftap.6_a
+	edge_select -coincident_only diff tap -outputlayer difftap.6_b
+	edge_boolean -coincident_only -not difftap.6_a difftap.6_b
 }
 
 //rule difftap.12 {

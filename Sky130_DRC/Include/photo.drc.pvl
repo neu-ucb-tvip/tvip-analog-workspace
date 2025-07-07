@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  photo rules		 				//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.15						//
 //////////////////////////////////////////////////////////////////
 
@@ -30,10 +30,10 @@ rule photo.3 {
 //	caption "photoDiode edges must be coincident with areaid.po " 
 
 // rule photo.6 {
-//	caption "photoDiode must be enclised by dnwell ring " 
+//	caption "photoDiode must be enclosed by dnwell ring " 
 
 // rule photo.7 {
-//	caption "photoDiode must be enclose by p+ tap ring " 
+//	caption "photoDiode must be enclosed by p+ tap ring " 
 
 // rule photo.8 {
 //	caption "Min/Max width of nwell inside photoDiode " 

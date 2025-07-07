@@ -1,12 +1,11 @@
 //////////////////////////////////////////////////////////////////
 //	  depmos rules						//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.43			   			//
 //////////////////////////////////////////////////////////////////
 
 
-// I use "isolated_ptap" to remove depmos taps
-
+// use "isolated_ptap" to remove depmos taps
 // de_pFet does has dnwell
 
 AND areaid.en dnwell areaid.de_pFet
@@ -29,7 +28,6 @@ rule depmos.1 {
 	caption "Min width of de_pFet_gate: 1.050 um" 
 	inte de_pFet_gate -lt 1.050 -single_point -output region
 }
-
 
 NOT de_pFet_source poly -outputlayer de_pFet_source_not_poly ;
 AND de_pFet_source poly -outputlayer de_pFet_source_and_poly ;

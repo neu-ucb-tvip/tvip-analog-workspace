@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  n/psd rules		 				//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.17			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -40,14 +40,21 @@ rule psd.5b {
 	enc tap_dg psd.5 -lt 0.125 -output region
 }
 
-rule psd.6 {
-	caption "Enclosure of diff/tap butting edge by nsdm (psdm) == 0.000 um"
-	select -donut poly -outputlayer psd.6_a
-	select -interact diff psd.6_a -outputlayer psd.6_b
-	edge_boolean -coincident_only psd.6_b tap -outputlayer psd.6_c
-	edge_boolean -coincident_only nsdm psdm -outputlayer psd.6_d
-	edge_select -coincident_only -not psd.6_c psd.6_d
-}
+
+//  We don't need to check for 0.0 enclosure
+//  psd.9 checks that diff & tap are enclosed by nsdm or psdm
+//  butting edges excluded from psd.5a & psd.5b
+//  also diff & tap are the same layer anyway...
+//
+// rule psd.6 {
+//	caption "Enclosure of diff/tap butting edge by nsdm (psdm) == 0.000 um"
+//	select -donut poly -outputlayer psd.6_a
+//	select -interact diff psd.6_a -outputlayer psd.6_b
+//	edge_boolean -coincident_only psd.6_b tap -outputlayer psd.6_c
+//	edge_boolean -coincident_only nsdm psdm -outputlayer psd.6_d
+//	edge_select -coincident_only -not psd.6_c psd.6_d
+// }
+
 
 // psd.7 does not need to check for overlap, that's found by psd.8
 rule psd.7 {
@@ -63,13 +70,14 @@ rule psd.8 {
 }
 
 rule psd.9 {
-	caption "Diff and tap must be enclosed by their corresponding implant layers."
-	caption "Rule exempted for"
-	caption "diff rings around the die at min total L>1000 um and W=0.3 um"
-	caption "gated_npm areaid.zer."
-	or nsdm psdm -outputlayer psd.9_a
-	not diff psd.9_a
-	not tap psd.9_a
+	caption "WARNING: Diff and tap must be enclosed by their corresponding implant layers."
+	caption "Rule exempted for diff rings around the die at min total L>1000 um and W=0.3 um"
+	caption "Rule exempted for gated_npn & areaid.zr"
+//	caption "Note: exemption for diff rings not considered"  // remove SEALID regions
+	or npn areaid.zr SEALID -outputlayer psd.9_exempt
+	not (or nsdm psdm) psd.9_exempt -outputlayer psd.9_a
+	not (select -outside diff psd.9_exempt) psd.9_a
+	not (select -outside tap psd.9_exempt) psd.9_a
 }
 
 rule psd.10a {
@@ -89,5 +97,4 @@ rule psd.11 {
 	holes psdm -outputlayer psd.11_b
 	area psd.11_b -lt 0.265
 }
-
 

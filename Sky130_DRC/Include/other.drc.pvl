@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  Other Rules		  				//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 //////////////////////////////////////////////////////////////////
 //
 // Other rules:
@@ -8,52 +8,77 @@
 //	res layers must fit exactly inside drawing layers
 //	metals cannot be drawn over blockage layers
 //
+// These are generally rules that apply to multiple layers
+//
 //////////////////////////////////////////////////////////////////
-// Data checks
-
-exception_severity circle 4 ;
 
 
 //////////////////////////////////////////////////////////////////
 // Contacts and Vias
 
-// licon inside LI and (poly or diff) covered by rule licon.4
+// licon inside LI and (poly or diff or tap) covered by rules licon.4a & licon.4b
+// poly licon inside npc is covered by rule licon.18
 
-rule licon.cover {
-	caption "poly licon must be inside npc"
-	caption "Not explicitly in DRM as of May 1, 2025"
-	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
-	NOT (AND licon1 poly) npc ;
+#IFNDEF SRAM
+  rule mcon.cover.1 {
+	caption "CDR: mcon must be inside li"
+	NOT mcon li1 ;
+  }
+#ENDIF
+
+#IFDEF SRAM
+  rule mcon.cover.1 {
+	caption "CDR: mcon must be inside li"
+	NOT mcon_notcore li1 ;
+  }
+  rule mcon.cover.1_SRAM {
+	caption "mcon insice areaid.ce must overlap li"
+	select -outside mcon_core li1 ;
+
+  }
+  rule mcon.WARNING {
+  	caption "WARNING: alternate mcon.cover.1 rule used in areaid.ce regions "
+	caption "WARNING: real mcon.cover.1 errors may be missed "
+	extent_drawn areaid.ce ; ;
+  }
+#ENDIF
+
+
+rule mcon.cover.2 {
+	caption "mcon must be inside met1"
+	NOT mcon met1 ;
 }
-rule ct.cover {
-	caption "mcon must be inside met1 and li1"
-	caption "Not explicitly in DRM as of May 1, 2025"
-	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
-	OR (NOT mcon met1) (NOT mcon li1) ;
+rule via1.cover.1 {
+	caption "via1 must be inside met1"
+	NOT via1 met1 ;
 }
-rule via1.cover {
-	caption "via1 must be inside met2 and met1"
-	caption "Not explicitly in DRM as of May 1, 2025"
-	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
-	OR (NOT via1 met2) (NOT via1 met1) ;
+rule via1.cover.2 {
+	caption "via1 must be inside met2"
+	NOT via1 met2 ;
 }
-rule via2.cover {
-	caption "via2 must be inside met3 and met2"
-	caption "Not explicitly in DRM as of May 1, 2025"
-	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
-	OR (NOT via2 met3) (NOT via2 met2) ;
+rule via2.cover.1 {
+	caption "via2 must be inside met2"
+	NOT via2 met2 ;
 }
-rule via3.cover {
-	caption "via3 must be inside met4 and met3"
-	caption "Not explicitly in DRM as of May 1, 2025"
-	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
-	OR (NOT via3 met4) (NOT via3 met3) ;
+rule via2.cover.2 {
+	caption "via2 must be inside met3"
+	NOT via2 met3 ;
 }
-rule via4.cover {
-	caption "via4 must be inside met5 and met4"
-	caption "Not explicitly in DRM as of May 1, 2025"
-	caption "SkyWater SKY130 PDK 0.0.0-369-g7198cf6 documentation"
-	OR (NOT via4 met5) (NOT via4 met4) ;
+rule via3.cover.1 {
+	caption "via3 must be inside met3"
+	NOT via3 met3 ;
+}
+rule via3.cover.2 {
+	caption "via3 must be inside met4"
+	NOT via3 met4 ;
+}
+rule via4.cover.1 {
+	caption "via4 must be inside met4"
+	NOT via4 met4 ;
+}
+rule via4.cover.2 {
+	caption "via4 must be inside met5"
+	NOT via4 met5 ;
 }
 
 
@@ -130,39 +155,183 @@ rule m5.res {
 //////////////////////////////////////////////////////////////////
 //  Blocking layers 
 
-rule li.block {
+rule li.block.1 {
  	caption "li cannot overlap li blockage"
 	AND li1 li1_block ;
 }
-rule m1.block {
+rule m1.block.1 {
 	  caption "met1 cannot overlap met1 blockage"
 	  AND met1 met1_block ;
 }
-rule m2.block {
+rule m2.block.1 {
 	  caption "met2 cannot overlap met2 blockage"
 	  AND met2 met2_block ;
 }
-rule m3.block {
+rule m3.block.1 {
 	  caption "met3 cannot overlap met3 blockage"
 	  AND met3 met3_block ;
 }
-rule m4.block {
+rule m4.block.1 {
 	  caption "met4 cannot overlap met4 blockage"
 	  AND met4 met4_block ;
 }
-rule m5.block {
+rule m5.block.1 {
  	caption "met5 cannot overlap met5 blockage"
 	AND met5 met5_block ;
 }
 
-//////////////////////////////////////////////////////////////////
-//  Fuse layers 
-
-rule "m4.fuse" {
-	caption "m4.fuse: Use of the met4 fuse layer is prohibited"
-	copy met4_fuse ;
+rule li.block.2 {
+	caption "Min spacing of li to li blockage: 0.17 um"
+	exte li1 li1_block -lt 0.17 -single_point -output region 
 }
-rule "m4.target" {
-	caption "m4.target: Use of the fuse target layer is prohibited"
-	copy target ;
+rule m1.block.2 {
+	caption "Min spacing of met1 to met1 blockage: 0.14 um"
+	exte met1 met1_block -lt 0.14 -single_point -output region 
+}
+rule m2.block.2 {
+	caption "Min spacing of met2 to met2 blockage: 0.14 um"
+	exte met2 met2_block -lt 0.14 -single_point -output region 
+}
+rule m3.block.2 {
+	caption "Min spacing of met3 to met3 blockage: 0.30 um"
+	exte met3 met3_block -lt 0.30 -single_point -output region 
+}
+rule m4.block.2 {
+	caption "Min spacing of met4 to met4 blockage: 0.30 um"
+	exte met4 met4_block -lt 0.30 -single_point -output region 
+}
+rule m5.block.2 {
+	caption "Min spacing of met5 to met5 blockage: 1.60 um"
+	exte met5 met5_block -lt 1.60 -single_point -output region 
+}
+
+//////////////////////////////////////////////////////////////////
+//  Old fill layers 
+
+// Here are all the old "waffle_drop" layers (fill block) from layer_defs
+// Old LI fill block layer was mistakenly omitted
+
+//      layer_def cfom_waffle_drop	1263	// diff
+//      layer_map 22 -datatype     24 	1263	//cfom,waffle drop,22:24
+
+//      layer_def cp1m_waffle_drop	1262	// poly
+//      layer_map 33 -datatype     24 	1262	//cp1m,waffle drop,33:24
+
+//      layer_def cmm1_waffle_drop	1261	
+//      layer_map 62 -datatype     24 	1261	//cmm1,waffle drop,62:24
+
+//      layer_def cmm2_waffle_drop	1260	
+//      layer_map 105 -datatype    52 	1260	//cmm2,waffle drop,105:52
+
+//      layer_def cmm3_waffle_drop	1259	
+//      layer_map 107 -datatype    24 	1259	//cmm3,waffle drop,107:24
+
+//	layer_def cmm4_waffle_drop	1258	
+//      layer_map 112 -datatype     4 	1258	//cmm4,waffle drop,112:4
+
+//      layer_def cmm5_waffle_drop	1264	
+//      layer_map 117 -datatype     4 	1264	//cmm5,waffle drop,117:4
+
+// diff
+layer_def cfom_fill 9001
+layer_map 22 -datatype 99 9001 // old cfom fill
+
+
+rule "diff.fill.1" {
+	caption "cfom/fill (GDS 22:99) is not supported. Use diff/fill (GDS 65:99)"
+	copy cfom_fill ;
+}
+rule "diff.fill.2" {
+	caption "cfom/waffleDrop (GDS 22:24) is not supported. Use diff/fill_block (GDS 65:98)"
+	copy cfom_waffle_drop ;
+} 
+
+// poly
+layer_def cp1m_fill 9091
+layer_map 28 -datatype 28 9091 // old poly fill
+
+rule "poly.fill.1" {
+	caption "cp1m/fill (GDS 28:28) is not supported. Use poly/fill (GDS 66:99)"
+	copy cp1m_fill ;
+}
+
+rule "poly.fill.2" {
+	caption "cp1m/waffleDrop (GDS 33:24) is not supported. Use poly/fill_block (GDS 66:98)"
+	copy cp1m_waffle_drop ;
+}
+
+// LI
+layer_def cli1m_fill 9111
+layer_map 56 -datatype 28 9111 // old li fill
+
+rule "li.fill.1" {
+	caption "cli1m/fill (GDS 56:28) is not supported. Use li/fill (GDS 67:99)"
+	copy cli1m_fill
+}
+
+// M1
+layer_def cmm1_fill 9002
+layer_map 36 -datatype 28 9002 // old cmm1 fill
+
+rule "m1.fill.1" {
+	caption "cmm1/fill (GDS 36:28) is not supported. Use met1/fill (GDS 68:99)"
+	copy cmm1_fill
+}
+
+rule "m1.fill.2" {
+	caption "cmm1/waffleDrop (GDS 62:24) is not supported. Use met1/fill_block (GDS 68:98)"
+	copy cmm1_waffle_drop
+}
+
+layer_def cmm2_fill 9003
+layer_map 41 -datatype 28 9003 // old cmm2 fill
+
+rule "m2.fill.1" {
+	caption "cmm2/fill (GDS 41:28) is not supported. Use met2/fill (GDS 69:99)"
+	copy cmm2_fill
+}
+
+rule "m2.fill.2" {
+	caption "cmm2/waffleDrop (GDS 105:52) is not supported. Use met2/fill_block (GDS 69:98)"
+	copy cmm2_waffle_drop
+}
+
+
+layer_def cmm3_fill 9004
+layer_map 34 -datatype 28 9004 // old cmm3 fill
+
+rule "m3.fill.1" {
+	caption "cmm3/fill (GDS 34:28) is not supported. Use met3/fill (GDS 70:99)"
+	copy cmm3_fill
+}
+
+rule "m3.fill.2" {
+	caption "cmm3/waffleDrop (GDS 107:52) is not supported. Use met3/fill_block (GDS 70:98)"
+	copy cmm3_waffle_drop
+}
+
+layer_def cmm4_fill 9005
+layer_map 51 -datatype 28 9005 // old cmm4 fill
+
+rule "m4.fill.1" {
+	caption "cmm4/fill (GDS 51:28) is not supported. Use met4/fill (GDS 71:99)"
+	copy cmm4_fill
+}
+
+rule "m4.fill.2" {
+	caption "cmm4/waffleDrop (GDS 112:4) is not supported. Use met4/fill_block (GDS 71:98)"
+	copy cmm4_waffle_drop
+}
+
+layer_def cmm5_fill 9006
+layer_map 59 -datatype 28 9006 // old cmm5 fill
+
+rule "m5.fill.1" {
+	caption "cmm5/fill (GDS 59:28)) is not supported. Use met5/fill (GDS 72:99)"
+	copy cmm5_fill
+}
+
+rule "m5.fill.2" {
+	caption "cmm5/waffleDrop (GDS 117:4) is not supported. Use met5/fill_block (GDS 72:98)"
+	copy cmm5_waffle_drop
 }

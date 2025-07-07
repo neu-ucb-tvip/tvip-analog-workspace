@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  General rules (FIXME)		   			//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.1						//
 //////////////////////////////////////////////////////////////////
 
@@ -10,8 +10,6 @@
 // Offgrid for mask layers
 
 // offgrid is in DBU; 5 dbu = 0.005 um
-
-//  offgrid  5 ;
 
 // Offgrid for mask layers
 // rule x.1a { not implemented }
@@ -28,7 +26,7 @@ rule x.1b {
 	offgrid dnwell 5 ;
 	offgrid lvtn 5 ;
 	offgrid hvtp 5 ;
-	offgrid hvi 5 ;	// v5
+	offgrid hvi 5  ;	// v5
 	offgrid vhvi 5 ;	// v12
 	offgrid uhvi 5 ;	// v20
 	offgrid tunm 5 ;
@@ -36,7 +34,7 @@ rule x.1b {
 	offgrid npc 5 ;
 	offgrid nsdm 5 ;
 	offgrid psdm 5 ;
-	offgrid licon1 5 ;
+	offgrid licon 5 ;
 	offgrid li1 5 ;
 	offgrid mcon 5 ;
 	offgrid met1 5 ;	
@@ -86,7 +84,7 @@ rect_chk -not poly	-orthogonal_only      	poly_not_rect
 rect_chk -not npc	-orthogonal_only     	npc_not_rect   
 rect_chk -not nsdm	-orthogonal_only      	nsdm_not_rect  
 rect_chk -not psdm	-orthogonal_only      	psdm_not_rect  
-rect_chk -not licon1	-orthogonal_only	licon_not_rect
+rect_chk -not licon	-orthogonal_only	licon_not_rect
 rect_chk -not li1	-orthogonal_only      	li1_not_rect   
 rect_chk -not mcon	-orthogonal_only        mcon_not_rect
 rect_chk -not met1	-orthogonal_only        met1_not_rect
@@ -319,15 +317,16 @@ rule x.5.pad {
 //////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
-// rule x.8  Use of aresid "core" layer ("coreid") must be approved by technology
+// rule x.8  Use of areaid CORE layer must be approved by technology
 // 	Guideline only
 
-#IFNDEF NC
-  rule x.8 {
-	caption 'GUIDELINE: Use of areaid "core" layer ("coreid") must be approved by technology'
-	copy areaid.ce ;
-  }
-#ENDIF 
+rule x.8 {
+	caption "WARNING: Use of areaid.ce layer (memory core ID layer) must be approved by SkyWater"
+	caption "WARNING: Some rules apply only to areas outside of areid.ce and and a core rule may not exist "
+	extent_drawn areaid.ce ;
+}
+
+
 //////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
@@ -335,19 +334,19 @@ rule x.5.pad {
 //////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
-// rule x.10  res purpose layer for (diff, poly) cannot overlap licon1
+// rule x.10  res purpose layer for (diff, poly) cannot overlap licon
 
 rule x.10.diff {
-	caption "res purpose layer for diff cannot overlap licon1"
-	AND diff_res licon1 ; 
+	caption "res purpose layer for diff cannot overlap licon"
+	AND diff_res licon ; 
 }
 rule x.10.poly {
-	caption "res purpose layer for poly cannot overlap licon1"
-	AND poly_res licon1 ; 
+	caption "res purpose layer for poly cannot overlap licon"
+	AND poly_res licon ; 
 }
 
 //////////////////////////////////////////////////////////////////
-// rule x.11  Fuses do not appear to be no longer supported 
+// rule x.11  Fuses appear to be no longer supported 
 //////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
@@ -356,6 +355,11 @@ rule x.10.poly {
 // rule x.12d  
 // rule x.12e  
 /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+// rule x.13  No values specified
+// rule x.14  No values specified
+//////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
 // Lower left corner of data must be at origin
@@ -390,15 +394,9 @@ select -outside SEALID_quadrant12 quadrant3 -outputlayer SEALID_quadrant123
 select -touch SEALID_quadrant123 quadrant4 -outputlayer SEALID_quadrant1234
 
 rule x.19 {
-	caption "Lower left corner of the seal ring should be at origin (0,0)"
+	caption "Lower left corner of the Seal Ring should be at origin (0,0)"
 	not SEALID_extent SEALID_quadrant1234
 }
-
-
-//////////////////////////////////////////////////////////////////
-// rule x.13  No values specified
-// rule x.14  No values specified
-//////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
 // Seal Rings rules (SEALID)
@@ -408,33 +406,73 @@ rule x.19 {
 //rule x.23b 
 
 rule x.23c.poly {
-	caption "areaid.sl (seal ring) must not overlap poly"
+	caption "areaid:seal (Seal Ring) must not overlap poly"
 	AND SEALID poly ;
 }
 rule x.23c.li1 {
-	caption "areaid.sl (seal ring) must not overlap li1"
+	caption "areaid:seal (Seal Ring) must not overlap li1"
 	AND SEALID li1 ;
 }
 rule x.23c.met1 {
-	caption "areaid.sl (seal ring) must not overlap met1"
+	caption "areaid:seal (Seal Ring) must not overlap met1"
 	AND SEALID met1 ;
 }
 rule x.23c.met2 {
-	caption "areaid.sl (seal ring) must not overlap met2"
+	caption "areaid:seal (Seal Ring) must not overlap met2"
 	AND SEALID met2 ;
 }
 rule x.23c.met3 {
-	caption "areaid.sl (seal ring) must not overlap met3"
+	caption "areaid:seal (Seal Ring) must not overlap met3"
 	AND SEALID met3 ;
 }
 rule x.23c.met4 {
-	caption "areaid.sl (seal ring) must not overlap met4"
+	caption "areaid:seal (Seal Ring) must not overlap met4"
 	AND SEALID met4 ;
 }
 rule x.23c.met5 {
-	caption "areaid.sl (seal ring) must not overlap met5"
+	caption "areaid:seal (Seal Ring) must not overlap met5"
 	AND SEALID met5 ;
 }
 
 // x.23d, x.23e will be found by x.23c
+
+
+//////////////////////////////////////////////////////////////////
+//  Prohibited or Reserved layers 
+
+rule "x.prohibited.fuse" {
+	caption "WARNING: Use of the met4 fuse layer is prohibited"
+	copy met4_fuse ;
+}
+rule "x.prohibited.target" {
+	caption "WARNING: Use of the fuse target layer is prohibited"
+	copy target ;
+}
+
+rule x.moduleCut {
+	caption "WARNING: Use of areaid.mt (moduleCut layer) is for SkyWater Technology only"
+	extent_drawn areaid.mt ;
+}
+
+
+//////////////////////////////////////////////////////////////////
+// Addendum Rules
+
+
+rule x.prBndry {
+	caption "WARNING: prBoundary not allowed in IP"
+	copy prBndry;
+}
+
+//rule "x.pad {
+//	caption "pad pcells should be used for bondpad"
+//	to be added 
+//}
+
+
+rule x.pwell {
+	caption "WARNING: pwell must connect by ptap at least once"
+	select -enclose -not pwell ptap
+	select -enclose -not localSub ptap
+}
 

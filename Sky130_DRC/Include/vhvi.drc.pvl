@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  vhvi rules		  //
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.46			   //
 //////////////////////////////////////////////////////////////////
 
@@ -8,6 +8,13 @@
 // layer_def vhvi	   1045
 // layer_map 74 -datatype 21 1045	//vhvi,drawing,74:21
 // v12  	   drawing	   74	   21
+
+
+rule "vhvi.uhvi" {
+	caption "vhvi must not overlap uhvi"
+	and vhvi uhvi ;
+}
+
 
 // rules vhivi.vhv.# are NC (Guideline only)
 
@@ -77,7 +84,7 @@ rule vhvi.7 {
 	select -cut vhvi VHVPoly
 }
 
-rule vhvi.8 {
-	caption "Min space between nwell tagged with vhvi:dg and deep nwell, nwell, or n+diff on a separate net (except for n+diff overlapping nwell tagged with vhvi:dg): 11.240 um"
-	exte vhvi nwell -lt 11.240 -single_point -output region	
-}
+//rule vhvi.8 {
+//	caption "Min space between nwell tagged with vhvi:dg and deep nwell, nwell, or n+diff on a separate net (except for n+diff overlapping nwell tagged with vhvi:dg): 11.240 um"
+//	exte vhvi nwell -lt 11.240 -single_point -output region	
+//}

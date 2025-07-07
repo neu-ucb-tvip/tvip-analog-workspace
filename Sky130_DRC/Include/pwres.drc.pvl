@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  pwres rules		 				//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.49			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -38,15 +38,15 @@ rule pwres.6 {
 }
 
 rule pwres.7a {
-	caption "Every pwres_terminal must enclose 12 licon1"
-	select -enclose -not pwell_terminal licon1 -eq 12  //djb
+	caption "Every pwres_terminal must enclose 12 licon"
+	select -enclose -not pwell_terminal licon -eq 12  //djb
 }
 
 rule pwres.7b {
 	caption "Every pwres_terminal must enclose 12 mcons if routed through metal1"
-	select -inside licon1 pwell_terminal -outputlayer licon1_in_term
-	select -enclose li1 licon1_in_term -outputlayer li1_with_licon1_in_term
-	select -enclose li1_with_licon1_in_term mcon -outputlayer li1_con_met1_in_term
+	select -inside licon pwell_terminal -outputlayer licon_in_term
+	select -enclose li1 licon_in_term -outputlayer li1_with_licon_in_term
+	select -enclose li1_with_licon_in_term mcon -outputlayer li1_con_met1_in_term
 	select -inside li1_con_met1_in_term met1 -outputlayer term_con_met1
 	select -enclose -not pwell_terminal mcon -eq 12
 }

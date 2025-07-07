@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	 m1 rules			 			//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.23			  			//
 //////////////////////////////////////////////////////////////////
 
@@ -88,31 +88,31 @@ NOT mcon mcon_m1.4a mcon_m1.4
 //  edge_select added to find enclosure of 0.0
 //  this gives cleaner results than using the abut option.
 
+
+NOT mcon areaid.ce mcon_notcore
+AND mcon areaid.ce mcon_core
+
 rule m1.4 {
-	caption "Mcon must be enclosed by Met1 by at least: 0.030 um"
-	caption "(Rule exempted for cell names documented in rule m1.4a)"
-	enc mcon_m1.4 met1 -lt 0.030 -output region
-	edge_select mcon_m1.4 met1 ;
+	caption "CDR: Mcon outside areaid.ce must be enclosed by Met1 by at least: 0.030 um"
+	enc mcon_notcore met1 -lt 0.030 -output region
+	edge_select mcon_notcore met1 ;
 }
 
 // "-abut" will find enclosure of 0.0 (not found by default by the enc command)
 
 rule m1.4a {
-	caption "Mcon must be enclosed by Met1 by at least: 0.005"
-	caption "(for cell names s8cell_ee_plus_sseln_a, s8cell_ee_plus_sseln_b, s8cell_ee_plus_sselp_a,"
-	caption "s8cell_ee_plus_sselp_b, s8fpls_pl8, and s8fs_cmux4_fm)"
-	enc mcon_m1.4a met1 -lt 0.005 -abut -output region
+	caption "Mcon inside areaid.ce must be enclosed by Met1 by at least: 0.005"
+	enc mcon_core met1 -lt 0.005 -output region
+	edge_select mcon_core met1 ;
 }
+
+rule m1.5 {
+	caption "CDR: Mcon outside areaid.ce must be enclosed by Met1 on one of two adjacent sides by at least: 0.060 um" 
+	rect_enc mcon_notcore met1 -good 0.060 0.000 0.060 0.000
+}
+
 // ********************************************
 // *****************************************************************************************
-
-
-#IFNDEF CU
-	rule m1.5 {
-	caption "AL Flow - Mcon must be enclosed by Met1 on one of two adjacent sides by at least: 0.060 um" 
-	rect_enc mcon met1 -good 0.060 0.000 0.060 0.000
-	}
-#ENDIF  // ifndef CU
 
 rule m1.6 {
 	caption "Min metal1 area: 0.083 sq um"
@@ -133,7 +133,6 @@ rule m1.7 {
 //	caption "Max width of metal1 after slotting: 4.000 um"
 //	caption "   TBA   "
 //}
-
 
 
 // rules m1.13, m1.14, m1.14a -- SEE BELOW
@@ -166,7 +165,9 @@ rule m1.7 {
 // DENSITY
 // ********************************************
 
-#IFNDEF CU
+#IFNDEF NODEN
+
+ #IFNDEF CU
 
 // Oxide pattern density is pattern density after oversizing the metal and fill by 0.6
 // there are also mask layers but the designer should not see these
@@ -177,15 +178,17 @@ rule m1.7 {
 
 // AL met1 Density 
 
-  rule m1.pd.1 {
- 	caption "m1.pd.1: Min MM1_oxide_Pattern_density (AL): 0.70"
-	caption "m1.pd.2a: Rule m1.pd.1 has to be checked by dividing the chip into square regions of width and length equal to 700 um"
-	caption "m1.pd.2b: Rule m1.pd.1 has to be checked by dividing the chip into steps of 70 um"
-	caption "NOTE: MM1_oxide_Pattern is all met1 sized by 0.6 um"
+// need "-inside_of layer fill_area" to check only inside of SEALID hole (if SEALID is present)
+
+    rule m1.pd.1 {
+ 	caption "CDR: m1.pd.1: Min met1 oxide pattern density: 80%"
+	caption "  700 square micron window stepped at 70 um"
+	caption "  NOTE: 'met1 oxide pattern' is all met1 sized by 0.6 um'
 	caption "  rdb file:  m1.pd1.rdb"
-	density met1_oxide -lt 0.70 -window 700 -step 70 -rdb "m1.pd1.rdb"
-}
-#ELSE
+	density met1_oxide -lt 0.80 -window 700 -step 70 -inside_of layer fill_area -rdb "m1.pd1.rdb"
+    }
+
+ #ELSE
 
 // CU met1 Density
 
@@ -203,7 +206,7 @@ rule m1.7 {
 	caption "  rdb file:  m1.13.rdb"
 	density met1 -gt 0.77 -window 50 -step 25  -rdb "m1.13.rdb"
   }
-#ENDIF  // ifndef CU
+ #ENDIF  // ifndef CU
 
 
 // *****************************************************************************************
@@ -248,7 +251,7 @@ rule m1.7 {
 // cmm1	fill_block	  62	  24
 
 
-#IFDEF RC 
+ #IFDEF RC 
 
   density cmm1_waffle_drop -eq 1.00 -window 700  -outputlayer cmm1_pd1   -rdb "cmm1.pd1.rdb"
 
@@ -306,5 +309,6 @@ rule m1.7 {
 	density met1 -lt 0.30 -inside_of layer cmm1_pd6 -window 700 -rdb "m1.RC.pd6.rdb" ;
   }
 
-#ENDIF  // ifdef RC
+ #ENDIF  // ifdef RC
 
+#ENDIF // NODEN

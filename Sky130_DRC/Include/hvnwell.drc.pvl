@@ -1,18 +1,81 @@
 //////////////////////////////////////////////////////////////////
 //	  hvnwell rules		   //
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.38			   //
 //////////////////////////////////////////////////////////////////
 
+// hvi == v5 ; vhvi == v12 ; uhvi == v20
+
 // multiple minimum spacings for nwell regions with different voltages
 
-#IFNDEF FALSEOFF
-rule hvnwell.8 {
-	caption "Min space between HV_nwell and any nwell on different nets: 2.000 um"
-	caption "  NOTE: possible false errors due to out-of-date DRM information"
-	exte nwell nwell -lt 2.000 -single_point -output region
+//  derive nwell voltage layers 
+
+// nwell_lv	-- 1.8v, low voltage nwell (not v5, v12, v20)
+// nwell_hv 	-- 5v, high voltage nwell (v5)
+// nwell_vhv 	-- 12v, very high voltage nwell (v12)
+// nwell_uhv 	-- 20v, ltra high voltage nwell (v20)
+
+// all_hvi	-- OR of all high voltage markers (hvi, vhvi, uhvi)
+
+OR hvi vhvi uhvi -outputlayer all_hvi
+
+select -interact nwell uhvi -outputlayer nwell_uhvi
+stamp nwell_uhvi nwell -outputlayer nwell_uhv
+
+not nwell nwell_uhv -outputlayer nw_not_uvh
+select -interact nw_not_uvh vhvi -outputlayer nwell_vhvi
+stamp nwell_vhvi nwell -outputlayer nwell_vhv 
+
+not nwell ( or nwell_uhv nwell_vhv ) -outputlayer nw_not_vhv_or_uhv
+select -interact nw_not_vhv_or_uhv hvi -outputlayer nwell_hvi
+stamp nwell_hvi nwell -outputlayer nwell_hv
+
+// areaid		lv_net		81	66
+//layer_def lv_net 1299
+//layer_map 81 -datatype 66 1284 // areaid:lvnet
+// ** lv_net is NOT in the sky130_fd_pr_main library
+
+select -interact -not nwell all_hvi -outputlayer nwell_lvi
+stamp nwell_lvi nwell -outputlayer nwell_lv
+
+
+//#IFNDEF FALSEOFF
+//rule hvnwell.8 {
+//	caption "Min space between HV_nwell and any nwell on different nets: 2.000 um"
+//	caption "  NOTE: possible false errors due to out-of-date DRM information"
+//	exte nwell nwell -lt 2.000 -single_point -output region
+//}
+//#ENDIF
+
+// spacing of 1.8v nwell found in nwell.drc.pvl
+// spacing of 1.8v nwell to other voltages found in nwell.drc.pvl 
+
+// NOTE:  spacings with LV nwell are in nwell.drc.pvl
+
+rule "hvnwell.8.hv" {
+	caption "Min space/notch of HV_nwell: 1.27"
+	exte nwell_hv -lt 1.27 -abut -lt 90 -single_point -output region
 }
-#ENDIF
+rule "hvnwell.8.hv_vhv" {
+	caption "Min space of HV_nwell to VHV_nwell: 2.0"
+	exte nwell_hv nwell_vhv -lt 2.0 -abut -lt 90 -single_point -output region
+}
+rule "hvnwell.8.hv_uhv" {
+	caption "Min space of HV_nwell to UHV_nwell: 2.5"
+	exte nwell_hv nwell_uhv -lt 2.5 -abut -lt 90 -single_point -output region
+}
+rule "hvnwell.8.vhv" {
+	caption "Min space/notch of VHV_nwell: 2.0"
+	exte nwell_vhv -lt 2.0 -abut -lt 90 -single_point -output region
+}
+rule "hvnwell.8.vhv_uhv" {
+	caption "Min space of VHV_nwell to UHV_nwell: 2.5"
+	exte nwell_vhv nwell_uhv -lt 2.5 -abut -lt 90 -single_point -output region
+}
+rule "hvnwell.8.uvh" {
+	caption "Min space/notch of UHV_nwell: 2.5"
+	exte nwell_uhv -lt 2.5 -abut -lt 90 -single_point -output region
+}
 
 
 select -cut nwell hvi -outputlayer nwell_ovlp_hvi

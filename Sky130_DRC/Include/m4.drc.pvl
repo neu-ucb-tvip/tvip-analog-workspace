@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////////
 //	 m4 rules			 			//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.31			   			//
 //////////////////////////////////////////////////////////////////
 
 
 rule m4.1 {
-	caption "Width of metal4: 0.300 um"
+	caption "Min width of metal4: 0.300 um"
 	inte met4 -lt 0.300 -output region
 }
 
@@ -16,7 +16,7 @@ rule m4.2 {
 }
 
 rule m4.3 {
-	caption "AL Flow - via3 must be enclosed by Met4 by at least: 0.065 um"
+	caption "CDR: AL Flow - via3 must be enclosed by Met4 by at least: 0.065 um"
 	enc via3 met4 -lt 0.065 -output region
 	edge_select via3 met4 ;  // finds 0.0 enc
 }
@@ -96,7 +96,9 @@ rule m4.5b {
 // DENSITY
 // ********************************************
 
-#IFNDEF CU
+#IFNDEF NODEN
+
+ #IFNDEF CU
 
 // Oxide pattern density is pattern density after oversizing the metal and fill by 0.6
 // there are also mask layers but the designer should not see these
@@ -107,14 +109,15 @@ rule m4.5b {
 
 // AL met4 Density 
 
-  rule m4.pd.1 {
- 	caption "m4.pd.1: Min Mm4_oxide_Pattern_density (AL): 0.70"
-	caption "m4.pd.2a: Rule m4.pd.1 has to be checked by dividing the chip into square regions of width and length equal to 700 um"
-	caption "m4.pd.2b: Rule m4.pd.1 has to be checked by dividing the chip into steps of 70 um"
-	caption "NOTE: Mm4_oxide_Pattern is all met4 sized by 0.6 um"
-	density met4_oxide -lt 0.70 -window 700 -step 70 -rdb "m4.pd1.rdb"
-  }
-#ELSE
+    rule m4.pd.1 {
+ 	caption "CDR: m4.pd.1: Min met4 oxide pattern density (AL): 80%"
+	caption "  700 square micron window stepped at 70 um "
+	caption "  NOTE: 'met4 oxide pattern' is all met4 sized by 0.6 um"
+	caption "  rdb file:  m4.pd1.rdb"
+	density met4_oxide -lt 0.80 -window 700 -step 70 -inside_of layer fill_area -rdb "m4.pd1.rdb"
+    }
+
+ #ELSE
 
 // CU met4 Density
 
@@ -132,7 +135,7 @@ rule m4.5b {
 	caption "  rdb file:  m4.13.rdb"
 	density met4 -gt 0.77 -window 50 -step 25  -rdb "m4.13.rdb"
   }
-#ENDIF  // ifndef CU
+ #ENDIF  // ifndef CU
 
 
 // *****************************************************************************************
@@ -149,7 +152,7 @@ rule m4.5b {
 //  NOTE: Required for IP, Recommended for Chip-level.
 // *****************************************************************************************
 
-#IFDEF RC 
+ #IFDEF RC 
 
   density cmm4_waffle_drop -eq 1.00 -window 700  -outputlayer cmm4_pd1   -rdb "cmm4.pd1.rdb"
 
@@ -207,4 +210,6 @@ rule m4.5b {
 	density met4 -lt 0.30 -inside_of layer cmm4_pd6 -window 700 -rdb "m4.RC.pd6.rdb" ;
   }
 
-#ENDIF  // ifdef RC
+ #ENDIF  // ifdef RC
+
+#ENDIF // NODEN

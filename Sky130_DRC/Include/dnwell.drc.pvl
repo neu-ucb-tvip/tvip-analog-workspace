@@ -1,40 +1,44 @@
 //////////////////////////////////////////////////////////////////
 //	  dnwell rules						//
-// Version 0.0_2.3  May 19, 2025			  	//
+// Version 0.0_2.8  June 17, 2025			  	//
 // DRM Section 5.7.2						//
 //////////////////////////////////////////////////////////////////
-
 
 rule "dnwell.2" {
 	caption "Min width of deep nwell: 3.000 um"
 	inte dnwell -lt 3.000 -output region
 }
 
+//////////////////////////////////////////////////////////////////
+
+select -outside dnwell uhvi -outputlayer dnwell_lvi
+stamp dnwell_lvi dnwell dnwell_lv
+
+and dnwell uhvi -outputlayer dnwell_uhvi ;
+
 rule dnwell.3 {
-	caption "Min spacing between deep nwells. Rule exempt inside UHVI: 6.300 um"
-	not dnwell uhvi -outputlayer dnwell.3_a
-	exte dnwell.3_a -lt 6.300 -single_point -output region
+	caption "CDR: Min spacing/notch between deep nwells. Rule exempt inside UHVI: 6.300 um"
+	exte dnwell_lv -lt 6.300 -abut -lt 90 -single_point -output region
+}
+rule "dnwell.3a" {
+	caption "Min spacing of dwnell in v20 on same net < 2.5"
+	exte dnwell_uhvi -lt 12.0 -abut -lt 90 -single_point -output region -connected
+}
+rule "dnwell.3d" {
+	caption "Min spacing of dwnell in v20 not on same net < 12.0"
+	exte dnwell_uhvi -lt 12.0 -abut -lt 90 -single_point -output region -not_connected
+}
+rule "dnwell.3b" {
+	caption "Min spacing of dnwell in uhvi to dnwell outside uhvi < 12.0"
+	exte dnwell_uhvi dnwell_lv -lt 12.0 -abut -lt 90 -single_point -output region -exclude_false_notch
+}
+rule "dnwell.3c" {
+	caption "Min spacing of dnwell in v20 to nwell outside v20 < 9.5"
+	exte dnwell_uhvi dnwell_lv -lt 9.5 -abut -lt 90 -single_point -output region 
 }
 
-//rule dnwell.3a {
-//	caption "Min spacing between deep nwells on same net inside UHVI: N/A"
-//	caption "  No value in DRM to code"
-//}
 
-//rule dnwell.3b {
-//	caption "Min spacing between deep nwells inside UHVI and deep-nwell outside UHVI: N/A"
-//	caption "  No value in DRC to code"
-//}
-
-//rule dnwell.3c {
-//	caption "Min spacing between deep nwells inside UHVI and nwell outside UHVI: N/A"
-//	caption "  No value in DRC to code"
-//}
-
-//rule dnwell.3d {
-//	caption "Min spacing between deep nwells inside UHVI on different nets: N/A"
-//	caption "  No value in DRC to code"
-//}
+//////////////////////////////////////////////////////////////////
 
 
 rule dnwell.4 {
@@ -44,7 +48,7 @@ rule dnwell.4 {
 
 rule dnwell.5 {
 	caption P+ Diff can not straddle dnwell"
-	select -cut psdm dnwell
+	select -cut pdiff dnwell
 }
 
 //rule dnwell.6 {
@@ -55,7 +59,7 @@ rule dnwell.5 {
 
 rule dnwell.7 {
 	caption "Dnwell can not straddle areaid:substratecut"
-	select -cut dnwell areaid.st
+	select -cut dnwell localSub
 }
 
 

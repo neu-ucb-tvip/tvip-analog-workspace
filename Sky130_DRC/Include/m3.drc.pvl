@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	 m3 rules			 			//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.27			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -58,7 +58,7 @@ rule m3.3d {
 
 #IFNDEF CU
 	rule m3.4 {
-	caption "AL Flow - via2 must be enclosed by Met3 by at least: 0.065 um"
+	caption "AL Flow - via2 must be enclosed by met3 by at least: 0.065 um"
 	enc via2 met3 -lt 0.065 -output region
 	edge_select via2 met3 ;  // finds 0.0 enc 
 	}
@@ -115,7 +115,9 @@ rule m3.6 {
 // DENSITY
 // ********************************************
 
-#IFNDEF CU
+#IFNDEF NODEN
+ 
+ #IFNDEF CU
 
 // Oxide pattern density is pattern density after oversizing the metal and fill by 0.6
 // there are also mask layers but the designer should not see these
@@ -126,14 +128,15 @@ rule m3.6 {
 
 // AL met3 Density 
 
-  rule m3.pd.1 {
- 	caption "m3.pd.1: Min MM3_oxide_Pattern_density (AL): 0.70"
-	caption "m3.pd.2a: Rule m3.pd.1 has to be checked by dividing the chip into square regions of width and length equal to 700 um"
-	caption "m3.pd.2b: Rule m3.pd.1 has to be checked by dividing the chip into steps of 70 um"
-	caption "NOTE: MM3_oxide_Pattern is all met3 sized by 0.6 um"
-	density met3_oxide -lt 0.70 -window 700 -step 70 -rdb "m3.pd1.rdb"
-  }
-#ELSE
+    rule m3.pd.1 {
+ 	caption "CDR: m3.pd.1: Min met3 oxide pattern density (AL): 80%"
+	caption "  700 square micron window stepped at 70 um "
+	caption "  NOTE: 'met3 oxide pattern' is all met3 sized by 0.6 um"
+	caption "  rdb file:  m3.pd1.rdb"
+	density met3_oxide -lt 0.80 -window 700 -step 70 -inside_of layer fill_area -rdb "m3.pd1.rdb"
+    }
+
+ #ELSE
 
 // CU met3 Density
 
@@ -151,7 +154,7 @@ rule m3.6 {
 	caption "  rdb file:  m3.13.rdb"
 	density met3 -gt 0.77 -window 50 -step 25  -rdb "m3.13.rdb"
   }
-#ENDIF  // ifndef CU
+ #ENDIF  // ifndef CU
 
 
 // *****************************************************************************************
@@ -168,7 +171,7 @@ rule m3.6 {
 //  NOTE: Required for IP, Recommended for Chip-level.
 // *****************************************************************************************
 
-#IFDEF RC 
+ #IFDEF RC 
 
   density cmm3_waffle_drop -eq 1.00 -window 700  -outputlayer cmm3_pd1   -rdb "cmm3.pd1.rdb"
 
@@ -226,4 +229,6 @@ rule m3.6 {
 	density met3 -lt 0.30 -inside_of layer cmm3_pd6 -window 700 -rdb "m3.RC.pd6.rdb" ;
   }
 
-#ENDIF  // ifdef RC
+ #ENDIF  // ifdef RC
+
+#ENDIF // NODEN

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	 via1 rules						//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.24			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -25,10 +25,10 @@
 select -inside via1 SEALID -outputlayer via1.insideSR
 NOT	via1 via1.insideSR via1.outsideSR ;
 
-select -inside via1 areaid.mt -outputlayer via1.areaid.mt
-NOT	via1 via1.areaid.mt via1.not_areaid.mt
+select -inside via1 areaid.mt -outputlayer via1_mt
+NOT	via1 via1_mt via1_not_mt
 
-NOT via1.not_areaid.mt via1.insideSR via1_neither ;
+NOT via1_not_mt via1.insideSR via1_neither ;
 
 
 // areaid	  seal	81	  1
@@ -55,14 +55,12 @@ rule via1.3 {
 //  This generates multiple error flags for via1 areas not covered by met1.
 //  Instead, flag only the uncovered area.
 
-rule via1.4a {
-	caption "0.150 um via1 must be enclosed by Met1 by at least: 0.055 um"
-	rect_chk via1 -eq 0.150 -orthogonal_only -outputlayer via1.4a_a
-	enc via1.4a_a met1 -lt 0.055 -output region
-	edge_select via1 met1 ;
-}
+// edge_select added to find 0.0 enclosure
 
-// ********************************************
+// Rules via1.cover.1 & via1.cover.2 are added to find via1 regions not inside met1 & met2
+
+
+//////////////////////////////////////////////////////////////////
 // AL via1 rules
 
 #IFNDEF CU
@@ -71,55 +69,71 @@ rule via1.4a {
 // This gives rectangles with *any* side equal to 0.15; 
 //	rect_chk  via1.mt -eq 0.150 -orthogonal_only 
 
-	rule via1.1a {
+  rule via1.1a {
 	caption "AL FLow - Min and max L and W of via1 outside areaid.mt == 0.150 um"
 	rect_chk -not via1_neither -eq 0.150 -by -eq 0.150 -orthogonal_only
-	}
+  }
 
-	rule via1.1b {
+  rule via1.1b {
 	caption "AL Flow - Three sizes of square Vias allowed inside areaid.mt: 0.150um, 0.230um and 0.280um"
-	rect_chk -not via1.areaid.mt -eq 0.150 -by -eq 0.150 -orthogonal_only -outputlayer via1.not15
+	rect_chk -not via1_mt -eq 0.150 -by -eq 0.150 -orthogonal_only -outputlayer via1.not15
 	rect_chk -not via1.not15	 -eq 0.230 -by -eq 0.230 -orthogonal_only -outputlayer via1.not15_23
 	rect_chk -not via1.not15_23  -eq 0.280 -by -eq 0.280 -orthogonal_only
-	}
+  }
 
-	rule via1.2 {
+  rule via1.2 {
 	caption "AL Flow - Spacing of via1 to via1: 0.170 um"
 	exte via1 -lt 0.170 -single_point -output region
-	}
+  }
 
-	rule via1.4b {
+
+// ********************************************
+// via1 ENC rules
+//   grouped together to make the coding simpler to follow
+//   I have copied via1.4a to via1.4a_CU below so I don't have to switch it out separately
+
+// Note that via1 shapes that are NOT 0.15 x 0.15 are only allowed inside areaid.mt
+
+// via.4a is updated to apply to all via1 shapes outside of areaid.mt (Module Cut)
+
+  rule via1.4a {
+	caption "CDR: via1 outside of areaid.mt must be enclosed by met1 by at least: 0.055 um"
+	enc via1_not_mt met1 -lt 0.055 -output region
+	edge_select via1_not_mt met1 ;
+  }
+
+  rule via1.4b {
 	caption "AL Flow - Inside areaid.mt, 0.230 um via1 must be enclosed by met1 by at least: 0.030 um"
-	rect_chk via1.areaid.mt -eq 0.230 -orthogonal_only -outputlayer via1.4b_a
+	rect_chk via1_mt -eq 0.230 -orthogonal_only -outputlayer via1.4b_a
 	enc via1.4b_a met1 -lt 0.030 -outside_also -output region
-	}
+  }
 
-	rule via1.4c {
-	caption "AL Flow - Inside areaid.mt, 0.280 um via1 must be enclosed by met1 by at least: 0.000 um"
-	rect_chk via1.areaid.mt -eq 0.280 -orthogonal_only -outputlayer via1.4c_a
-	enc via1.4c_a met1 -lt 0.000 -outside_also -output region
-	}
+//  rule via1.4c  is unnecessary as the minimum enclosure is 0.0;
+//     0.28 um via1 shapes that are not covered by met1 are flagged by rule via1.cover.1
+//  rule via1.4c {
+//	caption "AL Flow - Inside areaid.mt, 0.280 um via1 must be enclosed by met1 by at least: 0.0 um"
+// }
 
-	rule via1.5a {
-	caption "AL Flow - 0.150 um via1 must be enclosed by Met1 on one of two adjacent sides by at least: 0.085 um"
+  rule via1.5a {
+	caption "CDR: AL Flow - 0.150 um via1 must be enclosed by met1 on one of two adjacent sides by at least: 0.085 um"
 	rect_chk via1 -eq 0.150 -orthogonal_only -outputlayer via1.5a_a
 	rect_enc via1.5a_a met1 -good 0.085 0.000 0.085 0.000
-	}
+  }
 
-	rule via1.5b {
-	caption "AL Flow - Inside areaid.mt, 0.230 um via1 must be enclosed by met1 on one of two adjacent sides by at least: 0.060 um"
-	rect_chk via1.areaid.mt -eq 0.230 -orthogonal_only -outputlayer via1.5b_a
-	rect_enc via1.5b_a met1 -good 0.060 0.000 0.060 0.000
-	}
+  rule via1.5b {
+	caption "AL Flow - 0.230 um via1 must be enclosed by met1 on one of two adjacent sides by at least: 0.085 um"
+	rect_chk via1 -eq 0.230 -orthogonal_only -outputlayer via1.5b_a
+	rect_enc via1.5b_a met1 -good 0.085 0.000 0.085 0.000
+  }
 
-// this one I trick by using 0.001 as "0.0 0.0 0.0 0.0" won't work
-// 0.001 is below the design grid of 0.005 so this should be OK
+//  rule via1.5c is obsolete and removed
+//  rule via1.5c {
+//	caption "AL Flow - Inside areaid.mt, 0.280 um via1 must be enclosed by met1 on one of two adjacent sides by at least: 0.000 um"
+//  }
 
-	rule via1.5c {
-	caption "AL Flow - Inside areaid.mt, 0.280 um via1 must be enclosed by met1 on one of two adjacent sides by at least: 0.000 um"
-	rect_chk via1.areaid.mt -eq 0.280 -by -eq 0.280 -orthogonal_only -outputlayer via1.5c_a
-	rect_enc via1.5c_a met1 -good 0.001 0.000 0.001 0.000
-	}
+
+// END of via1 ENC rules
+// ********************************************
 
 #ENDIF  // ifndef CU
 
@@ -127,6 +141,17 @@ rule via1.4a {
 // CU via1 rules
 
 #IFDEF CU
+
+// Grouping all of the via1 ENC checks together above to make the coding easier to follow
+// Copying rule via1.4a here so that I can keep it above inside the "IFNDEF CU" switch
+
+  rule via1.4a_CU {
+	caption "0.150 um via1 must be enclosed by met1 by at least: 0.055 um"
+	rect_chk via1 -eq 0.150 -orthogonal_only -outputlayer via1.4a_a
+	enc via1.4a_a met1 -lt 0.055 -output region
+	edge_select via1 met1 ;
+  }
+
 	rule via1.11 {
 	caption "Cu FLow - Min and max L and W of via1 outside areaid.mt == 0.180 um"
 	not via1 areaid.mt -outputlayer via1.1a_a

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  Derived Layers		  			//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 //////////////////////////////////////////////////////////////////
 
 select -outside pad areaid.ft -outputlayer bondPad
@@ -27,7 +27,25 @@ with_width met5 -gt 3.000 -outputlayer huge_met5
 
 with_width pad -gt 100.000 -outputlayer hugePad
 
-not Chip_extent nwell -outputlayer pwell
+//////////////////////////////////////////////////////////////////
+// derive substrate, extent regions
+
+extent_drawn -original -outputlayer ALL
+
+NOT ALL SEALID -outputlayer ALL_not_sealid
+
+// If SEALID is missing, "holes SEALID" is empty
+
+select -cut -not ALL SEALID -outputlayer ALL_outside_sealid
+
+holes SEALID sealid_hole
+
+OR sealid_hole ALL_outside_sealid -outputlayer fill_area 
+
+
+not Chip_extent (or nwell localSub) -outputlayer pwell
+
+//////////////////////////////////////////////////////////////////
 
 select -touch ptap pwell_res -outputlayer pwell_terminal  //djb
 
@@ -35,13 +53,10 @@ and pwell dnwell -outputlayer iso_pwell
 
 and poly diff -outputlayer gate_a
 select -donut -not gate_a -outputlayer gate
-not gate nwell -outputlayer nfet
-and gate nwell -outputlayer pfet
+not gate nwell -outputlayer nfet	// ngate
+and gate nwell -outputlayer pfet	// pgate
 
 select -inside gate lvtn -outputlayer LVTN_Gate
-
-//not diff nwell -outputlayer ndiff
-//and diff nwell -outputlayer pdiff
 
 
 //////////////////////////////////////////////////////////////////
@@ -53,52 +68,49 @@ select -inside gate lvtn -outputlayer LVTN_Gate
 // From layer_defs:
 //   drawn tap:  tap_dg 
 //   drawn diff: diff_dg, diff_fill
-//   input diff: diff_or (OR diff_dg diff_fill)
+//   input diff: diff_all (OR diff_dg diff_fill)
 
+// diff_all: OR (diff dg) (diff fill)   [in layer_defs]
 // diff_in:  OR (diff dg) (diff fill) (tap dg)
-// diff_all: diff_in NOT tap
-// diff:	 diff_all NOT (diff res)
+// diff:	 diff_all NOT (diff_res)
 // ntap: 	AND (nsdm diff_in nwell) NOT poly
 // ptap: 	(nsdm diff_in NOT nwell) NOT poly  ; also remove (dnwell NOT ptub)
 // tap: 	OR (ntap ptap)
 
-OR diff_or tap_dg diff_in ;
+OR diff_all tap_dg  diff_in ;
 
-and diff_in nwell diff_nwell ;
-not diff_in nwell diff_not_nwell ;
+// ndiff:  (diff AND nsdm) NOT nwell
+// pdiff:  (diff AND psdm) AND nwell
 
-and diff_nwell psdm -outputlayer pdiff
-and diff_not_nwell nsdm -outputlayer ndiff
+AND diff_in nsdm  diff_and_nsdm ;
+AND diff_in psdm  diff_and_psdm ;
 
-AND diff_nwell nsdm ntap1 ;
-AND diff_not_nwell psdm ptap1 ;
+NOT diff_and_nsdm nwell  ndiff ;
+AND diff_and_psdm nwell  pdiff ;
 
-not ntap1 poly  ntap ;
-not ptap1 poly  ptap ;	// ;ss  do we need to remove dnwell related taps (ptub) ?
-//not ptap2 (not dnwell ptub)  ptap ;
+NOT (AND (diff_and_nsdm) nwell) poly ntap ;
 
-or ptap ntap -outputlayer tap
+NOT (NOT (diff_and_psdm) nwell) (not poly npn)   ptap ;
 
-not diff_in tap -outputlayer diff_all ;
 
-not diff_all diff_res -outputlayer diff
+// tap:   OR ntap ptap
+// diff:  diff_in NOT tap
 
-not ( not ( and diff nsdm ) poly )  ntap -outputlayer nsd
-not ( not ( and diff psdm ) poly )  ptap -outputlayer psd
-//and ( and diff_in psdm ) ptub -outputlayer ptubtap
+OR  ntap   ptap  tap ;
+NOT diff_in tap  diff ;
 
-or tap diff_all -outputlayer diffTap
+// nsd:  ( diff_in AND nsdm ) remove diff_res, remove poly, remove ntap
+// psd:  ( diff_in AND psdm ) remove diff_res, remove poly, remove ptap
 
+NOT ( NOT ( NOT diff_and_nsdm diff_res ) poly ) ntap  nsd ;
+NOT ( NOT ( NOT diff_and_psdm diff_res ) poly ) ptap  psd ;
 
 //////////////////////////////////////////////////////////////////
 
+
 and diff hvi -outputlayer hdiff
 
-or diff tap -outputlayer poly_licon1_pvsTmp1
-not poly_licon1_pvsTmp1 poly -outputlayer poly_licon1_pvsTmp2
-select -cut -not licon1 poly_licon1_pvsTmp2 -outputlayer poly_licon1
-
-and tap licon1 -outputlayer tap_licon
+and tap licon -outputlayer tap_licon
 not tap poly -outputlayer tap_notPoly
 select -inside tap nwell -outputlayer tap_nwell
 
@@ -118,9 +130,12 @@ select -enclose -not fuse_shield_a via4 fuse_shield_b
 rect_chk fuse_shield_b -eq 0.500 -by -eq 2.400 -outputlayer fuse_shield
 
 
+// used also in poly.drc.pvl
+OR rpm urpm -outputlayer rpm_urpm 
+
 // and rpm psdm -outputlayer prec_resistor
 // this is better (poly is poly_df OR poly_fill) :
-and poly ( and poly_res ( and ( or rpm urpm ) psdm ) ) -outputlayer prec_resistor
+and poly ( and poly_res ( and rpm_urpm psdm ) ) -outputlayer prec_resistor
 select -enclose poly prec_resistor -outputlayer poly_prec_resistor
 
 
@@ -138,13 +153,7 @@ and dtap vhvi -outputlayer dhvi
 not dhvi poly -outputlayer dpoly
 not dpoly diff_res -outputlayer VHVSourceDrain
 
-connect li1 poly -by licon1
-connect met1 li1 -by mcon
-connect met2 met1 -by via1
-connect met3 met2 -by via2
-connect met4 met3 -by via3
-connect met5 met4 -by via4
-
+//////////////////////////////////////////////////////////////////
 // Seal Ring
 // SEALID is the drawn sealring layer (areaid.sl)
 // sealring:  (sealring with hole) enclosing both: (diff with hole) (nsm with hole)
@@ -156,4 +165,21 @@ select -donut SEALID -outputlayer sealring_donut
 select -donut diff -outputlayer sealring_diff
 select -donut nsm -outputlayer sealring_nsm
 select -enclose (select -enclose sealring_donut sealring_diff) (select -enclose sealring_donut sealring_nsm) -outputlayer sealring
+
+//////////////////////////////////////////////////////////////////
+// Connect
+
+connect nwell dnwell
+connect ntap nwell
+connect ptap pwell
+connect li1 nsd -by licon
+connect li1 psd -by licon
+connect li1 ntap -by licon
+connect li1 ptap -by licon
+connect li1 poly -by licon
+connect met1 li1 -by mcon
+connect met2 met1 -by via1
+connect met3 met2 -by via2
+connect met4 met3 -by via3
+connect met5 met4 -by via4
 

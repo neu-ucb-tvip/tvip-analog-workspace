@@ -1,0 +1,98 @@
+//////////////////////////////////////////////////////////////////
+//	  capm rules     		   			//
+// Version 0.0_2.8  June 17, 2025				//
+//////////////////////////////////////////////////////////////////
+
+////////////////////////////////
+
+and ( and met3 met4 ) capm -outputlayer cap_34
+and cap_34 met4 -outputlayer cap_34_top
+and cap_34 met3 -outputlayer cap_34_bot
+
+size ( and capm met3 ) -by 0.14 -outputlayer m3_bot_plate
+size ( and capm met4 ) -by 0.14 -outputlayer m4_top_plate
+
+connect met4 m4_top_plate 
+connect met3 m3_bot_plate 
+
+
+rule "capm.1a" {
+	caption "capm without met3 is prohibited"
+	not capm met3
+}
+rule "capm.1b" {
+	caption "capm without met4 is prohibited"
+	select -outside capm met4
+}
+
+rule "capm.2a" {
+	caption "capm without via3 is prohibited"
+	select -interact -not capm via3
+}
+
+rule "capm.2b" {
+	caption "capm must contain at least 2 via3"
+	select -enclose capm -lt 2 via3
+	select -interact -not capm via3
+}
+
+rule "capm.3a" {
+	caption "Min space between capm bottom plates: 1.2 um"
+	exte m3_bot_plate -lt 1.2 -not_connected -abut -lt 90 -output region
+}
+
+select -cut -not met3 m3_bot_plate -outputlayer m3_not_cap
+ 
+rule "capm.3b" {
+	caption "Min space capm bottom plates space to unrelated met3: 1.2
+	exte m3_bot_plate m3_not_cap  -lt 1.2 -abut -lt 90 -exclude_shielded -output region
+}
+
+rule "capm.3c" {
+	caption "CDR: Min capm space: 0.84 um"
+	exte capm -lt 0.84 -abut -lt 90 -single_point -output region
+}
+
+rule "capm.4" {
+	caption "CDR: Min capm width: 1.0 um"
+	inte capm -lt 1.0 -abut -lt 90 -single_point -output region
+}
+
+rule "capm.5" {
+	caption "CDR: Min enclosure of capm by met3: 0.14 um"
+	enc capm met3 -lt 0.14 -measure all -abut -lt 90 -single_point -output region
+}
+
+rule "capm.6" {
+	caption "CDR: Min enclosure of via3 by capm: 0.14 um"
+	enc via3 capm -lt 0.14 -measure all -abut -lt 90 -single_point -output region
+}
+
+rule "capm.7" {
+	caption "CDR: Min spacing of capm and via3: 0.14 um "
+	exte capm via3 -lt 0.14 -abut -lt 90 -single_point -output region
+}
+
+rule "capm.8a" {
+	caption "Max capm aspect ratio (L/W): 20.00 um"
+	rect_chk capm -aspect -gt 20.00
+}
+rule "capm.8b" {
+	caption "Only rectangular capm is permitted"
+	rect_chk -not capm
+}
+rule "capm.8c" {
+	caption "Max area of capm > 1,000,000 um^2 "
+	area capm -gt 1000000
+}
+
+rule "capm.9a" {
+	caption "Min space of capm to via2: 0.14 um"
+	exte capm via2 -lt 0.14 -abut -lt 90 -single_point -output region
+}
+rule "capm.9b" {
+	caption "capm cannot overlap via2"
+	and capm via2
+}
+
+

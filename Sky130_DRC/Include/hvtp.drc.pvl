@@ -1,11 +1,11 @@
 //////////////////////////////////////////////////////////////////
 //		  hvtp rules				  	//
-// Version 0.0_2.3  May 19, 2025				//
+// Version 0.0_2.8  June 17, 2025				//
 // DRM Section 5.7.6						//
 //////////////////////////////////////////////////////////////////
 
 rule hvtp.1 {
-	caption "Min width of hvtp: 0.380 um"
+	caption "CDR: Min width of hvtp: 0.380 um"
 	inte hvtp -lt 0.380 -single_point -output region
 }
 
@@ -30,7 +30,7 @@ rule hvtp.5 {
 }
 
 rule hvtp.6 {
-	caption _Min area of hvtp Holes: 0.265"
+	caption "Min area of hvtp Holes: 0.265"
 	holes hvtp -outputlayer hvtp.6_a
 	area hvtp.6_a -lt 0.265
 }
