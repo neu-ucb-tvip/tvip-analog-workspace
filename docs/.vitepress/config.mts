@@ -15,6 +15,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Analog Layout Guide', link: '/Analog_Layout_Guide' },
       { text: 'Power Grids', link: '/Power_Grids' },
+      { text: 'Running DRC', link: '/Running_DRC' },
       { text: 'Impedance Matching', link: '/impedance-matching' }
     ],
 
@@ -24,6 +25,7 @@ export default defineConfig({
         items: [
           { text: 'Analog Layout Guide', link: '/Analog_Layout_Guide' },
           { text: 'Power Grids', link: '/Power_Grids' },
+          { text: 'Running DRC', link: '/Running_DRC' },
           { text: 'Impedance Matching', link: '/impedance-matching' }
         ]
       }

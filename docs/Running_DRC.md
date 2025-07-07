@@ -1,0 +1,37 @@
+---
+title: Running DRC
+authors:
+  - name: "Daniel Lovell"
+    email: "dlovell98@berkeley.edu"
+    affiliation: "University of California, Berkeley"
+lastUpdated: 2025-07-06
+---
+
+# Running DRC
+
+## Introduction
+
+DRC (Design Rule Check) is a tool that checks your design against a set of rules to ensure that your design meets the design rules.
+
+## Using the Physical Verification System (PVS)
+
+
+Open your layout in the Virtuoso layout editor (Layout XL, Layout EXL, Layout MXL, etc).
+
+In the top menu bar, click `PVS` -> `Run DRC...`.
+
+<img src="./images/running_drc/virtuoso_layout_pvs_run_drc.png" alt="virtuoso layout pvs run drc" width="600px">
+
+On the menu bar of the PVS DRC GUI, clock `File` -> `Load Presets`.
+
+<img src="./images/running_drc/pvs_load_preset.png" alt="pvs load preset" width="400px">
+
+In the file dialog, navigate to the `Sky130_DRC` directory and select `sky130.virtuoso6.drc_preset`.
+
+<img src="./images/running_drc/load_preset_sky130.png" alt="load preset sky130" width="600px">
+
+Now you can run DRC by clicking the `Submit` button in the PVS DRC GUI.
+
+
+
+

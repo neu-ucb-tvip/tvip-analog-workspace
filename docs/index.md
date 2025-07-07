@@ -14,6 +14,9 @@ features:
   - title: Power Grids in VLSI
     details: Learn how to design and implement power distribution networks (PDNs) using power straps, rings, and on-chip decoupling to maintain supply integrity for sensitive analog circuits.
     link: /Power_Grids
+  - title: Running DRC
+    details: Step-by-step guide for running Design Rule Check (DRC) using the Physical Verification System (PVS) in Cadence Virtuoso with the Sky130 PDK.
+    link: /Running_DRC
   - title: Impedance Matching
     details: A guide to impedance matching for voltage, current, and power. Covers two-port models, optimal impedances for various amplifier types, and conjugate matching for RF systems.
     link: /impedance-matching
