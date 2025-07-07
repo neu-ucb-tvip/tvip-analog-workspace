@@ -81,3 +81,9 @@ Then start Virtuoso:
 ```bash
 virtuoso &
 ```
+
+## Licensing
+
+The custom designs in this repository are licensed under the BSD 3-Clause license, as specified in the `LICENSE` file.
+
+The Sky130 PDK resources provided by Cadence are covered by the Cadence Public License Version 1.0. A copy of this license, `LICENSE.cadence`, is included in the directories containing these resources.
