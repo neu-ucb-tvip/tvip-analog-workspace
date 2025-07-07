@@ -7,6 +7,8 @@ export LM_LICENSE_FILE=<INSERT LICENSE HERE>
 # Cadence.
 export CDS_HOME=<INSERT CADENCE PATH HERE>
 
+export PVS_HOME=<INSERT PVS PATH HERE>
+
 # If you are running on the BWRC servers
 # export CDS_HOME=/tools/cadence/IC/IC231_ISR9. 
 # If you are running on the Alcatraz server, 
