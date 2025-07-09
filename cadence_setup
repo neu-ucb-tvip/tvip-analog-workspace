@@ -1,0 +1,89 @@
+# Source this from a Bourne shell (not execute!)
+# V_CDS="615.151" V_PATH_INST=1 . /share/b/bin/cds6
+
+_V_CDS="${V_CDS:-618}"
+_V_CDS_BASE="${_V_CDS%%.*}" ###"$(expr "${_V_CDS}" : '\([^.]*\)')"
+_V_ASSURA="${V_ASSURA:-41-${_V_CDS_BASE}}"
+_V_MMSIM="${V_MMSIM:-231}" #141 pre-Fa16
+_V_RC="${V_RC:-142}"
+_V_EXT="${V_EXT:-171}"
+
+[ -z "${V_LIBS_KEEP+1}" ] && LD_LIBRARY_PATH=""
+[ -z "${V_PATH_KEEP+1}" ] && PATH="/usr/local/bin:/usr/bin:/bin"
+[ -n "${V_PATH_INST+1}" ] && PATH="/share/b/bin:${PATH}"
+
+[ -z "${CDS_LIC_FILE+1}" ] && CDS_LIC_FILE="5280@bisc.EECS.Berkeley.EDU"
+export CDS_LIC_FILE
+#could use LM_LICENSE_FILE instead, but then would append to it (ideally)
+
+CADENCE_BASE="/share/instsww/cadence"
+CDS_INST_DIR="${CADENCE_BASE}/IC${_V_CDS}"
+CDS_INSTALL_DIR="${CDS_INST_DIR}/tools/dfII"
+#TODO: set CADENCE_DIR (if unset) for AGILENT use (ADS w/Cadence)
+export CADENCE_BASE CDS_INST_DIR CDS_INSTALL_DIR
+
+ASSURA_INST_DIR="${CADENCE_BASE}/ASSURA${_V_ASSURA}"
+MMSIM_INST_DIR="${CADENCE_BASE}/MMSIM${_V_MMSIM}"
+RC_INST_DIR="${CADENCE_BASE}/RC${_V_RC}"
+EXT_INST_DIR="${CADENCE_BASE}/EXT${_V_EXT}"
+export ASSURA_INST_DIR MMSIM_INST_DIR
+
+CDS_Netlisting_Mode="Analog" #Mentioned for GPDK (cs140/141)
+export CDK_DIR CAD_PROCESS CDS_Netlisting_Mode
+
+CDS_SITE="${CDS_INST_DIR}/tools/dfII/samples/local" #Allegro/SPB related???
+SKIP_CDS_DIALOG=""
+[ -z "${SPECTRE_DEFAULTS+1}" ] && SPECTRE_DEFAULTS=" -E "
+export CDS_SITE SKIP_CDS_DIALOG SPECTRE_DEFAULTS
+
+
+### OA_HOME variable undefined in order to prevent conflicts with Assura / IC version of OA
+# OA_HOME="${CDS_INST_DIR}/share/oa/" #symlink to oa_v22.43.054 for IC616 as of Jan16
+CDS_AUTO_64BIT="ALL"
+if [ -z "${OA_UNSUPPORTED_PLAT+1}" -a -n \
+     "$(lsb_release --description --short 2>/dev/null |egrep -i '^"?(Ubuntu|Cent.* release 7\.)')" \
+   ]; then
+  #NOTE: Ubuntu & CentOS 7 unsupported for IC616 and prior...also they use GCC4.8
+  OA_UNSUPPORTED_PLAT="linux_rhel50_gcc44x" #TODO: linux_rhel40_gcc44x when <IC615!
+  echo "WARN: Setting OA_UNSUPPORTED_PLAT='${OA_UNSUPPORTED_PLAT}'"
+fi
+export OA_HOME CDS_AUTO_64BIT OA_UNSUPPORTED_PLAT
+
+
+ICHOME="${CDS_INST_DIR}" ; export ICHOME
+CDSHOME="${CDS_INST_DIR}" ; export CDSHOME
+ICCHOME="${CDS_INST_DIR}" ; export ICCHOME
+ASSURAHOME="${ASSURA_INST_DIR}" ; export ASSURAHOME
+MMSIMHOME="${MMSIM_INST_DIR}" ; export MMSIMHOME
+RCHOME="${RC_INST_DIR}" ; export RCHOME
+
+## FOR EXT
+QRC_HOME="${EXT_INST_DIR}" ; export QRC_HOME
+PATH="$QRC_HOME/tools/bin:$QRC_HOME/tools/dfII/bin:${PATH}"
+
+PATH="$RCHOME/tools.lnx86/bin:$RCHOME/tools.lnx86/dfII/bin:${PATH}"
+
+PATH="$MMSIMHOME/tools/bin:$MMSIMHOME/tools/dfII/bin:${PATH}"
+PATH="$ASSURAHOME/tools/bin:$ASSURAHOME/tools/dfII/bin:${PATH}"
+PATH="$CDSHOME/tools/bin:$CDSHOME/tools/dfII/bin:${PATH}"  #LIKE: dfiiPath
+export PATH LD_LIBRARY_PATH
+
+# Spectre toolbox for reading results with Matlab
+_SPECTRE_MATLAB_="$(cds_root spectre)/tools/spectre/matlab/64bit"
+if [ -d "${_SPECTRE_MATLAB_}" ]; then
+  [ -z "${V_LIBS_KEEP+1}" ] && MATLABPATH=""
+  MATLABPATH="${_SPECTRE_MATLAB_}${MATLABPATH:+:$MATLABPATH}"
+  export MATLABPATH
+  #LD_LIBRARY_PATH augmentation possibly not needed for newer MMSIMs
+fi
+
+echo -e "\nCDSHOME='$CDSHOME'\nASSURAHOME='$ASSURAHOME'"
+echo -e "OA_HOME='$OA_HOME'\nMATLABPATH='$MATLABPATH'\n"
+env |sort --version-sort |egrep -i '^CDS|^CDK|^CAD|_DIR$|HOME$'
+echo -e "\nLD_LIBRARY_PATH='$LD_LIBRARY_PATH'\nPATH='$PATH'\n"
+echo -n "${PATH}" \
+  |xargs --delimiter=":" -I{} --no-run-if-empty \
+    ls -ald '{}' 2>&1
+echo -e ""
+
+export W3264_NOWARN_UNSUPPORTED_CENTOS=1 #Added to supress CENTOS warnings in Virtuoso, fixing a menu bug for Assura QRC

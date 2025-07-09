@@ -21,3 +21,6 @@ export PATH=${EMX_HOME}/bin:${PATH}
 export SPECTRE_DEFAULTS=-E
 export CDS_Netlisting_Mode="Analog"
 export CDS_AUTO_64BIT=ALL
+
+# random crap 
+export CDS_WAVES_ENV="viva.color.background=white"
