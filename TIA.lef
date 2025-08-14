@@ -1,0 +1,6035 @@
+VERSION 5.7 ;
+BUSBITCHARS "[]" ;
+DIVIDERCHAR "/" ;
+
+PROPERTYDEFINITIONS
+  MACRO lastSavedExtractCounter INTEGER ;
+  LAYER LEF58_TYPE STRING ;
+  LAYER LEF58_SPACING STRING ;
+  LAYER LEF58_WIDTH STRING ;
+END PROPERTYDEFINITIONS
+
+UNITS
+  TIME NANOSECONDS 1 ;
+  CAPACITANCE PICOFARADS 1 ;
+  RESISTANCE OHMS 1 ;
+  DATABASE MICRONS 1000 ;
+END UNITS
+MANUFACTURINGGRID 0.005 ;
+LAYER OVERLAP
+  TYPE OVERLAP ;
+END OVERLAP
+
+LAYER pwell
+  TYPE MASTERSLICE ;
+  PROPERTY LEF58_TYPE "TYPE PWELL ;" ;
+END pwell
+
+LAYER nwell
+  TYPE MASTERSLICE ;
+  PROPERTY LEF58_TYPE "TYPE NWELL ;" ;
+  PROPERTY LEF58_SPACING "SPACING 1.27 ;" ;
+  PROPERTY LEF58_WIDTH "WIDTH 0.84 ;" ;
+END nwell
+
+LAYER diff
+  TYPE MASTERSLICE ;
+  PROPERTY LEF58_TYPE "TYPE DIFFUSION ;" ;
+  PROPERTY LEF58_SPACING "SPACING 0.27 ;" ;
+  PROPERTY LEF58_WIDTH "WIDTH 0.15 ;" ;
+END diff
+
+LAYER tap
+  TYPE MASTERSLICE ;
+  PROPERTY LEF58_TYPE "TYPE DIFFUSION ;" ;
+  PROPERTY LEF58_SPACING "SPACING 0.27 ;" ;
+  PROPERTY LEF58_WIDTH "WIDTH 0.15 ;" ;
+END tap
+
+LAYER nsdm
+  TYPE IMPLANT ;
+  WIDTH 0.38 ;
+  SPACING 0.38 ;
+  AREA 0.265 ;
+END nsdm
+
+LAYER psdm
+  TYPE IMPLANT ;
+  WIDTH 0.38 ;
+  SPACING 0.38 ;
+  AREA 0.255 ;
+END psdm
+
+LAYER poly
+  TYPE MASTERSLICE ;
+END poly
+
+LAYER npc
+  TYPE CUT ;
+  SPACING 0.27 ;
+  WIDTH 0.27 ;
+  ANTENNAMODEL OXIDE1 ;
+END npc
+
+LAYER licon1
+  TYPE MASTERSLICE ;
+  PROPERTY LEF58_TYPE "TYPE MEOL ;" ;
+END licon1
+
+LAYER li1
+  TYPE ROUTING ;
+  DIRECTION HORIZONTAL ;
+  WIDTH 0.17 ;
+  AREA 0.056 ;
+  SPACING 0.17 ;
+  SPACING 0.17 SAMENET ;
+  RESISTANCE RPERSQ 12.2 ;
+  CAPACITANCE CPERSQDIST 3.69e-05 ;
+  THICKNESS 0.1 ;
+  EDGECAPACITANCE 3.26e-06 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNASIDEAREARATIO 75 ;
+    ANTENNADIFFSIDEAREARATIO PWL ( ( 0 75 ) ( 0.0125 75 ) ( 0.0225 85.125 ) ( 22.5 10200 ) ) ;
+END li1
+
+LAYER mcon
+  TYPE CUT ;
+  SPACING 0.19 ;
+  WIDTH 0.17 ;
+  ENCLOSURE BELOW 0 0 ;
+  ENCLOSURE ABOVE 0.03 0.06 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNAAREARATIO 3 ;
+    ANTENNADIFFAREARATIO PWL ( ( 0 3 ) ( 0.0125 3 ) ( 0.0225 3.405 ) ( 22.5 408 ) ) ;
+  DCCURRENTDENSITY AVERAGE 0.36 ;
+END mcon
+
+LAYER met1
+  TYPE ROUTING ;
+  DIRECTION HORIZONTAL ;
+  PITCH 0.28 0.28 ;
+  WIDTH 0.14 ;
+  OFFSET 0.14 0.14 ;
+  AREA 0.083 ;
+  SPACING 0.14 ;
+  SPACING 0.28 RANGE 3.005 10000 ;
+  SPACING 0.14 SAMENET ;
+  SPACING 0.28 RANGE 3.005 10000 INFLUENCE 0.28 ;
+  MAXWIDTH 4 ;
+  MINENCLOSEDAREA 0.14 ;
+  RESISTANCE RPERSQ 0.125 ;
+  CAPACITANCE CPERSQDIST 2.58e-05 ;
+  THICKNESS 0.35 ;
+  EDGECAPACITANCE 1.79e-06 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNASIDEAREARATIO 400 ;
+    ANTENNADIFFSIDEAREARATIO PWL ( ( 0 400 ) ( 0.0125 400 ) ( 0.0225 2609 ) ( 22.5 11600 ) ) ;
+  ACCURRENTDENSITY RMS 6.1 ;
+  DCCURRENTDENSITY AVERAGE 2.8 ;
+END met1
+
+LAYER via
+  TYPE CUT ;
+  SPACING 0.17 ;
+  WIDTH 0.15 ;
+  ENCLOSURE BELOW 0.055 0.085 ;
+  ENCLOSURE ABOVE 0.055 0.085 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNAAREARATIO 6 ;
+    ANTENNADIFFAREARATIO PWL ( ( 0 6 ) ( 0.0125 6 ) ( 0.0225 6.81 ) ( 22.5 816 ) ) ;
+  DCCURRENTDENSITY AVERAGE 0.29 ;
+END via
+
+LAYER met2
+  TYPE ROUTING ;
+  DIRECTION VERTICAL ;
+  PITCH 0.28 0.28 ;
+  WIDTH 0.14 ;
+  OFFSET 0.14 0.14 ;
+  AREA 0.0676 ;
+  SPACING 0.14 ;
+  SPACING 0.28 RANGE 3.005 10000 ;
+  SPACING 0.14 SAMENET ;
+  SPACING 0.28 RANGE 3.005 10000 INFLUENCE 0.28 ;
+  MAXWIDTH 4 ;
+  MINENCLOSEDAREA 0.14 ;
+  RESISTANCE RPERSQ 0.125 ;
+  CAPACITANCE CPERSQDIST 1.75e-05 ;
+  THICKNESS 0.35 ;
+  EDGECAPACITANCE 1.22e-06 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNASIDEAREARATIO 400 ;
+    ANTENNADIFFSIDEAREARATIO PWL ( ( 0 400 ) ( 0.0125 400 ) ( 0.0225 2609 ) ( 22.5 11600 ) ) ;
+  ACCURRENTDENSITY RMS 6.1 ;
+  DCCURRENTDENSITY AVERAGE 2.8 ;
+END met2
+
+LAYER via2
+  TYPE CUT ;
+  SPACING 0.2 ;
+  WIDTH 0.2 ;
+  ENCLOSURE BELOW 0.04 0.085 ;
+  ENCLOSURE ABOVE 0.065 0.065 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNAAREARATIO 6 ;
+    ANTENNADIFFAREARATIO PWL ( ( 0 6 ) ( 0.0125 6 ) ( 0.0225 6.81 ) ( 22.5 816 ) ) ;
+  DCCURRENTDENSITY AVERAGE 0.48 ;
+END via2
+
+LAYER met3
+  TYPE ROUTING ;
+  DIRECTION HORIZONTAL ;
+  PITCH 0.6 0.6 ;
+  WIDTH 0.3 ;
+  OFFSET 0.3 0.3 ;
+  AREA 0.24 ;
+  SPACING 0.3 ;
+  SPACING 0.4 RANGE 3.005 10000 ;
+  SPACING 0.3 SAMENET ;
+  SPACING 0.4 RANGE 3.005 10000 INFLUENCE 0.4 ;
+  MAXWIDTH 4 ;
+  MINENCLOSEDAREA 0.2 ;
+  RESISTANCE RPERSQ 0.047 ;
+  CAPACITANCE CPERSQDIST 1.26e-05 ;
+  THICKNESS 0.8 ;
+  EDGECAPACITANCE 1.86e-06 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNASIDEAREARATIO 400 ;
+    ANTENNADIFFSIDEAREARATIO PWL ( ( 0 400 ) ( 0.0125 400 ) ( 0.0225 2609 ) ( 22.5 11600 ) ) ;
+  ACCURRENTDENSITY RMS 14.9 ;
+  DCCURRENTDENSITY AVERAGE 6.8 ;
+END met3
+
+LAYER via3
+  TYPE CUT ;
+  SPACING 0.2 ;
+  WIDTH 0.2 ;
+  ENCLOSURE BELOW 0.06 0.09 ;
+  ENCLOSURE ABOVE 0.065 0.065 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNAAREARATIO 6 ;
+    ANTENNADIFFAREARATIO PWL ( ( 0 6 ) ( 0.0125 6 ) ( 0.0225 6.81 ) ( 22.5 816 ) ) ;
+  DCCURRENTDENSITY AVERAGE 0.48 ;
+END via3
+
+LAYER met4
+  TYPE ROUTING ;
+  DIRECTION VERTICAL ;
+  PITCH 0.6 0.6 ;
+  WIDTH 0.3 ;
+  OFFSET 0.3 0.3 ;
+  AREA 0.24 ;
+  SPACING 0.3 ;
+  SPACING 0.4 RANGE 3.005 10000 ;
+  SPACING 0.3 SAMENET ;
+  SPACING 0.4 RANGE 3.005 10000 INFLUENCE 0.4 ;
+  MAXWIDTH 10 ;
+  MINENCLOSEDAREA 0.2 ;
+  RESISTANCE RPERSQ 0.047 ;
+  CAPACITANCE CPERSQDIST 8.67e-06 ;
+  THICKNESS 0.8 ;
+  EDGECAPACITANCE 1.29e-06 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNASIDEAREARATIO 400 ;
+    ANTENNADIFFSIDEAREARATIO PWL ( ( 0 400 ) ( 0.0125 400 ) ( 0.0225 2609 ) ( 22.5 11600 ) ) ;
+  ACCURRENTDENSITY RMS 14.9 ;
+  DCCURRENTDENSITY AVERAGE 6.8 ;
+END met4
+
+LAYER via4
+  TYPE CUT ;
+  SPACING 0.8 ;
+  WIDTH 0.8 ;
+  ENCLOSURE BELOW 0.19 0.19 ;
+  ENCLOSURE ABOVE 0.31 0.31 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNAAREARATIO 6 ;
+    ANTENNADIFFAREARATIO PWL ( ( 0 6 ) ( 0.0125 6 ) ( 0.0225 6.81 ) ( 22.5 816 ) ) ;
+  DCCURRENTDENSITY AVERAGE 2.49 ;
+END via4
+
+LAYER met5
+  TYPE ROUTING ;
+  DIRECTION HORIZONTAL ;
+  PITCH 3.2 3.2 ;
+  WIDTH 1.6 ;
+  OFFSET 1.6 1.6 ;
+  AREA 4 ;
+  SPACING 1.6 ;
+  SPACING 1.6 SAMENET ;
+  RESISTANCE RPERSQ 0.0285 ;
+  CAPACITANCE CPERSQDIST 6.48e-06 ;
+  THICKNESS 1.2 ;
+  EDGECAPACITANCE 4.96e-06 ;
+  ANTENNAMODEL OXIDE1 ;
+    ANTENNASIDEAREARATIO 400 ;
+    ANTENNADIFFSIDEAREARATIO PWL ( ( 0 400 ) ( 0.0125 400 ) ( 0.0225 2609 ) ( 22.5 11600 ) ) ;
+  ACCURRENTDENSITY RMS 22.34 ;
+  DCCURRENTDENSITY AVERAGE 10.17 ;
+END met5
+
+LAYER rdl
+  TYPE ROUTING ;
+  DIRECTION HORIZONTAL ;
+  WIDTH 10 ;
+  SPACING 10 ;
+  RESISTANCE RPERSQ 0.005 ;
+  CAPACITANCE CPERSQDIST 2.66e-06 ;
+  THICKNESS 2 ;
+  EDGECAPACITANCE 6.2e-06 ;
+  ANTENNAMODEL OXIDE1 ;
+END rdl
+
+VIARULE M4M5_C GENERATE DEFAULT
+  LAYER met5 ;
+    ENCLOSURE 0.31 0.31 ;
+  LAYER met4 ;
+    ENCLOSURE 0.19 0.19 ;
+  LAYER via4 ;
+    RECT -0.4 -0.4 0.4 0.4 ;
+    SPACING 1.6 BY 1.6 ;
+    RESISTANCE 0.380000 ;
+END M4M5_C
+
+VIARULE M3M4_C GENERATE DEFAULT
+  LAYER met4 ;
+    ENCLOSURE 0.065 0.065 ;
+  LAYER met3 ;
+    ENCLOSURE 0.06 0.09 ;
+  LAYER via3 ;
+    RECT -0.1 -0.1 0.1 0.1 ;
+    SPACING 0.4 BY 0.4 ;
+    RESISTANCE 3.410000 ;
+END M3M4_C
+
+VIARULE M2M3_C GENERATE DEFAULT
+  LAYER met3 ;
+    ENCLOSURE 0.065 0.065 ;
+  LAYER met2 ;
+    ENCLOSURE 0.04 0.085 ;
+  LAYER via2 ;
+    RECT -0.1 -0.1 0.1 0.1 ;
+    SPACING 0.4 BY 0.4 ;
+    RESISTANCE 3.410000 ;
+END M2M3_C
+
+VIARULE M1M2_C GENERATE DEFAULT
+  LAYER met2 ;
+    ENCLOSURE 0.055 0.085 ;
+  LAYER met1 ;
+    ENCLOSURE 0.055 0.085 ;
+  LAYER via ;
+    RECT -0.075 -0.075 0.075 0.075 ;
+    SPACING 0.32 BY 0.32 ;
+    RESISTANCE 4.500000 ;
+END M1M2_C
+
+VIARULE L1M1_C GENERATE DEFAULT
+  LAYER met1 ;
+    ENCLOSURE 0.03 0.06 ;
+  LAYER li1 ;
+    ENCLOSURE 0 0.08 ;
+  LAYER mcon ;
+    RECT -0.085 -0.085 0.085 0.085 ;
+    SPACING 0.36 BY 0.36 ;
+    RESISTANCE 9.300000 ;
+END L1M1_C
+
+VIA L1M1_C_0
+  VIARULE L1M1_C ;
+  CUTSIZE 0.17 0.17 ;
+  LAYERS li1 mcon met1 ;
+  CUTSPACING 0.19 0.19 ;
+  ENCLOSURE 0 0.08 0.03 0.06 ;
+  ROWCOL 1 1 ;
+END L1M1_C_0
+
+VIA L1M1_C_1
+  VIARULE L1M1_C ;
+  CUTSIZE 0.17 0.17 ;
+  LAYERS li1 mcon met1 ;
+  CUTSPACING 0.19 0.19 ;
+  ENCLOSURE 0 0.08 0.03 0.06 ;
+  ROWCOL 1 1 ;
+END L1M1_C_1
+
+VIA M1M2_C_2
+  VIARULE M1M2_C ;
+  CUTSIZE 0.15 0.15 ;
+  LAYERS met1 via met2 ;
+  CUTSPACING 0.17 0.17 ;
+  ENCLOSURE 0.055 0.085 0.055 0.085 ;
+  ROWCOL 1 1 ;
+END M1M2_C_2
+
+VIA M1M2_C_3
+  VIARULE M1M2_C ;
+  CUTSIZE 0.15 0.15 ;
+  LAYERS met1 via met2 ;
+  CUTSPACING 0.17 0.17 ;
+  ENCLOSURE 0.055 0.085 0.055 0.085 ;
+  ROWCOL 1 1 ;
+END M1M2_C_3
+
+VIA L1M1_C_4
+  VIARULE L1M1_C ;
+  CUTSIZE 0.17 0.17 ;
+  LAYERS li1 mcon met1 ;
+  CUTSPACING 0.19 0.19 ;
+  ENCLOSURE 0 0.08 0.045 0.075 ;
+  ROWCOL 1 1 ;
+END L1M1_C_4
+
+MACRO TIA
+  ORIGIN 0 234.115 ;
+  FOREIGN TIA 0 -234.115 ;
+  SIZE 274.69 BY 272.25 ;
+  PIN Iin
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER diff ;
+        RECT 63.93 106.57 64.195 156.57 ;
+      LAYER li1 ;
+        RECT 63.97 106.57 64.14 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 63.915 106.57 64.18 156.57 ;
+      LAYER li1 ;
+        RECT 63.97 106.57 64.14 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 62.77 106.57 63.035 156.57 ;
+      LAYER li1 ;
+        RECT 62.81 106.57 62.98 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 62.755 106.57 63.02 156.57 ;
+      LAYER li1 ;
+        RECT 62.81 106.57 62.98 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 61.61 106.57 61.875 156.57 ;
+      LAYER li1 ;
+        RECT 61.65 106.57 61.82 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 61.595 106.57 61.86 156.57 ;
+      LAYER li1 ;
+        RECT 61.65 106.57 61.82 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 60.45 106.57 60.715 156.57 ;
+      LAYER li1 ;
+        RECT 60.49 106.57 60.66 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 60.435 106.57 60.7 156.57 ;
+      LAYER li1 ;
+        RECT 60.49 106.57 60.66 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 59.29 106.57 59.555 156.57 ;
+      LAYER li1 ;
+        RECT 59.33 106.57 59.5 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 59.275 106.57 59.54 156.57 ;
+      LAYER li1 ;
+        RECT 59.33 106.57 59.5 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 58.34 106.57 58.395 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 58.115 106.57 58.34 156.57 ;
+      LAYER li1 ;
+        RECT 58.17 106.57 58.34 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 57.18 106.57 57.235 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 56.955 106.57 57.18 156.57 ;
+      LAYER li1 ;
+        RECT 57.01 106.57 57.18 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 56.02 106.57 56.075 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 55.795 106.57 56.02 156.57 ;
+      LAYER li1 ;
+        RECT 55.85 106.57 56.02 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 54.86 106.57 54.915 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 54.635 106.57 54.86 156.57 ;
+      LAYER li1 ;
+        RECT 54.69 106.57 54.86 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 53.7 106.57 53.755 156.57 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 53.475 106.57 53.7 156.57 ;
+      LAYER li1 ;
+        RECT 53.53 106.57 53.7 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 87.135 160.13 87.945 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 87.69 160.76 87.955 210.76 ;
+      LAYER li1 ;
+        RECT 87.745 160.76 87.915 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 86.555 160.13 87.365 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 86.545 160.76 86.81 210.76 ;
+      LAYER li1 ;
+        RECT 86.585 160.76 86.755 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 85.975 160.13 86.785 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 86.53 160.76 86.795 210.76 ;
+      LAYER li1 ;
+        RECT 86.585 160.76 86.755 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 85.395 160.13 86.205 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 85.385 160.76 85.65 210.76 ;
+      LAYER li1 ;
+        RECT 85.425 160.76 85.595 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 84.815 160.13 85.625 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 85.37 160.76 85.635 210.76 ;
+      LAYER li1 ;
+        RECT 85.425 160.76 85.595 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 84.235 160.13 85.045 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 84.225 160.76 84.49 210.76 ;
+      LAYER li1 ;
+        RECT 84.265 160.76 84.435 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 83.655 160.13 84.465 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 84.21 160.76 84.475 210.76 ;
+      LAYER li1 ;
+        RECT 84.265 160.76 84.435 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 83.075 160.13 83.885 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 83.065 160.76 83.33 210.76 ;
+      LAYER li1 ;
+        RECT 83.105 160.76 83.275 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 82.495 160.13 83.305 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 83.05 160.76 83.315 210.76 ;
+      LAYER li1 ;
+        RECT 83.105 160.76 83.275 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 81.915 160.13 82.725 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 81.905 160.76 82.17 210.76 ;
+      LAYER li1 ;
+        RECT 81.945 160.76 82.115 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 81.335 160.13 82.145 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 81.89 160.76 82.155 210.76 ;
+      LAYER li1 ;
+        RECT 81.945 160.76 82.115 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 80.755 160.13 81.565 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 80.745 160.76 81.01 210.76 ;
+      LAYER li1 ;
+        RECT 80.785 160.76 80.955 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 80.175 160.13 80.985 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 80.73 160.76 80.995 210.76 ;
+      LAYER li1 ;
+        RECT 80.785 160.76 80.955 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 79.595 160.13 80.405 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 79.585 160.76 79.85 210.76 ;
+      LAYER li1 ;
+        RECT 79.625 160.76 79.795 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 79.015 160.13 79.825 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 79.57 160.76 79.835 210.76 ;
+      LAYER li1 ;
+        RECT 79.625 160.76 79.795 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 78.435 160.13 79.245 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 78.425 160.76 78.69 210.76 ;
+      LAYER li1 ;
+        RECT 78.465 160.76 78.635 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 77.855 160.13 78.665 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 78.41 160.76 78.675 210.76 ;
+      LAYER li1 ;
+        RECT 78.465 160.76 78.635 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 77.275 160.13 78.085 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 77.265 160.76 77.53 210.76 ;
+      LAYER li1 ;
+        RECT 77.305 160.76 77.475 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 76.695 160.13 77.505 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 77.25 160.76 77.515 210.76 ;
+      LAYER li1 ;
+        RECT 77.305 160.76 77.475 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 76.115 160.13 76.925 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 76.105 160.76 76.37 210.76 ;
+      LAYER li1 ;
+        RECT 76.145 160.76 76.315 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 75.535 160.13 76.345 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 76.09 160.76 76.355 210.76 ;
+      LAYER li1 ;
+        RECT 76.145 160.76 76.315 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 74.955 160.13 75.765 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 74.945 160.76 75.21 210.76 ;
+      LAYER li1 ;
+        RECT 74.985 160.76 75.155 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 74.375 160.13 75.185 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 74.93 160.76 75.195 210.76 ;
+      LAYER li1 ;
+        RECT 74.985 160.76 75.155 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 73.795 160.13 74.605 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 73.785 160.76 74.05 210.76 ;
+      LAYER li1 ;
+        RECT 73.825 160.76 73.995 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 73.215 160.13 74.025 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 73.77 160.76 74.035 210.76 ;
+      LAYER li1 ;
+        RECT 73.825 160.76 73.995 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 72.635 160.13 73.445 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 72.625 160.76 72.89 210.76 ;
+      LAYER li1 ;
+        RECT 72.665 160.76 72.835 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 72.055 160.13 72.865 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 72.61 160.76 72.875 210.76 ;
+      LAYER li1 ;
+        RECT 72.665 160.76 72.835 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 71.475 160.13 72.285 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 71.465 160.76 71.73 210.76 ;
+      LAYER li1 ;
+        RECT 71.505 160.76 71.675 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 70.895 160.13 71.705 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 71.45 160.76 71.715 210.76 ;
+      LAYER li1 ;
+        RECT 71.505 160.76 71.675 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 70.315 160.13 71.125 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 70.305 160.76 70.57 210.76 ;
+      LAYER li1 ;
+        RECT 70.345 160.76 70.515 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 69.735 160.13 70.545 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 70.29 160.76 70.555 210.76 ;
+      LAYER li1 ;
+        RECT 70.345 160.76 70.515 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 69.155 160.13 69.965 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 69.145 160.76 69.41 210.76 ;
+      LAYER li1 ;
+        RECT 69.185 160.76 69.355 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 68.575 160.13 69.385 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 69.13 160.76 69.395 210.76 ;
+      LAYER li1 ;
+        RECT 69.185 160.76 69.355 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 67.995 160.13 68.805 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 67.985 160.76 68.25 210.76 ;
+      LAYER li1 ;
+        RECT 68.025 160.76 68.195 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 67.415 160.13 68.225 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 67.97 160.76 68.235 210.76 ;
+      LAYER li1 ;
+        RECT 68.025 160.76 68.195 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 66.835 160.13 67.645 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 66.825 160.76 67.09 210.76 ;
+      LAYER li1 ;
+        RECT 66.865 160.76 67.035 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 66.255 160.13 67.065 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 66.81 160.76 67.075 210.76 ;
+      LAYER li1 ;
+        RECT 66.865 160.76 67.035 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 65.675 160.13 66.485 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 65.665 160.76 65.93 210.76 ;
+      LAYER li1 ;
+        RECT 65.705 160.76 65.875 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 65.095 160.13 65.905 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 65.65 160.76 65.915 210.76 ;
+      LAYER li1 ;
+        RECT 65.705 160.76 65.875 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 64.515 160.13 65.325 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 64.505 160.76 64.77 210.76 ;
+      LAYER li1 ;
+        RECT 64.545 160.76 64.715 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 63.935 160.13 64.745 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 64.49 160.76 64.755 210.76 ;
+      LAYER li1 ;
+        RECT 64.545 160.76 64.715 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 63.355 160.13 64.165 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 63.345 160.76 63.61 210.76 ;
+      LAYER li1 ;
+        RECT 63.385 160.76 63.555 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 62.775 160.13 63.585 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 63.33 160.76 63.595 210.76 ;
+      LAYER li1 ;
+        RECT 63.385 160.76 63.555 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 62.195 160.13 63.005 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 62.185 160.76 62.45 210.76 ;
+      LAYER li1 ;
+        RECT 62.225 160.76 62.395 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 61.615 160.13 62.425 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 62.17 160.76 62.435 210.76 ;
+      LAYER li1 ;
+        RECT 62.225 160.76 62.395 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 61.035 160.13 61.845 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 61.025 160.76 61.29 210.76 ;
+      LAYER li1 ;
+        RECT 61.065 160.76 61.235 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 60.455 160.13 61.265 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 61.01 160.76 61.275 210.76 ;
+      LAYER li1 ;
+        RECT 61.065 160.76 61.235 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 59.875 160.13 60.685 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 59.865 160.76 60.13 210.76 ;
+      LAYER li1 ;
+        RECT 59.905 160.76 60.075 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 59.295 160.13 60.105 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 59.85 160.76 60.115 210.76 ;
+      LAYER li1 ;
+        RECT 59.905 160.76 60.075 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 58.925 160.13 59.525 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 58.915 160.76 58.97 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 58.345 160.13 58.905 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 58.69 160.76 58.915 210.76 ;
+      LAYER li1 ;
+        RECT 58.745 160.76 58.915 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 57.765 160.13 58.325 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 57.755 160.76 57.81 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 57.185 160.13 57.745 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 57.53 160.76 57.755 210.76 ;
+      LAYER li1 ;
+        RECT 57.585 160.76 57.755 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 56.605 160.13 57.165 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 56.595 160.76 56.65 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 56.025 160.13 56.585 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 56.37 160.76 56.595 210.76 ;
+      LAYER li1 ;
+        RECT 56.425 160.76 56.595 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 55.445 160.13 56.005 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 55.435 160.76 55.49 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 54.865 160.13 55.425 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 55.21 160.76 55.435 210.76 ;
+      LAYER li1 ;
+        RECT 55.265 160.76 55.435 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 54.285 160.13 54.845 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 54.275 160.76 54.33 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 53.705 160.13 54.265 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 54.05 160.76 54.275 210.76 ;
+      LAYER li1 ;
+        RECT 54.105 160.76 54.275 210.76 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 52.915 160.13 53.685 160.4 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 52.905 160.76 53.17 210.76 ;
+      LAYER li1 ;
+        RECT 52.945 160.76 53.115 210.76 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 45.845 184.55 46.045 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 45.845 134.305 46.045 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 45.365 184.55 45.565 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 45.365 134.305 45.565 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 44.885 184.55 45.085 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 44.885 134.305 45.085 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 44.405 184.55 44.605 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 44.405 134.305 44.605 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 43.925 184.55 44.125 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 43.925 134.305 44.125 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 43.445 184.55 43.645 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 43.445 134.305 43.645 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 42.005 184.55 42.205 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 42.005 134.305 42.205 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 41.525 184.55 41.725 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 41.525 134.305 41.725 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 41.045 184.55 41.245 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 41.045 134.305 41.245 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 40.565 184.55 40.765 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 40.565 134.305 40.765 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 40.085 184.55 40.285 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 40.085 134.305 40.285 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 39.605 184.55 39.805 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 39.605 134.305 39.805 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 39.125 184.55 39.325 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 39.125 134.305 39.325 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 38.645 184.55 38.845 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 38.645 134.305 38.845 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 38.165 184.55 38.365 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 38.165 134.305 38.365 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 37.685 184.55 37.885 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 37.685 134.305 37.885 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 42.485 184.55 42.685 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 42.485 134.305 42.685 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 42.965 184.55 43.165 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 42.965 134.305 43.165 134.36 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 37.205 184.55 37.405 184.605 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 37.205 134.305 37.405 134.36 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 90.405 160.1 91.145 160.405 ;
+    END
+  END Iin
+  PIN VDD
+    DIRECTION INPUT ;
+    USE POWER ;
+    PORT
+      LAYER met1 ;
+        RECT 25.595 239.475 26.605 239.745 ;
+      LAYER nwell ;
+        RECT 25.405 188.945 26.795 239.935 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 26.35 189.125 26.615 239.125 ;
+      LAYER li1 ;
+        RECT 26.405 189.125 26.575 239.125 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 167.565 190.175 167.83 240.175 ;
+      LAYER li1 ;
+        RECT 167.605 190.175 167.775 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 167.55 190.175 167.815 240.175 ;
+      LAYER li1 ;
+        RECT 167.605 190.175 167.775 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 166.405 190.175 166.67 240.175 ;
+      LAYER li1 ;
+        RECT 166.445 190.175 166.615 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 166.39 190.175 166.655 240.175 ;
+      LAYER li1 ;
+        RECT 166.445 190.175 166.615 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 165.245 190.175 165.51 240.175 ;
+      LAYER li1 ;
+        RECT 165.285 190.175 165.455 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 165.23 190.175 165.495 240.175 ;
+      LAYER li1 ;
+        RECT 165.285 190.175 165.455 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 164.085 190.175 164.35 240.175 ;
+      LAYER li1 ;
+        RECT 164.125 190.175 164.295 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 164.07 190.175 164.335 240.175 ;
+      LAYER li1 ;
+        RECT 164.125 190.175 164.295 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 162.925 190.175 163.19 240.175 ;
+      LAYER li1 ;
+        RECT 162.965 190.175 163.135 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 162.91 190.175 163.175 240.175 ;
+      LAYER li1 ;
+        RECT 162.965 190.175 163.135 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 161.975 190.175 162.03 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 161.75 190.175 161.975 240.175 ;
+      LAYER li1 ;
+        RECT 161.805 190.175 161.975 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 160.815 190.175 160.87 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 160.59 190.175 160.815 240.175 ;
+      LAYER li1 ;
+        RECT 160.645 190.175 160.815 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 159.655 190.175 159.71 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 159.43 190.175 159.655 240.175 ;
+      LAYER li1 ;
+        RECT 159.485 190.175 159.655 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 158.495 190.175 158.55 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 158.27 190.175 158.495 240.175 ;
+      LAYER li1 ;
+        RECT 158.325 190.175 158.495 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 157.335 190.175 157.39 240.175 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 157.11 190.175 157.335 240.175 ;
+      LAYER li1 ;
+        RECT 157.165 190.175 157.335 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 148.03 240.51 148.84 240.78 ;
+      LAYER nwell ;
+        RECT 147.84 189.98 149.03 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 148.585 190.16 148.85 240.16 ;
+      LAYER li1 ;
+        RECT 148.64 190.16 148.81 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 147.45 240.51 148.26 240.78 ;
+      LAYER nwell ;
+        RECT 147.26 189.98 148.45 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 147.44 190.16 147.705 240.16 ;
+      LAYER li1 ;
+        RECT 147.48 190.16 147.65 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 146.87 240.51 147.68 240.78 ;
+      LAYER nwell ;
+        RECT 146.68 189.98 147.87 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 147.425 190.16 147.69 240.16 ;
+      LAYER li1 ;
+        RECT 147.48 190.16 147.65 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 146.29 240.51 147.1 240.78 ;
+      LAYER nwell ;
+        RECT 146.1 189.98 147.29 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 146.28 190.16 146.545 240.16 ;
+      LAYER li1 ;
+        RECT 146.32 190.16 146.49 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 145.71 240.51 146.52 240.78 ;
+      LAYER nwell ;
+        RECT 145.52 189.98 146.71 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 146.265 190.16 146.53 240.16 ;
+      LAYER li1 ;
+        RECT 146.32 190.16 146.49 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 145.13 240.51 145.94 240.78 ;
+      LAYER nwell ;
+        RECT 144.94 189.98 146.13 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 145.12 190.16 145.385 240.16 ;
+      LAYER li1 ;
+        RECT 145.16 190.16 145.33 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 144.55 240.51 145.36 240.78 ;
+      LAYER nwell ;
+        RECT 144.36 189.98 145.55 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 145.105 190.16 145.37 240.16 ;
+      LAYER li1 ;
+        RECT 145.16 190.16 145.33 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 143.97 240.51 144.78 240.78 ;
+      LAYER nwell ;
+        RECT 143.78 189.98 144.97 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 143.96 190.16 144.225 240.16 ;
+      LAYER li1 ;
+        RECT 144 190.16 144.17 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 143.39 240.51 144.2 240.78 ;
+      LAYER nwell ;
+        RECT 143.2 189.98 144.39 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 143.945 190.16 144.21 240.16 ;
+      LAYER li1 ;
+        RECT 144 190.16 144.17 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 142.81 240.51 143.62 240.78 ;
+      LAYER nwell ;
+        RECT 142.62 189.98 143.81 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 142.8 190.16 143.065 240.16 ;
+      LAYER li1 ;
+        RECT 142.84 190.16 143.01 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 142.23 240.51 143.04 240.78 ;
+      LAYER nwell ;
+        RECT 142.04 189.98 143.23 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 142.785 190.16 143.05 240.16 ;
+      LAYER li1 ;
+        RECT 142.84 190.16 143.01 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 141.65 240.51 142.46 240.78 ;
+      LAYER nwell ;
+        RECT 141.46 189.98 142.65 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 141.64 190.16 141.905 240.16 ;
+      LAYER li1 ;
+        RECT 141.68 190.16 141.85 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 141.07 240.51 141.88 240.78 ;
+      LAYER nwell ;
+        RECT 140.88 189.98 142.07 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 141.625 190.16 141.89 240.16 ;
+      LAYER li1 ;
+        RECT 141.68 190.16 141.85 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 140.49 240.51 141.3 240.78 ;
+      LAYER nwell ;
+        RECT 140.3 189.98 141.49 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 140.48 190.16 140.745 240.16 ;
+      LAYER li1 ;
+        RECT 140.52 190.16 140.69 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 139.91 240.51 140.72 240.78 ;
+      LAYER nwell ;
+        RECT 139.72 189.98 140.91 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 140.465 190.16 140.73 240.16 ;
+      LAYER li1 ;
+        RECT 140.52 190.16 140.69 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 139.33 240.51 140.14 240.78 ;
+      LAYER nwell ;
+        RECT 139.14 189.98 140.33 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 139.32 190.16 139.585 240.16 ;
+      LAYER li1 ;
+        RECT 139.36 190.16 139.53 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 138.75 240.51 139.56 240.78 ;
+      LAYER nwell ;
+        RECT 138.56 189.98 139.75 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 139.305 190.16 139.57 240.16 ;
+      LAYER li1 ;
+        RECT 139.36 190.16 139.53 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 138.17 240.51 138.98 240.78 ;
+      LAYER nwell ;
+        RECT 137.98 189.98 139.17 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 138.16 190.16 138.425 240.16 ;
+      LAYER li1 ;
+        RECT 138.2 190.16 138.37 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 137.59 240.51 138.4 240.78 ;
+      LAYER nwell ;
+        RECT 137.4 189.98 138.59 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 138.145 190.16 138.41 240.16 ;
+      LAYER li1 ;
+        RECT 138.2 190.16 138.37 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 137.01 240.51 137.82 240.78 ;
+      LAYER nwell ;
+        RECT 136.82 189.98 138.01 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 137 190.16 137.265 240.16 ;
+      LAYER li1 ;
+        RECT 137.04 190.16 137.21 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 136.43 240.51 137.24 240.78 ;
+      LAYER nwell ;
+        RECT 136.24 189.98 137.43 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 136.985 190.16 137.25 240.16 ;
+      LAYER li1 ;
+        RECT 137.04 190.16 137.21 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 135.85 240.51 136.66 240.78 ;
+      LAYER nwell ;
+        RECT 135.66 189.98 136.85 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 135.84 190.16 136.105 240.16 ;
+      LAYER li1 ;
+        RECT 135.88 190.16 136.05 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 135.27 240.51 136.08 240.78 ;
+      LAYER nwell ;
+        RECT 135.08 189.98 136.27 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 135.825 190.16 136.09 240.16 ;
+      LAYER li1 ;
+        RECT 135.88 190.16 136.05 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 134.69 240.51 135.5 240.78 ;
+      LAYER nwell ;
+        RECT 134.5 189.98 135.69 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 134.68 190.16 134.945 240.16 ;
+      LAYER li1 ;
+        RECT 134.72 190.16 134.89 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 134.11 240.51 134.92 240.78 ;
+      LAYER nwell ;
+        RECT 133.92 189.98 135.11 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 134.665 190.16 134.93 240.16 ;
+      LAYER li1 ;
+        RECT 134.72 190.16 134.89 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 133.53 240.51 134.34 240.78 ;
+      LAYER nwell ;
+        RECT 133.34 189.98 134.53 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 133.52 190.16 133.785 240.16 ;
+      LAYER li1 ;
+        RECT 133.56 190.16 133.73 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 132.95 240.51 133.76 240.78 ;
+      LAYER nwell ;
+        RECT 132.76 189.98 133.95 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 133.505 190.16 133.77 240.16 ;
+      LAYER li1 ;
+        RECT 133.56 190.16 133.73 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 132.37 240.51 133.18 240.78 ;
+      LAYER nwell ;
+        RECT 132.18 189.98 133.37 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 132.36 190.16 132.625 240.16 ;
+      LAYER li1 ;
+        RECT 132.4 190.16 132.57 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 131.79 240.51 132.6 240.78 ;
+      LAYER nwell ;
+        RECT 131.6 189.98 132.79 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 132.345 190.16 132.61 240.16 ;
+      LAYER li1 ;
+        RECT 132.4 190.16 132.57 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 131.21 240.51 132.02 240.78 ;
+      LAYER nwell ;
+        RECT 131.02 189.98 132.21 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 131.2 190.16 131.465 240.16 ;
+      LAYER li1 ;
+        RECT 131.24 190.16 131.41 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 130.63 240.51 131.44 240.78 ;
+      LAYER nwell ;
+        RECT 130.44 189.98 131.63 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 131.185 190.16 131.45 240.16 ;
+      LAYER li1 ;
+        RECT 131.24 190.16 131.41 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 130.05 240.51 130.86 240.78 ;
+      LAYER nwell ;
+        RECT 129.86 189.98 131.05 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 130.04 190.16 130.305 240.16 ;
+      LAYER li1 ;
+        RECT 130.08 190.16 130.25 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 129.47 240.51 130.28 240.78 ;
+      LAYER nwell ;
+        RECT 129.28 189.98 130.47 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 130.025 190.16 130.29 240.16 ;
+      LAYER li1 ;
+        RECT 130.08 190.16 130.25 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 128.89 240.51 129.7 240.78 ;
+      LAYER nwell ;
+        RECT 128.7 189.98 129.89 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 128.88 190.16 129.145 240.16 ;
+      LAYER li1 ;
+        RECT 128.92 190.16 129.09 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 128.31 240.51 129.12 240.78 ;
+      LAYER nwell ;
+        RECT 128.12 189.98 129.31 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 128.865 190.16 129.13 240.16 ;
+      LAYER li1 ;
+        RECT 128.92 190.16 129.09 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 127.73 240.51 128.54 240.78 ;
+      LAYER nwell ;
+        RECT 127.54 189.98 128.73 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 127.72 190.16 127.985 240.16 ;
+      LAYER li1 ;
+        RECT 127.76 190.16 127.93 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 127.15 240.51 127.96 240.78 ;
+      LAYER nwell ;
+        RECT 126.96 189.98 128.15 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 127.705 190.16 127.97 240.16 ;
+      LAYER li1 ;
+        RECT 127.76 190.16 127.93 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 126.57 240.51 127.38 240.78 ;
+      LAYER nwell ;
+        RECT 126.38 189.98 127.57 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 126.56 190.16 126.825 240.16 ;
+      LAYER li1 ;
+        RECT 126.6 190.16 126.77 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 125.99 240.51 126.8 240.78 ;
+      LAYER nwell ;
+        RECT 125.8 189.98 126.99 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 126.545 190.16 126.81 240.16 ;
+      LAYER li1 ;
+        RECT 126.6 190.16 126.77 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 125.41 240.51 126.22 240.78 ;
+      LAYER nwell ;
+        RECT 125.22 189.98 126.41 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 125.4 190.16 125.665 240.16 ;
+      LAYER li1 ;
+        RECT 125.44 190.16 125.61 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 124.83 240.51 125.64 240.78 ;
+      LAYER nwell ;
+        RECT 124.64 189.98 125.83 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 125.385 190.16 125.65 240.16 ;
+      LAYER li1 ;
+        RECT 125.44 190.16 125.61 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 124.25 240.51 125.06 240.78 ;
+      LAYER nwell ;
+        RECT 124.06 189.98 125.25 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 124.24 190.16 124.505 240.16 ;
+      LAYER li1 ;
+        RECT 124.28 190.16 124.45 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 123.67 240.51 124.48 240.78 ;
+      LAYER nwell ;
+        RECT 123.48 189.98 124.67 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 124.225 190.16 124.49 240.16 ;
+      LAYER li1 ;
+        RECT 124.28 190.16 124.45 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 123.09 240.51 123.9 240.78 ;
+      LAYER nwell ;
+        RECT 122.9 189.98 124.09 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 123.08 190.16 123.345 240.16 ;
+      LAYER li1 ;
+        RECT 123.12 190.16 123.29 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 122.51 240.51 123.32 240.78 ;
+      LAYER nwell ;
+        RECT 122.32 189.98 123.51 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 123.065 190.16 123.33 240.16 ;
+      LAYER li1 ;
+        RECT 123.12 190.16 123.29 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 121.93 240.51 122.74 240.78 ;
+      LAYER nwell ;
+        RECT 121.74 189.98 122.93 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 121.92 190.16 122.185 240.16 ;
+      LAYER li1 ;
+        RECT 121.96 190.16 122.13 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 121.35 240.51 122.16 240.78 ;
+      LAYER nwell ;
+        RECT 121.16 189.98 122.35 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 121.905 190.16 122.17 240.16 ;
+      LAYER li1 ;
+        RECT 121.96 190.16 122.13 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 120.77 240.51 121.58 240.78 ;
+      LAYER nwell ;
+        RECT 120.58 189.98 121.77 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 120.76 190.16 121.025 240.16 ;
+      LAYER li1 ;
+        RECT 120.8 190.16 120.97 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 120.19 240.51 121 240.78 ;
+      LAYER nwell ;
+        RECT 120 189.98 121.19 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 120.745 190.16 121.01 240.16 ;
+      LAYER li1 ;
+        RECT 120.8 190.16 120.97 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 119.61 240.51 120.42 240.78 ;
+      LAYER nwell ;
+        RECT 119.42 189.98 120.61 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 119.6 190.16 119.865 240.16 ;
+      LAYER li1 ;
+        RECT 119.64 190.16 119.81 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 119.03 240.51 119.84 240.78 ;
+      LAYER nwell ;
+        RECT 118.84 189.98 120.03 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 119.585 190.16 119.85 240.16 ;
+      LAYER li1 ;
+        RECT 119.64 190.16 119.81 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 118.45 240.51 119.26 240.78 ;
+      LAYER nwell ;
+        RECT 118.26 189.98 119.45 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 118.44 190.16 118.705 240.16 ;
+      LAYER li1 ;
+        RECT 118.48 190.16 118.65 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 117.87 240.51 118.68 240.78 ;
+      LAYER nwell ;
+        RECT 117.68 189.98 118.87 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 118.425 190.16 118.69 240.16 ;
+      LAYER li1 ;
+        RECT 118.48 190.16 118.65 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 117.29 240.51 118.1 240.78 ;
+      LAYER nwell ;
+        RECT 117.1 189.98 118.29 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 117.28 190.16 117.545 240.16 ;
+      LAYER li1 ;
+        RECT 117.32 190.16 117.49 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 116.71 240.51 117.52 240.78 ;
+      LAYER nwell ;
+        RECT 116.52 189.98 117.71 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 117.265 190.16 117.53 240.16 ;
+      LAYER li1 ;
+        RECT 117.32 190.16 117.49 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 116.13 240.51 116.94 240.78 ;
+      LAYER nwell ;
+        RECT 115.94 189.98 117.13 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 116.12 190.16 116.385 240.16 ;
+      LAYER li1 ;
+        RECT 116.16 190.16 116.33 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 115.55 240.51 116.36 240.78 ;
+      LAYER nwell ;
+        RECT 115.36 189.98 116.55 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 116.105 190.16 116.37 240.16 ;
+      LAYER li1 ;
+        RECT 116.16 190.16 116.33 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 114.97 240.51 115.78 240.78 ;
+      LAYER nwell ;
+        RECT 114.78 189.98 115.97 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 114.96 190.16 115.225 240.16 ;
+      LAYER li1 ;
+        RECT 115 190.16 115.17 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 114.39 240.51 115.2 240.78 ;
+      LAYER nwell ;
+        RECT 114.2 189.98 115.39 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 114.945 190.16 115.21 240.16 ;
+      LAYER li1 ;
+        RECT 115 190.16 115.17 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 113.81 240.51 114.62 240.78 ;
+      LAYER nwell ;
+        RECT 113.62 189.98 114.81 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 113.8 190.16 114.065 240.16 ;
+      LAYER li1 ;
+        RECT 113.84 190.16 114.01 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 113.23 240.51 114.04 240.78 ;
+      LAYER nwell ;
+        RECT 113.04 189.98 114.23 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 113.785 190.16 114.05 240.16 ;
+      LAYER li1 ;
+        RECT 113.84 190.16 114.01 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 112.65 240.51 113.46 240.78 ;
+      LAYER nwell ;
+        RECT 112.46 189.98 113.65 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 112.64 190.16 112.905 240.16 ;
+      LAYER li1 ;
+        RECT 112.68 190.16 112.85 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 112.07 240.51 112.88 240.78 ;
+      LAYER nwell ;
+        RECT 111.88 189.98 113.07 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 112.625 190.16 112.89 240.16 ;
+      LAYER li1 ;
+        RECT 112.68 190.16 112.85 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 111.49 240.51 112.3 240.78 ;
+      LAYER nwell ;
+        RECT 111.3 189.98 112.49 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 111.48 190.16 111.745 240.16 ;
+      LAYER li1 ;
+        RECT 111.52 190.16 111.69 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 110.91 240.51 111.72 240.78 ;
+      LAYER nwell ;
+        RECT 110.72 189.98 111.91 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 111.465 190.16 111.73 240.16 ;
+      LAYER li1 ;
+        RECT 111.52 190.16 111.69 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 110.33 240.51 111.14 240.78 ;
+      LAYER nwell ;
+        RECT 110.14 189.98 111.33 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 110.32 190.16 110.585 240.16 ;
+      LAYER li1 ;
+        RECT 110.36 190.16 110.53 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 109.75 240.51 110.56 240.78 ;
+      LAYER nwell ;
+        RECT 109.56 189.98 110.75 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 110.305 190.16 110.57 240.16 ;
+      LAYER li1 ;
+        RECT 110.36 190.16 110.53 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 109.17 240.51 109.98 240.78 ;
+      LAYER nwell ;
+        RECT 108.98 189.98 110.17 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 109.16 190.16 109.425 240.16 ;
+      LAYER li1 ;
+        RECT 109.2 190.16 109.37 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 108.59 240.51 109.4 240.78 ;
+      LAYER nwell ;
+        RECT 108.4 189.98 109.59 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 109.145 190.16 109.41 240.16 ;
+      LAYER li1 ;
+        RECT 109.2 190.16 109.37 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 108.01 240.51 108.82 240.78 ;
+      LAYER nwell ;
+        RECT 107.82 189.98 109.01 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 108 190.16 108.265 240.16 ;
+      LAYER li1 ;
+        RECT 108.04 190.16 108.21 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 107.43 240.51 108.24 240.78 ;
+      LAYER nwell ;
+        RECT 107.24 189.98 108.43 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 107.985 190.16 108.25 240.16 ;
+      LAYER li1 ;
+        RECT 108.04 190.16 108.21 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 107.06 240.51 107.66 240.78 ;
+      LAYER nwell ;
+        RECT 106.87 189.98 107.85 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 107.05 190.16 107.105 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 106.48 240.51 107.04 240.78 ;
+      LAYER nwell ;
+        RECT 106.29 189.98 107.23 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 106.825 190.16 107.05 240.16 ;
+      LAYER li1 ;
+        RECT 106.88 190.16 107.05 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 105.9 240.51 106.46 240.78 ;
+      LAYER nwell ;
+        RECT 105.71 189.98 106.65 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 105.89 190.16 105.945 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 105.32 240.51 105.88 240.78 ;
+      LAYER nwell ;
+        RECT 105.13 189.98 106.07 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 105.665 190.16 105.89 240.16 ;
+      LAYER li1 ;
+        RECT 105.72 190.16 105.89 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 104.74 240.51 105.3 240.78 ;
+      LAYER nwell ;
+        RECT 104.55 189.98 105.49 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 104.73 190.16 104.785 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 104.16 240.51 104.72 240.78 ;
+      LAYER nwell ;
+        RECT 103.97 189.98 104.91 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 104.505 190.16 104.73 240.16 ;
+      LAYER li1 ;
+        RECT 104.56 190.16 104.73 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 103.58 240.51 104.14 240.78 ;
+      LAYER nwell ;
+        RECT 103.39 189.98 104.33 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 103.57 190.16 103.625 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 103 240.51 103.56 240.78 ;
+      LAYER nwell ;
+        RECT 102.81 189.98 103.75 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 103.345 190.16 103.57 240.16 ;
+      LAYER li1 ;
+        RECT 103.4 190.16 103.57 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 102.21 240.51 102.98 240.78 ;
+      LAYER nwell ;
+        RECT 102.02 189.98 103.17 240.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 102.2 190.16 102.465 240.16 ;
+      LAYER li1 ;
+        RECT 102.24 190.16 102.41 240.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 47.54 239.51 48.35 239.78 ;
+      LAYER nwell ;
+        RECT 47.35 188.98 48.54 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 48.095 189.16 48.36 239.16 ;
+      LAYER li1 ;
+        RECT 48.15 189.16 48.32 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 46.96 239.51 47.77 239.78 ;
+      LAYER nwell ;
+        RECT 46.77 188.98 47.96 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 46.95 189.16 47.215 239.16 ;
+      LAYER li1 ;
+        RECT 46.99 189.16 47.16 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 46.38 239.51 47.19 239.78 ;
+      LAYER nwell ;
+        RECT 46.19 188.98 47.38 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 46.935 189.16 47.2 239.16 ;
+      LAYER li1 ;
+        RECT 46.99 189.16 47.16 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 45.8 239.51 46.61 239.78 ;
+      LAYER nwell ;
+        RECT 45.61 188.98 46.8 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 45.79 189.16 46.055 239.16 ;
+      LAYER li1 ;
+        RECT 45.83 189.16 46 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 45.22 239.51 46.03 239.78 ;
+      LAYER nwell ;
+        RECT 45.03 188.98 46.22 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 45.775 189.16 46.04 239.16 ;
+      LAYER li1 ;
+        RECT 45.83 189.16 46 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 44.64 239.51 45.45 239.78 ;
+      LAYER nwell ;
+        RECT 44.45 188.98 45.64 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 44.63 189.16 44.895 239.16 ;
+      LAYER li1 ;
+        RECT 44.67 189.16 44.84 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 44.06 239.51 44.87 239.78 ;
+      LAYER nwell ;
+        RECT 43.87 188.98 45.06 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 44.615 189.16 44.88 239.16 ;
+      LAYER li1 ;
+        RECT 44.67 189.16 44.84 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 43.48 239.51 44.29 239.78 ;
+      LAYER nwell ;
+        RECT 43.29 188.98 44.48 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 43.47 189.16 43.735 239.16 ;
+      LAYER li1 ;
+        RECT 43.51 189.16 43.68 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 42.9 239.51 43.71 239.78 ;
+      LAYER nwell ;
+        RECT 42.71 188.98 43.9 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 43.455 189.16 43.72 239.16 ;
+      LAYER li1 ;
+        RECT 43.51 189.16 43.68 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 42.53 239.51 43.13 239.78 ;
+      LAYER nwell ;
+        RECT 42.34 188.98 43.32 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 42.52 189.16 42.575 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 41.95 239.51 42.51 239.78 ;
+      LAYER nwell ;
+        RECT 41.76 188.98 42.7 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 42.295 189.16 42.52 239.16 ;
+      LAYER li1 ;
+        RECT 42.35 189.16 42.52 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 41.37 239.51 41.93 239.78 ;
+      LAYER nwell ;
+        RECT 41.18 188.98 42.12 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 41.36 189.16 41.415 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 40.79 239.51 41.35 239.78 ;
+      LAYER nwell ;
+        RECT 40.6 188.98 41.54 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 41.135 189.16 41.36 239.16 ;
+      LAYER li1 ;
+        RECT 41.19 189.16 41.36 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 40.21 239.51 40.77 239.78 ;
+      LAYER nwell ;
+        RECT 40.02 188.98 40.96 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 40.2 189.16 40.255 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 39.63 239.51 40.19 239.78 ;
+      LAYER nwell ;
+        RECT 39.44 188.98 40.38 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 39.975 189.16 40.2 239.16 ;
+      LAYER li1 ;
+        RECT 40.03 189.16 40.2 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 39.05 239.51 39.61 239.78 ;
+      LAYER nwell ;
+        RECT 38.86 188.98 39.8 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 39.04 189.16 39.095 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 38.47 239.51 39.03 239.78 ;
+      LAYER nwell ;
+        RECT 38.28 188.98 39.22 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 38.815 189.16 39.04 239.16 ;
+      LAYER li1 ;
+        RECT 38.87 189.16 39.04 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 37.89 239.51 38.45 239.78 ;
+      LAYER nwell ;
+        RECT 37.7 188.98 38.64 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 37.88 189.16 37.935 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 37.31 239.51 37.87 239.78 ;
+      LAYER nwell ;
+        RECT 37.12 188.98 38.06 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 37.655 189.16 37.88 239.16 ;
+      LAYER li1 ;
+        RECT 37.71 189.16 37.88 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 36.52 239.51 37.29 239.78 ;
+      LAYER nwell ;
+        RECT 36.33 188.98 37.48 239.97 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 36.51 189.16 36.775 239.16 ;
+      LAYER li1 ;
+        RECT 36.55 189.16 36.72 239.16 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 4.65 182.765 5.335 183.055 ;
+    END
+  END VDD
+  PIN GND
+    DIRECTION INPUT ;
+    USE GROUND ;
+    PORT
+      LAYER met1 ;
+        RECT 63.94 105.94 64.75 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 64.495 106.57 64.76 156.57 ;
+      LAYER li1 ;
+        RECT 64.55 106.57 64.72 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 63.36 105.94 64.17 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 63.35 106.57 63.615 156.57 ;
+      LAYER li1 ;
+        RECT 63.39 106.57 63.56 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 62.78 105.94 63.59 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 63.335 106.57 63.6 156.57 ;
+      LAYER li1 ;
+        RECT 63.39 106.57 63.56 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 62.2 105.94 63.01 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 62.19 106.57 62.455 156.57 ;
+      LAYER li1 ;
+        RECT 62.23 106.57 62.4 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 61.62 105.94 62.43 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 62.175 106.57 62.44 156.57 ;
+      LAYER li1 ;
+        RECT 62.23 106.57 62.4 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 61.04 105.94 61.85 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 61.03 106.57 61.295 156.57 ;
+      LAYER li1 ;
+        RECT 61.07 106.57 61.24 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 60.46 105.94 61.27 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 61.015 106.57 61.28 156.57 ;
+      LAYER li1 ;
+        RECT 61.07 106.57 61.24 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 59.88 105.94 60.69 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 59.87 106.57 60.135 156.57 ;
+      LAYER li1 ;
+        RECT 59.91 106.57 60.08 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 59.3 105.94 60.11 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 59.855 106.57 60.12 156.57 ;
+      LAYER li1 ;
+        RECT 59.91 106.57 60.08 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 58.93 105.94 59.53 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 58.92 106.57 58.975 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 58.35 105.94 58.91 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 58.695 106.57 58.92 156.57 ;
+      LAYER li1 ;
+        RECT 58.75 106.57 58.92 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 57.77 105.94 58.33 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 57.76 106.57 57.815 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 57.19 105.94 57.75 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 57.535 106.57 57.76 156.57 ;
+      LAYER li1 ;
+        RECT 57.59 106.57 57.76 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 56.61 105.94 57.17 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 56.6 106.57 56.655 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 56.03 105.94 56.59 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 56.375 106.57 56.6 156.57 ;
+      LAYER li1 ;
+        RECT 56.43 106.57 56.6 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 55.45 105.94 56.01 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 55.44 106.57 55.495 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 54.87 105.94 55.43 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 55.215 106.57 55.44 156.57 ;
+      LAYER li1 ;
+        RECT 55.27 106.57 55.44 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 54.29 105.94 54.85 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 54.28 106.57 54.335 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 53.71 105.94 54.27 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 54.055 106.57 54.28 156.57 ;
+      LAYER li1 ;
+        RECT 54.11 106.57 54.28 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 52.92 105.94 53.69 106.21 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 52.91 106.57 53.175 156.57 ;
+      LAYER li1 ;
+        RECT 52.95 106.57 53.12 156.57 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 21.74 124.255 22.55 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 22.295 124.885 22.56 174.885 ;
+      LAYER li1 ;
+        RECT 22.35 124.885 22.52 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 21.37 124.255 21.97 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 21.36 124.885 21.415 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 20.79 124.255 21.35 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 21.135 124.885 21.36 174.885 ;
+      LAYER li1 ;
+        RECT 21.19 124.885 21.36 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 20.21 124.255 20.77 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 20.2 124.885 20.255 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 19.63 124.255 20.19 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 19.975 124.885 20.2 174.885 ;
+      LAYER li1 ;
+        RECT 20.03 124.885 20.2 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 19.05 124.255 19.61 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 19.04 124.885 19.095 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 18.47 124.255 19.03 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 18.815 124.885 19.04 174.885 ;
+      LAYER li1 ;
+        RECT 18.87 124.885 19.04 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 17.89 124.255 18.45 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 17.88 124.885 17.935 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 17.31 124.255 17.87 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 17.655 124.885 17.88 174.885 ;
+      LAYER li1 ;
+        RECT 17.71 124.885 17.88 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 16.52 124.255 17.29 124.525 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 16.51 124.885 16.775 174.885 ;
+      LAYER li1 ;
+        RECT 16.55 124.885 16.72 174.885 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 45.59 133.825 46.3 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 45.58 134.455 45.845 184.455 ;
+      LAYER li1 ;
+        RECT 45.62 134.455 45.79 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 45.11 133.825 45.82 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 45.565 134.455 45.83 184.455 ;
+      LAYER li1 ;
+        RECT 45.62 134.455 45.79 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 44.63 133.825 45.34 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 44.62 134.455 44.885 184.455 ;
+      LAYER li1 ;
+        RECT 44.66 134.455 44.83 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 44.15 133.825 44.86 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 44.605 134.455 44.87 184.455 ;
+      LAYER li1 ;
+        RECT 44.66 134.455 44.83 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 43.67 133.825 44.38 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 43.66 134.455 43.925 184.455 ;
+      LAYER li1 ;
+        RECT 43.7 134.455 43.87 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 43.19 133.825 43.9 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 43.645 134.455 43.91 184.455 ;
+      LAYER li1 ;
+        RECT 43.7 134.455 43.87 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 41.75 133.825 42.46 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 41.74 134.455 42.005 184.455 ;
+      LAYER li1 ;
+        RECT 41.78 134.455 41.95 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 41.48 133.825 41.98 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 41.725 134.455 41.99 184.455 ;
+      LAYER li1 ;
+        RECT 41.78 134.455 41.95 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 41 133.825 41.46 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 40.99 134.455 41.045 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 40.52 133.825 40.98 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 40.765 134.455 40.99 184.455 ;
+      LAYER li1 ;
+        RECT 40.82 134.455 40.99 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 40.04 133.825 40.5 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 40.03 134.455 40.085 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 39.56 133.825 40.02 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 39.805 134.455 40.03 184.455 ;
+      LAYER li1 ;
+        RECT 39.86 134.455 40.03 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 39.08 133.825 39.54 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 39.07 134.455 39.125 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 38.6 133.825 39.06 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 38.845 134.455 39.07 184.455 ;
+      LAYER li1 ;
+        RECT 38.9 134.455 39.07 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 38.12 133.825 38.58 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 38.11 134.455 38.165 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 37.64 133.825 38.1 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 37.885 134.455 38.11 184.455 ;
+      LAYER li1 ;
+        RECT 37.94 134.455 38.11 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 42.23 133.825 42.94 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 42.685 134.455 42.95 184.455 ;
+      LAYER li1 ;
+        RECT 42.74 134.455 42.91 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 42.71 133.825 43.42 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 42.7 134.455 42.965 184.455 ;
+      LAYER li1 ;
+        RECT 42.74 134.455 42.91 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 36.95 133.825 37.62 134.095 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 36.94 134.455 37.205 184.455 ;
+      LAYER li1 ;
+        RECT 36.98 134.455 37.15 184.455 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 2.69 175.82 3.58 176.055 ;
+    END
+  END GND
+  PIN Bias
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met1 ;
+        RECT 73.49 264.34 73.875 264.64 ;
+    END
+  END Bias
+  PIN Vout
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met1 ;
+        RECT 167.575 189.545 168.385 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 168.13 190.175 168.395 240.175 ;
+      LAYER li1 ;
+        RECT 168.185 190.175 168.355 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 166.995 189.545 167.805 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 166.985 190.175 167.25 240.175 ;
+      LAYER li1 ;
+        RECT 167.025 190.175 167.195 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 166.415 189.545 167.225 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 166.97 190.175 167.235 240.175 ;
+      LAYER li1 ;
+        RECT 167.025 190.175 167.195 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 165.835 189.545 166.645 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 165.825 190.175 166.09 240.175 ;
+      LAYER li1 ;
+        RECT 165.865 190.175 166.035 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 165.255 189.545 166.065 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 165.81 190.175 166.075 240.175 ;
+      LAYER li1 ;
+        RECT 165.865 190.175 166.035 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 164.675 189.545 165.485 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 164.665 190.175 164.93 240.175 ;
+      LAYER li1 ;
+        RECT 164.705 190.175 164.875 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 164.095 189.545 164.905 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 164.65 190.175 164.915 240.175 ;
+      LAYER li1 ;
+        RECT 164.705 190.175 164.875 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 163.515 189.545 164.325 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 163.505 190.175 163.77 240.175 ;
+      LAYER li1 ;
+        RECT 163.545 190.175 163.715 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 162.935 189.545 163.745 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 163.49 190.175 163.755 240.175 ;
+      LAYER li1 ;
+        RECT 163.545 190.175 163.715 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 162.355 189.545 163.165 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 162.345 190.175 162.61 240.175 ;
+      LAYER li1 ;
+        RECT 162.385 190.175 162.555 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 161.985 189.545 162.585 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 162.33 190.175 162.595 240.175 ;
+      LAYER li1 ;
+        RECT 162.385 190.175 162.555 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 161.405 189.545 161.965 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 161.395 190.175 161.45 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 160.825 189.545 161.385 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 161.17 190.175 161.395 240.175 ;
+      LAYER li1 ;
+        RECT 161.225 190.175 161.395 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 160.245 189.545 160.805 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 160.235 190.175 160.29 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 159.665 189.545 160.225 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 160.01 190.175 160.235 240.175 ;
+      LAYER li1 ;
+        RECT 160.065 190.175 160.235 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 159.085 189.545 159.645 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 159.075 190.175 159.13 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 158.505 189.545 159.065 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 158.85 190.175 159.075 240.175 ;
+      LAYER li1 ;
+        RECT 158.905 190.175 159.075 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 157.925 189.545 158.485 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 157.915 190.175 157.97 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 157.345 189.545 157.905 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 157.69 190.175 157.915 240.175 ;
+      LAYER li1 ;
+        RECT 157.745 190.175 157.915 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 156.555 189.545 157.325 189.815 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 156.545 190.175 156.81 240.175 ;
+      LAYER li1 ;
+        RECT 156.585 190.175 156.755 240.175 ;
+    END
+    PORT
+      LAYER met1 ;
+        RECT 163.69 187.925 165.045 188.565 ;
+    END
+  END Vout
+  PIN net11
+    USE SIGNAL ;
+    PORT
+      LAYER poly ;
+        RECT 87.39 210.855 87.69 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 87.39 160.61 87.69 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 86.81 210.855 87.11 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 86.81 160.61 87.11 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 86.23 210.855 86.53 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 86.23 160.61 86.53 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 85.65 210.855 85.95 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 85.65 160.61 85.95 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 85.07 210.855 85.37 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 85.07 160.61 85.37 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 84.49 210.855 84.79 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 84.49 160.61 84.79 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 83.91 210.855 84.21 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 83.91 160.61 84.21 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 83.33 210.855 83.63 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 83.33 160.61 83.63 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 82.75 210.855 83.05 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 82.75 160.61 83.05 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 82.17 210.855 82.47 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 82.17 160.61 82.47 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 81.59 210.855 81.89 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 81.59 160.61 81.89 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 81.01 210.855 81.31 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 81.01 160.61 81.31 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 80.43 210.855 80.73 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 80.43 160.61 80.73 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 79.85 210.855 80.15 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 79.85 160.61 80.15 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 79.27 210.855 79.57 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 79.27 160.61 79.57 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 78.69 210.855 78.99 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 78.69 160.61 78.99 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 78.11 210.855 78.41 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 78.11 160.61 78.41 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 77.53 210.855 77.83 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 77.53 160.61 77.83 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 76.95 210.855 77.25 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 76.95 160.61 77.25 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 76.37 210.855 76.67 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 76.37 160.61 76.67 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 75.79 210.855 76.09 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 75.79 160.61 76.09 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 75.21 210.855 75.51 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 75.21 160.61 75.51 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 74.63 210.855 74.93 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 74.63 160.61 74.93 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 74.05 210.855 74.35 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 74.05 160.61 74.35 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 73.47 210.855 73.77 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 73.47 160.61 73.77 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 72.89 210.855 73.19 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 72.89 160.61 73.19 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 72.31 210.855 72.61 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 72.31 160.61 72.61 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 71.73 210.855 72.03 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 71.73 160.61 72.03 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 71.15 210.855 71.45 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 71.15 160.61 71.45 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 70.57 210.855 70.87 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 70.57 160.61 70.87 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 69.99 210.855 70.29 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 69.99 160.61 70.29 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 69.41 210.855 69.71 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 69.41 160.61 69.71 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 68.83 210.855 69.13 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 68.83 160.61 69.13 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 68.25 210.855 68.55 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 68.25 160.61 68.55 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 67.67 210.855 67.97 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 67.67 160.61 67.97 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 67.09 210.855 67.39 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 67.09 160.61 67.39 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 66.51 210.855 66.81 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 66.51 160.61 66.81 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 65.93 210.855 66.23 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 65.93 160.61 66.23 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 65.35 210.855 65.65 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 65.35 160.61 65.65 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 64.77 210.855 65.07 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 64.77 160.61 65.07 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 64.19 210.855 64.49 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 64.19 160.61 64.49 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 63.61 210.855 63.91 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 63.61 160.61 63.91 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 63.03 210.855 63.33 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 63.03 160.61 63.33 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 62.45 210.855 62.75 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 62.45 160.61 62.75 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 61.87 210.855 62.17 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 61.87 160.61 62.17 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 61.29 210.855 61.59 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 61.29 160.61 61.59 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 60.71 210.855 61.01 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 60.71 160.61 61.01 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 60.13 210.855 60.43 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 60.13 160.61 60.43 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 59.55 210.855 59.85 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 59.55 160.61 59.85 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 58.97 210.855 59.27 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 58.97 160.61 59.27 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 58.39 210.855 58.69 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 58.39 160.61 58.69 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 57.81 210.855 58.11 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 57.81 160.61 58.11 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 57.23 210.855 57.53 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 57.23 160.61 57.53 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 56.65 210.855 56.95 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 56.65 160.61 56.95 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 56.07 210.855 56.37 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 56.07 160.61 56.37 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 55.49 210.855 55.79 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 55.49 160.61 55.79 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 54.91 210.855 55.21 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 54.91 160.61 55.21 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 54.33 210.855 54.63 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 54.33 160.61 54.63 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 53.75 210.855 54.05 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 53.75 160.61 54.05 160.665 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 53.17 210.855 53.47 210.91 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 53.17 160.61 53.47 160.665 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 47.53 189.16 47.795 239.16 ;
+      LAYER li1 ;
+        RECT 47.57 189.16 47.74 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 47.515 189.16 47.78 239.16 ;
+      LAYER li1 ;
+        RECT 47.57 189.16 47.74 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 46.37 189.16 46.635 239.16 ;
+      LAYER li1 ;
+        RECT 46.41 189.16 46.58 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 46.355 189.16 46.62 239.16 ;
+      LAYER li1 ;
+        RECT 46.41 189.16 46.58 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 45.21 189.16 45.475 239.16 ;
+      LAYER li1 ;
+        RECT 45.25 189.16 45.42 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 45.195 189.16 45.46 239.16 ;
+      LAYER li1 ;
+        RECT 45.25 189.16 45.42 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 44.05 189.16 44.315 239.16 ;
+      LAYER li1 ;
+        RECT 44.09 189.16 44.26 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 44.035 189.16 44.3 239.16 ;
+      LAYER li1 ;
+        RECT 44.09 189.16 44.26 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 42.89 189.16 43.155 239.16 ;
+      LAYER li1 ;
+        RECT 42.93 189.16 43.1 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 42.875 189.16 43.14 239.16 ;
+      LAYER li1 ;
+        RECT 42.93 189.16 43.1 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 41.94 189.16 41.995 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 41.715 189.16 41.94 239.16 ;
+      LAYER li1 ;
+        RECT 41.77 189.16 41.94 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 40.78 189.16 40.835 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 40.555 189.16 40.78 239.16 ;
+      LAYER li1 ;
+        RECT 40.61 189.16 40.78 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 39.62 189.16 39.675 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 39.395 189.16 39.62 239.16 ;
+      LAYER li1 ;
+        RECT 39.45 189.16 39.62 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 38.46 189.16 38.515 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 38.235 189.16 38.46 239.16 ;
+      LAYER li1 ;
+        RECT 38.29 189.16 38.46 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 37.3 189.16 37.355 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 37.075 189.16 37.3 239.16 ;
+      LAYER li1 ;
+        RECT 37.13 189.16 37.3 239.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 46.045 134.455 46.31 184.455 ;
+      LAYER li1 ;
+        RECT 46.1 134.455 46.27 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 45.1 134.455 45.365 184.455 ;
+      LAYER li1 ;
+        RECT 45.14 134.455 45.31 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 45.085 134.455 45.35 184.455 ;
+      LAYER li1 ;
+        RECT 45.14 134.455 45.31 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 44.14 134.455 44.405 184.455 ;
+      LAYER li1 ;
+        RECT 44.18 134.455 44.35 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 44.125 134.455 44.39 184.455 ;
+      LAYER li1 ;
+        RECT 44.18 134.455 44.35 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 43.18 134.455 43.445 184.455 ;
+      LAYER li1 ;
+        RECT 43.22 134.455 43.39 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 42.205 134.455 42.47 184.455 ;
+      LAYER li1 ;
+        RECT 42.26 134.455 42.43 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 41.47 134.455 41.525 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 41.245 134.455 41.47 184.455 ;
+      LAYER li1 ;
+        RECT 41.3 134.455 41.47 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 40.51 134.455 40.565 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 40.285 134.455 40.51 184.455 ;
+      LAYER li1 ;
+        RECT 40.34 134.455 40.51 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 39.55 134.455 39.605 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 39.325 134.455 39.55 184.455 ;
+      LAYER li1 ;
+        RECT 39.38 134.455 39.55 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 38.59 134.455 38.645 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 38.365 134.455 38.59 184.455 ;
+      LAYER li1 ;
+        RECT 38.42 134.455 38.59 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 37.63 134.455 37.685 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 42.22 134.455 42.485 184.455 ;
+      LAYER li1 ;
+        RECT 42.26 134.455 42.43 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 43.165 134.455 43.43 184.455 ;
+      LAYER li1 ;
+        RECT 43.22 134.455 43.39 184.455 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 37.405 134.455 37.63 184.455 ;
+      LAYER li1 ;
+        RECT 37.46 134.455 37.63 184.455 ;
+    END
+  END net11
+  PIN net5
+    USE SIGNAL ;
+    PORT
+      LAYER poly ;
+        RECT 25.85 239.22 26.35 239.275 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 25.85 188.975 26.35 189.03 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 25.585 189.125 25.85 239.125 ;
+      LAYER li1 ;
+        RECT 25.625 189.125 25.795 239.125 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 47.795 239.255 48.095 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 47.795 189.01 48.095 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 47.215 239.255 47.515 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 47.215 189.01 47.515 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 46.635 239.255 46.935 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 46.635 189.01 46.935 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 46.055 239.255 46.355 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 46.055 189.01 46.355 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 45.475 239.255 45.775 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 45.475 189.01 45.775 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 44.895 239.255 45.195 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 44.895 189.01 45.195 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 44.315 239.255 44.615 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 44.315 189.01 44.615 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 43.735 239.255 44.035 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 43.735 189.01 44.035 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 43.155 239.255 43.455 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 43.155 189.01 43.455 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 42.575 239.255 42.875 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 42.575 189.01 42.875 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 41.995 239.255 42.295 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 41.995 189.01 42.295 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 41.415 239.255 41.715 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 41.415 189.01 41.715 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 40.835 239.255 41.135 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 40.835 189.01 41.135 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 40.255 239.255 40.555 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 40.255 189.01 40.555 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 39.675 239.255 39.975 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 39.675 189.01 39.975 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 39.095 239.255 39.395 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 39.095 189.01 39.395 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 38.515 239.255 38.815 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 38.515 189.01 38.815 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 37.935 239.255 38.235 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 37.935 189.01 38.235 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 37.355 239.255 37.655 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 37.355 189.01 37.655 189.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 36.775 239.255 37.075 239.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 36.775 189.01 37.075 189.065 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 21.73 124.885 21.995 174.885 ;
+      LAYER li1 ;
+        RECT 21.77 124.885 21.94 174.885 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 21.715 124.885 21.98 174.885 ;
+      LAYER li1 ;
+        RECT 21.77 124.885 21.94 174.885 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 20.78 124.885 20.835 174.885 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 20.555 124.885 20.78 174.885 ;
+      LAYER li1 ;
+        RECT 20.61 124.885 20.78 174.885 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 19.62 124.885 19.675 174.885 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 19.395 124.885 19.62 174.885 ;
+      LAYER li1 ;
+        RECT 19.45 124.885 19.62 174.885 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 18.46 124.885 18.515 174.885 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 18.235 124.885 18.46 174.885 ;
+      LAYER li1 ;
+        RECT 18.29 124.885 18.46 174.885 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 17.3 124.885 17.355 174.885 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 17.075 124.885 17.3 174.885 ;
+      LAYER li1 ;
+        RECT 17.13 124.885 17.3 174.885 ;
+    END
+  END net5
+  PIN net4
+    USE SIGNAL ;
+    PORT
+      LAYER poly ;
+        RECT 64.195 156.665 64.495 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 64.195 106.42 64.495 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 63.615 156.665 63.915 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 63.615 106.42 63.915 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 63.035 156.665 63.335 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 63.035 106.42 63.335 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 62.455 156.665 62.755 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 62.455 106.42 62.755 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 61.875 156.665 62.175 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 61.875 106.42 62.175 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 61.295 156.665 61.595 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 61.295 106.42 61.595 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 60.715 156.665 61.015 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 60.715 106.42 61.015 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 60.135 156.665 60.435 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 60.135 106.42 60.435 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 59.555 156.665 59.855 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 59.555 106.42 59.855 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 58.975 156.665 59.275 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 58.975 106.42 59.275 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 58.395 156.665 58.695 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 58.395 106.42 58.695 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 57.815 156.665 58.115 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 57.815 106.42 58.115 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 57.235 156.665 57.535 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 57.235 106.42 57.535 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 56.655 156.665 56.955 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 56.655 106.42 56.955 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 56.075 156.665 56.375 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 56.075 106.42 56.375 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 55.495 156.665 55.795 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 55.495 106.42 55.795 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 54.915 156.665 55.215 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 54.915 106.42 55.215 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 54.335 156.665 54.635 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 54.335 106.42 54.635 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 53.755 156.665 54.055 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 53.755 106.42 54.055 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 53.175 156.665 53.475 156.72 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 53.175 106.42 53.475 106.475 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 21.995 124.735 22.295 124.79 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 21.415 174.98 21.715 175.035 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 21.415 124.735 21.715 124.79 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 20.835 174.98 21.135 175.035 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 20.835 124.735 21.135 124.79 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 20.255 174.98 20.555 175.035 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 20.255 124.735 20.555 124.79 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 19.675 174.98 19.975 175.035 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 19.675 124.735 19.975 124.79 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 19.095 174.98 19.395 175.035 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 19.095 124.735 19.395 124.79 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 18.515 174.98 18.815 175.035 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 18.515 124.735 18.815 124.79 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 17.935 174.98 18.235 175.035 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 17.935 124.735 18.235 124.79 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 17.355 174.98 17.655 175.035 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 17.355 124.735 17.655 124.79 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 16.775 174.98 17.075 175.035 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 16.775 124.735 17.075 124.79 ;
+    END
+  END net4
+  PIN net3
+    USE POWER ;
+    PORT
+      LAYER poly ;
+        RECT 148.285 240.255 148.585 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 148.285 190.01 148.585 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 147.705 240.255 148.005 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 147.705 190.01 148.005 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 147.125 240.255 147.425 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 147.125 190.01 147.425 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 146.545 240.255 146.845 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 146.545 190.01 146.845 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 145.965 240.255 146.265 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 145.965 190.01 146.265 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 145.385 240.255 145.685 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 145.385 190.01 145.685 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 144.805 240.255 145.105 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 144.805 190.01 145.105 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 144.225 240.255 144.525 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 144.225 190.01 144.525 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 143.645 240.255 143.945 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 143.645 190.01 143.945 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 143.065 240.255 143.365 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 143.065 190.01 143.365 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 142.485 240.255 142.785 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 142.485 190.01 142.785 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 141.905 240.255 142.205 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 141.905 190.01 142.205 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 141.325 240.255 141.625 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 141.325 190.01 141.625 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 140.745 240.255 141.045 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 140.745 190.01 141.045 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 140.165 240.255 140.465 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 140.165 190.01 140.465 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 139.585 240.255 139.885 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 139.585 190.01 139.885 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 139.005 240.255 139.305 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 139.005 190.01 139.305 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 138.425 240.255 138.725 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 138.425 190.01 138.725 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 137.845 240.255 138.145 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 137.845 190.01 138.145 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 137.265 240.255 137.565 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 137.265 190.01 137.565 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 136.685 240.255 136.985 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 136.685 190.01 136.985 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 136.105 240.255 136.405 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 136.105 190.01 136.405 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 135.525 240.255 135.825 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 135.525 190.01 135.825 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 134.945 240.255 135.245 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 134.945 190.01 135.245 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 134.365 240.255 134.665 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 134.365 190.01 134.665 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 133.785 240.255 134.085 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 133.785 190.01 134.085 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 133.205 240.255 133.505 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 133.205 190.01 133.505 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 132.625 240.255 132.925 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 132.625 190.01 132.925 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 132.045 240.255 132.345 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 132.045 190.01 132.345 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 131.465 240.255 131.765 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 131.465 190.01 131.765 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 130.885 240.255 131.185 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 130.885 190.01 131.185 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 130.305 240.255 130.605 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 130.305 190.01 130.605 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 129.725 240.255 130.025 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 129.725 190.01 130.025 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 129.145 240.255 129.445 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 129.145 190.01 129.445 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 128.565 240.255 128.865 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 128.565 190.01 128.865 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 127.985 240.255 128.285 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 127.985 190.01 128.285 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 127.405 240.255 127.705 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 127.405 190.01 127.705 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 126.825 240.255 127.125 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 126.825 190.01 127.125 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 126.245 240.255 126.545 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 126.245 190.01 126.545 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 125.665 240.255 125.965 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 125.665 190.01 125.965 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 125.085 240.255 125.385 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 125.085 190.01 125.385 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 124.505 240.255 124.805 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 124.505 190.01 124.805 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 123.925 240.255 124.225 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 123.925 190.01 124.225 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 123.345 240.255 123.645 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 123.345 190.01 123.645 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 122.765 240.255 123.065 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 122.765 190.01 123.065 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 122.185 240.255 122.485 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 122.185 190.01 122.485 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 121.605 240.255 121.905 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 121.605 190.01 121.905 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 121.025 240.255 121.325 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 121.025 190.01 121.325 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 120.445 240.255 120.745 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 120.445 190.01 120.745 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 119.865 240.255 120.165 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 119.865 190.01 120.165 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 119.285 240.255 119.585 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 119.285 190.01 119.585 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 118.705 240.255 119.005 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 118.705 190.01 119.005 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 118.125 240.255 118.425 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 118.125 190.01 118.425 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 117.545 240.255 117.845 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 117.545 190.01 117.845 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 116.965 240.255 117.265 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 116.965 190.01 117.265 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 116.385 240.255 116.685 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 116.385 190.01 116.685 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 115.805 240.255 116.105 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 115.805 190.01 116.105 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 115.225 240.255 115.525 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 115.225 190.01 115.525 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 114.645 240.255 114.945 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 114.645 190.01 114.945 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 114.065 240.255 114.365 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 114.065 190.01 114.365 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 113.485 240.255 113.785 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 113.485 190.01 113.785 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 112.905 240.255 113.205 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 112.905 190.01 113.205 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 112.325 240.255 112.625 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 112.325 190.01 112.625 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 111.745 240.255 112.045 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 111.745 190.01 112.045 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 111.165 240.255 111.465 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 111.165 190.01 111.465 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 110.585 240.255 110.885 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 110.585 190.01 110.885 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 110.005 240.255 110.305 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 110.005 190.01 110.305 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 109.425 240.255 109.725 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 109.425 190.01 109.725 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 108.845 240.255 109.145 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 108.845 190.01 109.145 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 108.265 240.255 108.565 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 108.265 190.01 108.565 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 107.685 240.255 107.985 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 107.685 190.01 107.985 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 107.105 240.255 107.405 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 107.105 190.01 107.405 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 106.525 240.255 106.825 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 106.525 190.01 106.825 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 105.945 240.255 106.245 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 105.945 190.01 106.245 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 105.365 240.255 105.665 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 105.365 190.01 105.665 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 104.785 240.255 105.085 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 104.785 190.01 105.085 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 104.205 240.255 104.505 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 104.205 190.01 104.505 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 103.625 240.255 103.925 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 103.625 190.01 103.925 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 103.045 240.255 103.345 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 103.045 190.01 103.345 190.065 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 102.465 240.255 102.765 240.31 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 102.465 190.01 102.765 190.065 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 87.125 160.76 87.39 210.76 ;
+      LAYER li1 ;
+        RECT 87.165 160.76 87.335 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 87.11 160.76 87.375 210.76 ;
+      LAYER li1 ;
+        RECT 87.165 160.76 87.335 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 85.965 160.76 86.23 210.76 ;
+      LAYER li1 ;
+        RECT 86.005 160.76 86.175 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 85.95 160.76 86.215 210.76 ;
+      LAYER li1 ;
+        RECT 86.005 160.76 86.175 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 84.805 160.76 85.07 210.76 ;
+      LAYER li1 ;
+        RECT 84.845 160.76 85.015 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 84.79 160.76 85.055 210.76 ;
+      LAYER li1 ;
+        RECT 84.845 160.76 85.015 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 83.645 160.76 83.91 210.76 ;
+      LAYER li1 ;
+        RECT 83.685 160.76 83.855 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 83.63 160.76 83.895 210.76 ;
+      LAYER li1 ;
+        RECT 83.685 160.76 83.855 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 82.485 160.76 82.75 210.76 ;
+      LAYER li1 ;
+        RECT 82.525 160.76 82.695 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 82.47 160.76 82.735 210.76 ;
+      LAYER li1 ;
+        RECT 82.525 160.76 82.695 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 81.325 160.76 81.59 210.76 ;
+      LAYER li1 ;
+        RECT 81.365 160.76 81.535 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 81.31 160.76 81.575 210.76 ;
+      LAYER li1 ;
+        RECT 81.365 160.76 81.535 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 80.165 160.76 80.43 210.76 ;
+      LAYER li1 ;
+        RECT 80.205 160.76 80.375 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 80.15 160.76 80.415 210.76 ;
+      LAYER li1 ;
+        RECT 80.205 160.76 80.375 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 79.005 160.76 79.27 210.76 ;
+      LAYER li1 ;
+        RECT 79.045 160.76 79.215 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 78.99 160.76 79.255 210.76 ;
+      LAYER li1 ;
+        RECT 79.045 160.76 79.215 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 77.845 160.76 78.11 210.76 ;
+      LAYER li1 ;
+        RECT 77.885 160.76 78.055 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 77.83 160.76 78.095 210.76 ;
+      LAYER li1 ;
+        RECT 77.885 160.76 78.055 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 76.685 160.76 76.95 210.76 ;
+      LAYER li1 ;
+        RECT 76.725 160.76 76.895 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 76.67 160.76 76.935 210.76 ;
+      LAYER li1 ;
+        RECT 76.725 160.76 76.895 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 75.525 160.76 75.79 210.76 ;
+      LAYER li1 ;
+        RECT 75.565 160.76 75.735 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 75.51 160.76 75.775 210.76 ;
+      LAYER li1 ;
+        RECT 75.565 160.76 75.735 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 74.365 160.76 74.63 210.76 ;
+      LAYER li1 ;
+        RECT 74.405 160.76 74.575 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 74.35 160.76 74.615 210.76 ;
+      LAYER li1 ;
+        RECT 74.405 160.76 74.575 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 73.205 160.76 73.47 210.76 ;
+      LAYER li1 ;
+        RECT 73.245 160.76 73.415 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 73.19 160.76 73.455 210.76 ;
+      LAYER li1 ;
+        RECT 73.245 160.76 73.415 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 72.045 160.76 72.31 210.76 ;
+      LAYER li1 ;
+        RECT 72.085 160.76 72.255 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 72.03 160.76 72.295 210.76 ;
+      LAYER li1 ;
+        RECT 72.085 160.76 72.255 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 70.885 160.76 71.15 210.76 ;
+      LAYER li1 ;
+        RECT 70.925 160.76 71.095 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 70.87 160.76 71.135 210.76 ;
+      LAYER li1 ;
+        RECT 70.925 160.76 71.095 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 69.725 160.76 69.99 210.76 ;
+      LAYER li1 ;
+        RECT 69.765 160.76 69.935 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 69.71 160.76 69.975 210.76 ;
+      LAYER li1 ;
+        RECT 69.765 160.76 69.935 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 68.565 160.76 68.83 210.76 ;
+      LAYER li1 ;
+        RECT 68.605 160.76 68.775 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 68.55 160.76 68.815 210.76 ;
+      LAYER li1 ;
+        RECT 68.605 160.76 68.775 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 67.405 160.76 67.67 210.76 ;
+      LAYER li1 ;
+        RECT 67.445 160.76 67.615 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 67.39 160.76 67.655 210.76 ;
+      LAYER li1 ;
+        RECT 67.445 160.76 67.615 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 66.245 160.76 66.51 210.76 ;
+      LAYER li1 ;
+        RECT 66.285 160.76 66.455 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 66.23 160.76 66.495 210.76 ;
+      LAYER li1 ;
+        RECT 66.285 160.76 66.455 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 65.085 160.76 65.35 210.76 ;
+      LAYER li1 ;
+        RECT 65.125 160.76 65.295 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 65.07 160.76 65.335 210.76 ;
+      LAYER li1 ;
+        RECT 65.125 160.76 65.295 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 63.925 160.76 64.19 210.76 ;
+      LAYER li1 ;
+        RECT 63.965 160.76 64.135 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 63.91 160.76 64.175 210.76 ;
+      LAYER li1 ;
+        RECT 63.965 160.76 64.135 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 62.765 160.76 63.03 210.76 ;
+      LAYER li1 ;
+        RECT 62.805 160.76 62.975 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 62.75 160.76 63.015 210.76 ;
+      LAYER li1 ;
+        RECT 62.805 160.76 62.975 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 61.605 160.76 61.87 210.76 ;
+      LAYER li1 ;
+        RECT 61.645 160.76 61.815 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 61.59 160.76 61.855 210.76 ;
+      LAYER li1 ;
+        RECT 61.645 160.76 61.815 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 60.445 160.76 60.71 210.76 ;
+      LAYER li1 ;
+        RECT 60.485 160.76 60.655 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 60.43 160.76 60.695 210.76 ;
+      LAYER li1 ;
+        RECT 60.485 160.76 60.655 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 59.285 160.76 59.55 210.76 ;
+      LAYER li1 ;
+        RECT 59.325 160.76 59.495 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 59.27 160.76 59.535 210.76 ;
+      LAYER li1 ;
+        RECT 59.325 160.76 59.495 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 58.335 160.76 58.39 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 58.11 160.76 58.335 210.76 ;
+      LAYER li1 ;
+        RECT 58.165 160.76 58.335 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 57.175 160.76 57.23 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 56.95 160.76 57.175 210.76 ;
+      LAYER li1 ;
+        RECT 57.005 160.76 57.175 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 56.015 160.76 56.07 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 55.79 160.76 56.015 210.76 ;
+      LAYER li1 ;
+        RECT 55.845 160.76 56.015 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 54.855 160.76 54.91 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 54.63 160.76 54.855 210.76 ;
+      LAYER li1 ;
+        RECT 54.685 160.76 54.855 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 53.695 160.76 53.75 210.76 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 53.47 160.76 53.695 210.76 ;
+      LAYER li1 ;
+        RECT 53.525 160.76 53.695 210.76 ;
+    END
+  END net3
+  PIN net1
+    USE SIGNAL ;
+    PORT
+      LAYER poly ;
+        RECT 167.83 240.27 168.13 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 167.83 190.025 168.13 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 167.25 240.27 167.55 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 167.25 190.025 167.55 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 166.67 240.27 166.97 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 166.67 190.025 166.97 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 166.09 240.27 166.39 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 166.09 190.025 166.39 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 165.51 240.27 165.81 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 165.51 190.025 165.81 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 164.93 240.27 165.23 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 164.93 190.025 165.23 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 164.35 240.27 164.65 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 164.35 190.025 164.65 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 163.77 240.27 164.07 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 163.77 190.025 164.07 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 163.19 240.27 163.49 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 163.19 190.025 163.49 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 162.61 240.27 162.91 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 162.61 190.025 162.91 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 162.03 240.27 162.33 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 162.03 190.025 162.33 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 161.45 240.27 161.75 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 161.45 190.025 161.75 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 160.87 240.27 161.17 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 160.87 190.025 161.17 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 160.29 240.27 160.59 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 160.29 190.025 160.59 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 159.71 240.27 160.01 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 159.71 190.025 160.01 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 159.13 240.27 159.43 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 159.13 190.025 159.43 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 158.55 240.27 158.85 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 158.55 190.025 158.85 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 157.97 240.27 158.27 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 157.97 190.025 158.27 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 157.39 240.27 157.69 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 157.39 190.025 157.69 190.08 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 156.81 240.27 157.11 240.325 ;
+    END
+    PORT
+      LAYER poly ;
+        RECT 156.81 190.025 157.11 190.08 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 148.02 190.16 148.285 240.16 ;
+      LAYER li1 ;
+        RECT 148.06 190.16 148.23 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 148.005 190.16 148.27 240.16 ;
+      LAYER li1 ;
+        RECT 148.06 190.16 148.23 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 146.86 190.16 147.125 240.16 ;
+      LAYER li1 ;
+        RECT 146.9 190.16 147.07 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 146.845 190.16 147.11 240.16 ;
+      LAYER li1 ;
+        RECT 146.9 190.16 147.07 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 145.7 190.16 145.965 240.16 ;
+      LAYER li1 ;
+        RECT 145.74 190.16 145.91 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 145.685 190.16 145.95 240.16 ;
+      LAYER li1 ;
+        RECT 145.74 190.16 145.91 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 144.54 190.16 144.805 240.16 ;
+      LAYER li1 ;
+        RECT 144.58 190.16 144.75 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 144.525 190.16 144.79 240.16 ;
+      LAYER li1 ;
+        RECT 144.58 190.16 144.75 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 143.38 190.16 143.645 240.16 ;
+      LAYER li1 ;
+        RECT 143.42 190.16 143.59 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 143.365 190.16 143.63 240.16 ;
+      LAYER li1 ;
+        RECT 143.42 190.16 143.59 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 142.22 190.16 142.485 240.16 ;
+      LAYER li1 ;
+        RECT 142.26 190.16 142.43 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 142.205 190.16 142.47 240.16 ;
+      LAYER li1 ;
+        RECT 142.26 190.16 142.43 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 141.06 190.16 141.325 240.16 ;
+      LAYER li1 ;
+        RECT 141.1 190.16 141.27 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 141.045 190.16 141.31 240.16 ;
+      LAYER li1 ;
+        RECT 141.1 190.16 141.27 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 139.9 190.16 140.165 240.16 ;
+      LAYER li1 ;
+        RECT 139.94 190.16 140.11 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 139.885 190.16 140.15 240.16 ;
+      LAYER li1 ;
+        RECT 139.94 190.16 140.11 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 138.74 190.16 139.005 240.16 ;
+      LAYER li1 ;
+        RECT 138.78 190.16 138.95 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 138.725 190.16 138.99 240.16 ;
+      LAYER li1 ;
+        RECT 138.78 190.16 138.95 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 137.58 190.16 137.845 240.16 ;
+      LAYER li1 ;
+        RECT 137.62 190.16 137.79 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 137.565 190.16 137.83 240.16 ;
+      LAYER li1 ;
+        RECT 137.62 190.16 137.79 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 136.42 190.16 136.685 240.16 ;
+      LAYER li1 ;
+        RECT 136.46 190.16 136.63 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 136.405 190.16 136.67 240.16 ;
+      LAYER li1 ;
+        RECT 136.46 190.16 136.63 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 135.26 190.16 135.525 240.16 ;
+      LAYER li1 ;
+        RECT 135.3 190.16 135.47 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 135.245 190.16 135.51 240.16 ;
+      LAYER li1 ;
+        RECT 135.3 190.16 135.47 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 134.1 190.16 134.365 240.16 ;
+      LAYER li1 ;
+        RECT 134.14 190.16 134.31 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 134.085 190.16 134.35 240.16 ;
+      LAYER li1 ;
+        RECT 134.14 190.16 134.31 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 132.94 190.16 133.205 240.16 ;
+      LAYER li1 ;
+        RECT 132.98 190.16 133.15 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 132.925 190.16 133.19 240.16 ;
+      LAYER li1 ;
+        RECT 132.98 190.16 133.15 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 131.78 190.16 132.045 240.16 ;
+      LAYER li1 ;
+        RECT 131.82 190.16 131.99 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 131.765 190.16 132.03 240.16 ;
+      LAYER li1 ;
+        RECT 131.82 190.16 131.99 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 130.62 190.16 130.885 240.16 ;
+      LAYER li1 ;
+        RECT 130.66 190.16 130.83 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 130.605 190.16 130.87 240.16 ;
+      LAYER li1 ;
+        RECT 130.66 190.16 130.83 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 129.46 190.16 129.725 240.16 ;
+      LAYER li1 ;
+        RECT 129.5 190.16 129.67 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 129.445 190.16 129.71 240.16 ;
+      LAYER li1 ;
+        RECT 129.5 190.16 129.67 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 128.3 190.16 128.565 240.16 ;
+      LAYER li1 ;
+        RECT 128.34 190.16 128.51 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 128.285 190.16 128.55 240.16 ;
+      LAYER li1 ;
+        RECT 128.34 190.16 128.51 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 127.14 190.16 127.405 240.16 ;
+      LAYER li1 ;
+        RECT 127.18 190.16 127.35 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 127.125 190.16 127.39 240.16 ;
+      LAYER li1 ;
+        RECT 127.18 190.16 127.35 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 125.98 190.16 126.245 240.16 ;
+      LAYER li1 ;
+        RECT 126.02 190.16 126.19 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 125.965 190.16 126.23 240.16 ;
+      LAYER li1 ;
+        RECT 126.02 190.16 126.19 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 124.82 190.16 125.085 240.16 ;
+      LAYER li1 ;
+        RECT 124.86 190.16 125.03 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 124.805 190.16 125.07 240.16 ;
+      LAYER li1 ;
+        RECT 124.86 190.16 125.03 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 123.66 190.16 123.925 240.16 ;
+      LAYER li1 ;
+        RECT 123.7 190.16 123.87 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 123.645 190.16 123.91 240.16 ;
+      LAYER li1 ;
+        RECT 123.7 190.16 123.87 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 122.5 190.16 122.765 240.16 ;
+      LAYER li1 ;
+        RECT 122.54 190.16 122.71 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 122.485 190.16 122.75 240.16 ;
+      LAYER li1 ;
+        RECT 122.54 190.16 122.71 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 121.34 190.16 121.605 240.16 ;
+      LAYER li1 ;
+        RECT 121.38 190.16 121.55 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 121.325 190.16 121.59 240.16 ;
+      LAYER li1 ;
+        RECT 121.38 190.16 121.55 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 120.18 190.16 120.445 240.16 ;
+      LAYER li1 ;
+        RECT 120.22 190.16 120.39 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 120.165 190.16 120.43 240.16 ;
+      LAYER li1 ;
+        RECT 120.22 190.16 120.39 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 119.02 190.16 119.285 240.16 ;
+      LAYER li1 ;
+        RECT 119.06 190.16 119.23 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 119.005 190.16 119.27 240.16 ;
+      LAYER li1 ;
+        RECT 119.06 190.16 119.23 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 117.86 190.16 118.125 240.16 ;
+      LAYER li1 ;
+        RECT 117.9 190.16 118.07 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 117.845 190.16 118.11 240.16 ;
+      LAYER li1 ;
+        RECT 117.9 190.16 118.07 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 116.7 190.16 116.965 240.16 ;
+      LAYER li1 ;
+        RECT 116.74 190.16 116.91 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 116.685 190.16 116.95 240.16 ;
+      LAYER li1 ;
+        RECT 116.74 190.16 116.91 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 115.54 190.16 115.805 240.16 ;
+      LAYER li1 ;
+        RECT 115.58 190.16 115.75 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 115.525 190.16 115.79 240.16 ;
+      LAYER li1 ;
+        RECT 115.58 190.16 115.75 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 114.38 190.16 114.645 240.16 ;
+      LAYER li1 ;
+        RECT 114.42 190.16 114.59 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 114.365 190.16 114.63 240.16 ;
+      LAYER li1 ;
+        RECT 114.42 190.16 114.59 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 113.22 190.16 113.485 240.16 ;
+      LAYER li1 ;
+        RECT 113.26 190.16 113.43 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 113.205 190.16 113.47 240.16 ;
+      LAYER li1 ;
+        RECT 113.26 190.16 113.43 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 112.06 190.16 112.325 240.16 ;
+      LAYER li1 ;
+        RECT 112.1 190.16 112.27 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 112.045 190.16 112.31 240.16 ;
+      LAYER li1 ;
+        RECT 112.1 190.16 112.27 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 110.9 190.16 111.165 240.16 ;
+      LAYER li1 ;
+        RECT 110.94 190.16 111.11 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 110.885 190.16 111.15 240.16 ;
+      LAYER li1 ;
+        RECT 110.94 190.16 111.11 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 109.74 190.16 110.005 240.16 ;
+      LAYER li1 ;
+        RECT 109.78 190.16 109.95 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 109.725 190.16 109.99 240.16 ;
+      LAYER li1 ;
+        RECT 109.78 190.16 109.95 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 108.58 190.16 108.845 240.16 ;
+      LAYER li1 ;
+        RECT 108.62 190.16 108.79 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 108.565 190.16 108.83 240.16 ;
+      LAYER li1 ;
+        RECT 108.62 190.16 108.79 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 107.42 190.16 107.685 240.16 ;
+      LAYER li1 ;
+        RECT 107.46 190.16 107.63 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 107.405 190.16 107.67 240.16 ;
+      LAYER li1 ;
+        RECT 107.46 190.16 107.63 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 106.47 190.16 106.525 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 106.245 190.16 106.47 240.16 ;
+      LAYER li1 ;
+        RECT 106.3 190.16 106.47 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 105.31 190.16 105.365 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 105.085 190.16 105.31 240.16 ;
+      LAYER li1 ;
+        RECT 105.14 190.16 105.31 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 104.15 190.16 104.205 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 103.925 190.16 104.15 240.16 ;
+      LAYER li1 ;
+        RECT 103.98 190.16 104.15 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 102.99 190.16 103.045 240.16 ;
+    END
+    PORT
+      LAYER diff ;
+        RECT 102.765 190.16 102.99 240.16 ;
+      LAYER li1 ;
+        RECT 102.82 190.16 102.99 240.16 ;
+    END
+  END net1
+  PROPERTY lastSavedExtractCounter 15949 ;
+END TIA
+
+END LIBRARY
