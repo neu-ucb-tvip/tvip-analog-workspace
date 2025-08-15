@@ -129,3 +129,6 @@ node_modules/
 # IDE related files
 .vscode/
 .vsconfig
+
+.pcdb/
+xcelium.d/
