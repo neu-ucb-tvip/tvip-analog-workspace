@@ -17,6 +17,14 @@ export PVS_HOME=<INSERT PVS PATH HERE>
 # export CDS_HOME=/share/instsww/cadence/IC618.
 
 
+# Xcelium.
+# Xcelium is needed to run digital and mixed-signal simulations
+export XCELIUM_HOME=<INSERT XCELIUM PATH HERE>
+
+# If you are on the BWRC servers,
+# export XCELIUM_HOME=/tools/cadence/XCELIUM/XCELIUM231
+
+
 # Spectre.
 # Spectre is needed to run simulations
 export SPECTRE_HOME=<INSERT SPECTRE PATH HERE>

@@ -9,6 +9,7 @@ source ./setup.sh
 # See https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1O0V000009Mo6IUAS&pageName=ArticleContent.
 export LD_PRELOAD=/usr/lib64/libssl.so:/usr/lib64/libcrypto.so:/usr/lib64/libGL.so.1
 export LD_LIBRARY_PATH=/usr/lib64
+export LD_LIBRARY_PATH=${XCELIUM_HOME}/tools/lib/64bit:${LD_LIBRARY_PATH:-}
 
 # PATH setup.
 export PATH=${CDS_HOME}/tools/plot/bin:${PATH}
@@ -17,6 +18,9 @@ export PATH=${CDS_HOME}/tools/bin:${PATH}
 export PATH=${SPECTRE_HOME}/bin:${PATH}
 export PATH=${EMX_HOME}/bin:${PATH}
 export PATH=${PVS_HOME}/bin:${PATH}
+export PATH=${XCELIUM_HOME}/bin:${PATH}
+export PATH=${XCELIUM_HOME}/tools/bin:${PATH}
+export PATH=${XCELIUM_HOME}/tools/inca/bin/64bit:${PATH}
 
 # PEGASUS DRC setup
 export PEGASUS_DRC=${WORK_DIR}/Sky130_DRC
