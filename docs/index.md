@@ -20,6 +20,9 @@ features:
   - title: Impedance Matching
     details: A guide to impedance matching for voltage, current, and power. Covers two-port models, optimal impedances for various amplifier types, and conjugate matching for RF systems.
     link: /impedance-matching
+  - title: Git Guide
+    details: A guide to the Git workflow and branching strategy for the TVIP Analog Workspace.
+    link: /Git_Guide
 
 ---
 
