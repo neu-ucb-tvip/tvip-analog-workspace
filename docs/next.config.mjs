@@ -2,7 +2,6 @@ import nextra from 'nextra'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import remarkGfm from 'remark-gfm'
-import rehypePrefixBasePath from './plugins/rehype-prefix-basepath.mjs'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -11,10 +10,7 @@ const withNextra = nextra({
   themeConfig: './theme.config.tsx',
   mdxOptions: {
     remarkPlugins: [remarkMath, remarkGfm],
-    rehypePlugins: [
-      rehypeKatex,
-      [rehypePrefixBasePath, { basePath: isProd ? '/tvip-analog-workspace' : '' }]
-    ]
+    rehypePlugins: [rehypeKatex]
   },
   defaultShowCopyCode: true
 })
