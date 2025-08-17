@@ -76,4 +76,151 @@ img:hover {
 	.author {
 		min-width: 250px;
 	}
-} 
+}
+
+/* Home cards: clean, balanced layout */
+.nextra-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.nextra-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 0; /* crisp corners */
+  padding: 1rem 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+/* subtle gradient accent on top edge */
+.nextra-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  height: 3px;
+  /* soft two-stop gradient */
+  background: linear-gradient(90deg, #597df6 0%, #67d4ff 100%);
+  opacity: 0.45;
+}
+
+.nextra-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.12);
+}
+
+.nextra-card h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.nextra-card p {
+  margin: 0;
+  color: #4b5563; /* gray-600 */
+  line-height: 1.5;
+}
+
+/* Dark mode card adjustments */
+/* Dark theme (next-themes adds .dark on html) */
+.dark .nextra-card {
+  background: #0f1115;
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.28);
+}
+.dark .nextra-card:hover {
+  border-color: rgba(255,255,255,0.18);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+.dark .nextra-card p {
+  color: #a3a3a3;
+}
+
+/* Tighten content width for readability */
+.nextra-content {
+  max-width: 64rem; /* ~1024px */
+}
+
+/* Gradient page title (optional, used on index) */
+.page-title-gradient {
+  /* gentle two-stop gradient */
+  background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Author component: dark theme support */
+.dark .author-info {
+  background-color: #0f1115;
+  border-left-color: #22d3ee; /* cyan-400 accent */
+  color: #d1d5db;
+}
+.dark .author-email { color: #9ca3af; }
+.dark .author-affiliation { color: #9ca3af; }
+.dark .last-updated { border-top-color: #1f2937; color: #9ca3af; }
+
+/* Sidebar nav: subtle pill style */
+.nextra-menu-desktop li > a,
+.nextra-menu-mobile li > a {
+  position: relative;
+  padding: 6px 10px !important;
+  border-radius: 2px !important; /* very subtle rounding */
+  transition: color 150ms ease;
+}
+
+/* Footer refinements: smaller, calmer, consistent type */
+footer {
+  background: inherit !important; /* avoid heavy ribbon feel */
+}
+footer hr {
+  margin: 0 !important;
+  border-color: rgba(0,0,0,0.06) !important;
+}
+.dark footer hr { border-color: #1f2937 !important; }
+footer > div:last-child {
+  padding-top: 12px !important;
+  padding-bottom: 16px !important;
+}
+.site-footer-text {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5;
+  color: #6b7280; /* gray-500 */
+}
+.dark .site-footer-text { color: #9ca3af; }
+.site-footer-text a { color: inherit; text-decoration: underline; }
+
+/* gradient underline on hover/active */
+.nextra-menu-desktop li > a::after,
+.nextra-menu-mobile li > a::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 2px;
+  height: 2px;
+  background: linear-gradient(90deg, #6c7cff, #7bd3ff);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 160ms ease;
+  opacity: 0.6;
+}
+
+.nextra-menu-desktop li > a:hover::after,
+.nextra-menu-mobile li > a:hover::after,
+.nextra-menu-desktop li.active > a::after,
+.nextra-menu-mobile li.active > a::after {
+  transform: scaleX(1);
+}
+
+/* dark mode keeps the same accent but slightly brighter */
+.dark .nextra-menu-desktop li > a::after,
+.dark .nextra-menu-mobile li > a::after {
+  background: linear-gradient(90deg, #8b96ff, #8fe2ff);
+}

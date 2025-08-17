@@ -8,30 +8,30 @@ description: Analog Design Workspace for Sky130 PDK
 
 import { Cards } from 'nextra/components'
 
-# TVIP Analog Workspace
+<h1 className="page-title-gradient">TVIP Analog Workspace</h1>
 
-Analog Design Workspace for Sky130 PDK
+Clean, simple docs for the Sky130 analog workspace.
 
 <Cards>
 	<a href="/Analog_Layout_Guide" className="nextra-card">
 		<h3>Analog Layout Guide</h3>
-		<p>Best practices for analog layout, including device matching, common-centroid techniques, and parasitic mitigation to ensure robust, circuit design.</p>
+		<p>Matching, common‑centroid, routing, and guard rings.</p>
 	</a>
 	<a href="/Power_Grids" className="nextra-card">
 		<h3>Power Grids in VLSI</h3>
-		<p>Learn how to design and implement power distribution networks (PDNs) using power straps, rings, and on-chip decoupling to maintain supply integrity for sensitive analog circuits.</p>
+		<p>PDN straps, rings, decaps, and IR/EM tips.</p>
 	</a>
 	<a href="/Running_DRC" className="nextra-card">
 		<h3>Running DRC</h3>
-		<p>Step-by-step guide for running Design Rule Check (DRC) using the Physical Verification System (PVS) in Cadence Virtuoso with the Sky130 PDK.</p>
+		<p>PVS presets, run directory, and common fixes.</p>
 	</a>
 	<a href="/impedance-matching" className="nextra-card">
 		<h3>Impedance Matching</h3>
-		<p>A guide to impedance matching for voltage, current, and power. Covers two-port models, optimal impedances for various amplifier types, and conjugate matching for RF systems.</p>
+		<p>Two‑port models and conjugate matching basics.</p>
 	</a>
 	<a href="/Git_Guide" className="nextra-card">
 		<h3>Git Guide</h3>
-		<p>A guide to the Git workflow and branching strategy for the TVIP Analog Workspace.</p>
+		<p>Branching, PR flow, and useful commands.</p>
 	</a>
 </Cards>
 
@@ -47,6 +47,7 @@ Analog Design Workspace for Sky130 PDK
 	- `LM_LICENSE_FILE`: Path to your license file
 	- `CDS_HOME`: Path to your Cadence installation
 	- `PVS_HOME`: Path to your PVS installation
+	- `XCELIUM_HOME`: Path to your Xcelium installation
 	- `SPECTRE_HOME`: Path to your Spectre installation
 
 ### Server-Specific Configuration
@@ -64,6 +65,9 @@ export CDS_HOME=/tools/cadence/IC/IC231_ISR9
 
 # PVS
 export PVS_HOME=/tools/cadence/PVS/PVS231
+
+# Xcelium
+export XCELIUM_HOME=/tools/cadence/XCELIUM/XCELIUM231
 
 # Spectre
 export SPECTRE_HOME=/tools/cadence/SPECTRE/SPECTRE231
@@ -83,6 +87,9 @@ export CDS_HOME=/share/instsww/cadence/IC618
 # PVS
 export PVS_HOME=<POPULATE ME>
 
+# Xcelium
+export XCELIUM_HOME=<POPULATE ME>
+
 # Spectre
 export SPECTRE_HOME=<POPULATE ME>
 ```
@@ -100,6 +107,9 @@ export CDS_HOME=/usr/eesww/cadence/IC618
 
 # PVS
 export PVS_HOME=<POPULATE ME>
+
+# Xcelium
+export XCELIUM_HOME=<POPULATE ME>
 
 # Spectre
 export SPECTRE_HOME=<POPULATE ME>

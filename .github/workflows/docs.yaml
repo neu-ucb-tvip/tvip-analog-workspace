@@ -30,17 +30,19 @@ jobs:
         with:
           node-version: '18'  # Use Node.js 18
 
-      - name: Install dependencies
+      - name: Install dependencies (docs)
+        working-directory: ./docs
         run: npm ci
 
-      - name: Build documentation
-        run: npm run docs:build
+      - name: Build & export Nextra site
+        working-directory: ./docs
+        run: npm run build && npm run export
 
       - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/.vitepress/dist
+          publish_dir: ./docs/out
           allow_empty_commit: true
           keep_files: true
           force_orphan: false
