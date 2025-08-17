@@ -1,6 +1,5 @@
 import React from 'react'
 import { DocsThemeConfig } from 'nextra-theme-docs'
-import BasePathImage from './components/BasePathImage'
 
 const config: DocsThemeConfig = {
   docsRepositoryBase: 'https://github.com/neu-ucb-tvip/tvip-analog-workspace/tree/master/docs',
@@ -20,14 +19,12 @@ const config: DocsThemeConfig = {
       TVIP <span style={{ opacity: 0.7, fontWeight: 500 }}>Analog Workspace</span>
     </span>
   ),
+  faviconGlyph: '📘',
   project: {
     link: 'https://github.com/neu-ucb-tvip/tvip-analog-workspace'
   },
   chat: {
     link: 'https://github.com/neu-ucb-tvip/tvip-analog-workspace/issues'
-  },
-  components: {
-    img: (props: any) => <BasePathImage {...props} />
   },
   // Default navbar layout keeps search to the right of nav links
   search: {
