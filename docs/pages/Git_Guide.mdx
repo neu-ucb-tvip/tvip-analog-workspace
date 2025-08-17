@@ -1,11 +1,16 @@
 ---
+
 title: Git Guide
+
 authors:
   - name: "Daniel Lovell"
     email: "dlovell98@berkeley.edu"
     affiliation: "University of California, Berkeley"
 lastUpdated: 2025-08-14
+
 ---
+
+import AuthorInfo from '../components/AuthorInfo'
 
 # Git Guide
 
@@ -18,7 +23,6 @@ If you're new to Git or want a fast refresher, review one or two of these before
 - **Atlassian Git Tutorials**: [atlassian.com/git/tutorials](https://www.atlassian.com/git/tutorials)
 - **Learn Git Branching (interactive)**: [learngitbranching.js.org](https://learngitbranching.js.org/)
 - **Git Cheat Sheet (PDF)**: [GitHub Training Git Cheat Sheet](https://training.github.com/downloads/github-git-cheat-sheet.pdf)
-
 
 ## Pull request flow & branching strategy
 
@@ -59,7 +63,7 @@ cd tvip-analog-workspace
 ```
 
 ### Check out your team branch
-   For example, if you’re on the Power team:
+For example, if you’re on the Power team:
 
 ```bash
 git fetch origin
@@ -85,9 +89,9 @@ git checkout -b feature/fix-dc-dc
 Name the branch something descriptive!
 
 ### Do your work
-   Make changes to your RTL, layout scripts, etc.
-   Periodically `git add .` or `git add <specific-file>` to stage changes.
-   Commit frequently with clear messages:
+Make changes to your RTL, layout scripts, etc.
+Periodically `git add .` or `git add <specific-file>` to stage changes.
+Commit frequently with clear messages:
 ```bash
 git commit -m "Fix DC-DC cross-corner simulation bug"
 ```
@@ -112,10 +116,9 @@ When your team is ready (i.e., you’ve tested thoroughly), open a new PR from `
 After final review, it gets merged into `master`.
 This ensures `master` is always stable and up-to-date with each team’s collective work.
 
-
 ### Diagram example of the branching strategy
 
-<img src="./images/branching-strategy.png" alt="branching strategy" width="600px">
+<img src="/images/branching-strategy.png" alt="branching strategy" width="600px" />
 
 The diagram above illustrates a typical Git workflow:
 1. Initial commit (TMA1)
@@ -140,7 +143,7 @@ The diagram above illustrates a typical Git workflow:
    - Merge `team/power` into `master`
    - All power team updates now available in main codebase
 
-### 3. Useful Git commands
+## 3. Useful Git commands
 
 #### Syncing your branch
 Fetch and merge the latest changes
@@ -163,8 +166,8 @@ Keeps your local branch updated with remote changes.
 This is the case that you are on `team/power` and you want to
 get the updates that `master` has.
 
-While on your `team/power` branch, this will fetch and 
-merge from the remote's master branch directly into your 
+While on your `team/power` branch, this will fetch and
+merge from the remote's master branch directly into your
 current branch.
 
 It should not require you to switch branches.
@@ -222,7 +225,7 @@ git push --force-with-lease origin feature/fix-dc-dc
 
 Use --force-with-lease with caution; **If you ever use --force, you MUST coordinate with teammates if others have pulled your branch.**
 
-### 4. Git best practices
+## 4. Git best practices
 
 #### One issue/fix per branch
 
@@ -259,3 +262,5 @@ Add “Closes `#<issue>`” in your commit or PR description so GitHub can auto-
 #### Communicate conflicts early
 
 If your feature affects another team’s domain, coordinate in GitHub Issues or Slack before finalizing the design.
+
+<AuthorInfo /> 
