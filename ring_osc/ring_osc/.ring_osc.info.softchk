@@ -1,0 +1,7 @@
+cell: "ring_osc"
+selected net: "13"
+rejected nets: "2" 
+contact layer: ""
+lower layer: "pwell"
+upper layer:  "ptap"
+command:  "sconnect ptap pwell"

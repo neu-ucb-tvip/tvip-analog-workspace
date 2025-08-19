@@ -1,0 +1,73 @@
+************************************************************************
+* auCdl Netlist:
+* 
+* Library Name:  ring_osc
+* Top Cell Name: ring_osc
+* View Name:     schematic
+* Netlisted on:  Aug 10 18:51:31 2025
+************************************************************************
+
+*.BIPOLAR
+*.RESI = 2000 
+*.RESVAL
+*.CAPVAL
+*.DIOPERI
+*.DIOAREA
+*.EQUATION
+*.SCALE METER
+*.MEGA
+.PARAM
+
+
+
+************************************************************************
+* Library Name: ring_osc
+* Cell Name:    inverter_nmos3finger_3u
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT inverter_nmos3finger_3u VDD VIN VOUT VSS
+*.PININFO VIN:I VOUT:O VDD:B VSS:B
+MNM0 VOUT VIN VSS VSS nfet_01v8 W=3u L=300n M=1
+MPM0 VOUT VIN VDD VDD pfet_01v8 W=12u L=300n M=1
+.ENDS
+
+************************************************************************
+* Library Name: ring_osc
+* Cell Name:    inverter_nmos4finger_6_2u
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT inverter_nmos4finger_6_2u VDD VIN VOUT VSS
+*.PININFO VIN:I VOUT:O VDD:B VSS:B
+MNM0 VOUT VIN VSS VSS nfet_01v8 W=6.2u L=300n M=1
+MPM0 VOUT VIN VDD VDD pfet_01v8 W=24.8u L=300n M=1
+.ENDS
+
+************************************************************************
+* Library Name: ring_osc
+* Cell Name:    ring_osc
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT ring_osc VDDA VOUT VSS
+*.PININFO VOUT:O VDDA:B VSS:B
+CC0 VOSC net7 $[cap_mim_m3__base] m=1 l=5.7u w=7.5u
+MNM11 net12 net10 VSS net15 nfet_01v8 W=420n L=150n M=1
+MNM5 net9 net7 VSS VSS nfet_01v8 W=3u L=300n M=1
+MNM9 net10 net10 VSS net11 nfet_01v8 W=420n L=150n M=1
+MNM1 net8 net8 VSS VSS nfet_01v8 W=3u L=300n M=1
+MNM0 net3 net8 VSS VSS nfet_01v8 W=3u L=300n M=1
+MPM5 net10 net12 VDDA net14 pfet_01v8 W=550n L=150n M=1
+MPM2 net9 net7 VDDA VDDA pfet_01v8 W=12u L=300n M=1
+MPM6 net12 net12 VDDA net13 pfet_01v8 W=550n L=150n M=1
+XI26 VDDA net2 VOUT VSS / inverter_nmos3finger_3u
+XI25 VDDA net9 net2 VSS / inverter_nmos3finger_3u
+RR1 net7 net9 VSS $[res_xhigh_po_0p35] r=615.033K w=350n l=84u
+XI32 VDDA net4 net5 net3 / inverter_nmos4finger_6_2u
+XI34 VDDA net6 VOSC net3 / inverter_nmos4finger_6_2u
+XI33 VDDA net5 net6 net3 / inverter_nmos4finger_6_2u
+XI30 VDDA net1 net4 net3 / inverter_nmos4finger_6_2u
+XI31 VDDA VOSC net1 net3 / inverter_nmos4finger_6_2u
+.ENDS
+

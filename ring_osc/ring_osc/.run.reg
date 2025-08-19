@@ -1,0 +1,11 @@
+"DRC Summary" output text /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/ring_osc/result.sum
+"Layout GDSII" input none /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/ring_osc/ring_osc.gds
+"Layout Top Cell" internal none ring_osc
+"Pegasus Job Mode" internal none drc
+"Report MaxResults" internal none 1000
+"Rule File" input text /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/ring_osc/./
+"Run Directory" internal none /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/ring_osc/
+"Pegasus Version" internal none 22.14-s007
+"Binary Name" internal none pegasus
+"Pegasus Build Date" internal none "Tue Jan 31 16:30:57 PDT 2023"
+"Pegasus Job Time" internal none 1751660569
