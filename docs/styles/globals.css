@@ -1,0 +1,298 @@
+img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	transition: transform 0.2s ease;
+}
+
+img:hover {
+	transform: scale(1.01);
+}
+
+/* Global tokens: soft gradient + link colors */
+:root {
+  --grad-start: #5b7ef7; /* soft blue */
+  --grad-end:   #7ac9ff; /* soft cyan-blue */
+  --link-light: #2563eb;
+  --link-dark:  #60a5fa;
+}
+
+.author-info {
+	margin: 2rem 0;
+	padding: 1rem;
+	background-color: #f7f7f8;
+	border-radius: 8px;
+	border-left: 4px solid #0070f3;
+}
+
+.author-section h3 {
+	margin: 0 0 1rem 0;
+	font-size: 1.1rem;
+}
+
+.authors-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.author {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.author-name {
+	font-weight: 600;
+	font-size: 1rem;
+}
+
+.author-email {
+	font-size: 0.9rem;
+	color: #666;
+}
+
+.author-email a {
+	color: #0070f3;
+	text-decoration: none;
+}
+
+.author-email a:hover {
+	text-decoration: underline;
+}
+
+.author-affiliation {
+	font-size: 0.9rem;
+	color: #666;
+	font-style: italic;
+}
+
+.last-updated {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid #eaeaea;
+	font-size: 0.9rem;
+	color: #666;
+}
+
+@media (min-width: 640px) {
+	.authors-list {
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+	}
+	.author {
+		min-width: 250px;
+	}
+}
+
+/* Home cards: clean, balanced layout */
+.nextra-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.nextra-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 0; /* crisp corners */
+  padding: 1rem 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+/* subtle gradient accent on top edge */
+.nextra-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  height: 3px;
+  /* soft two-stop gradient (tokenized with fallback) */
+  background: linear-gradient(90deg, var(--grad-start, #5b7ef7) 0%, var(--grad-end, #7ac9ff) 100%);
+  opacity: 0.6;
+}
+
+.nextra-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.12);
+}
+
+.nextra-card h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.nextra-card p {
+  margin: 0;
+  color: #4b5563; /* gray-600 */
+  line-height: 1.5;
+}
+
+/* Dark mode card adjustments */
+/* Dark theme (next-themes adds .dark on html) */
+.dark .nextra-card {
+  background: #0f1115;
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.28);
+}
+.dark .nextra-card:hover {
+  border-color: rgba(255,255,255,0.18);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+.dark .nextra-card p {
+  color: #a3a3a3;
+}
+
+/* Tighten content width for readability */
+.nextra-content {
+  max-width: 64rem; /* ~1024px */
+}
+
+/* Gradient page title (optional, used on index) */
+.page-title-gradient {
+  /* gentle two-stop gradient (tokenized) */
+  background: linear-gradient(90deg, var(--grad-start, #5b7ef7) 0%, var(--grad-end, #7ac9ff) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.25rem;
+  line-height: 1.1;
+}
+
+/* Author component: dark theme support */
+.dark .author-info {
+  background-color: #0f1115;
+  border-left-color: #22d3ee; /* cyan-400 accent */
+  color: #d1d5db;
+}
+.dark .author-email { color: #9ca3af; }
+.dark .author-affiliation { color: #9ca3af; }
+.dark .last-updated { border-top-color: #1f2937; color: #9ca3af; }
+
+/* Sidebar nav: subtle pill style */
+.nextra-menu-desktop li > a,
+.nextra-menu-mobile li > a {
+  position: relative;
+  padding: 6px 10px !important;
+  border-radius: 2px !important; /* very subtle rounding */
+  transition: color 150ms ease;
+}
+
+/* Footer refinements: smaller, calmer, consistent type */
+footer {
+  background: inherit !important; /* avoid heavy ribbon feel */
+}
+footer hr {
+  margin: 0 !important;
+  border-color: rgba(0,0,0,0.06) !important;
+}
+.dark footer hr { border-color: #1f2937 !important; }
+footer > div:last-child {
+  padding-top: 12px !important;
+  padding-bottom: 16px !important;
+}
+.site-footer-text {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5;
+  color: #6b7280; /* gray-500 */
+}
+.dark .site-footer-text { color: #9ca3af; }
+.site-footer-text a { color: inherit; text-decoration: underline; }
+
+/* gradient underline on hover/active */
+.nextra-menu-desktop li > a::after,
+.nextra-menu-mobile li > a::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 2px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--grad-start, #5b7ef7), var(--grad-end, #7ac9ff));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 160ms ease;
+  opacity: 0.8;
+}
+
+.nextra-menu-desktop li > a:hover::after,
+.nextra-menu-mobile li > a:hover::after,
+.nextra-menu-desktop li.active > a::after,
+.nextra-menu-mobile li.active > a::after {
+  transform: scaleX(1);
+}
+
+/* dark mode keeps the same accent but slightly brighter */
+.dark .nextra-menu-desktop li > a::after,
+.dark .nextra-menu-mobile li > a::after {
+  background: linear-gradient(90deg, var(--grad-start, #5b7ef7), var(--grad-end, #7ac9ff));
+}
+
+/* Lead paragraph under hero */
+.lead {
+  font-size: 1.1rem;
+  color: #6b7280; /* gray-500 */
+  margin: 0.25rem 0 0.75rem 0;
+}
+.dark .lead { color: #9ca3af; }
+
+/* CTA buttons (thin gradient borders) */
+.cta-row { display: flex; gap: 0.5rem; margin: 0.25rem 0 1rem 0; }
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(90deg, var(--grad-start), var(--grad-end));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  color: var(--link-light);
+  font-weight: 500;
+}
+.cta-btn:hover { text-decoration: none; opacity: 0.9; }
+.dark .cta-btn { background-image: linear-gradient(#0f1115, #0f1115), linear-gradient(90deg, var(--grad-start), var(--grad-end)); color: var(--link-dark); }
+.cta-btn.secondary { opacity: 0.9; }
+
+/* Unified link + focus states */
+.nextra-content a { color: var(--link-light); text-underline-offset: 2px; }
+.nextra-content a:hover { text-decoration: underline; }
+.dark .nextra-content a { color: var(--link-dark); }
+
+/* Accessible focus ring (subtle) */
+a:focus-visible, button:focus-visible, .nextra-card:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+/* Code blocks: flat, bordered, minimal radius */
+.nextra-content pre {
+  background: #fafafa !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+.dark .nextra-content pre {
+  background: #0f1115 !important;
+  border-color: rgba(255,255,255,0.12) !important;
+}
+/* Inline code */
+.nextra-content :not(pre) > code {
+  background: #f5f5f5;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 2px;
+}
+.dark .nextra-content :not(pre) > code {
+  background: #111217;
+  border-color: rgba(255,255,255,0.1);
+}

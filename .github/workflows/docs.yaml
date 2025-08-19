@@ -1,13 +1,10 @@
-name: Deploy Documentation
+name: Documentation
 
 on:
+  pull_request: {}
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
-  workflow_dispatch:  # Allows manual triggering.
 
 permissions:
   contents: write
@@ -16,31 +13,43 @@ permissions:
 
 jobs:
   build-deploy:
+    name: Build and deploy documentation
     permissions:
       contents: write
-      pages: write
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history so Nextra can compute timestamps
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Use Node.js 18
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: './docs/package-lock.json'
 
-      - name: Install dependencies
+      - name: Install dependencies (docs)
+        working-directory: ./docs
         run: npm ci
 
-      - name: Build documentation
-        run: npm run docs:build
+      - name: Build Nextra site
+        working-directory: ./docs
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+        run: npm run build
 
-      - name: Deploy documentation
+      - name: Upload static site artifact (PRs)
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-preview
+          path: ./docs/out
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/.vitepress/dist
-          allow_empty_commit: true
-          keep_files: true
-          force_orphan: false
+          publish_dir: ./docs/out
