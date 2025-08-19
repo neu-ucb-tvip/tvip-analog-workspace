@@ -1,0 +1,43 @@
+##############################################################################################################
+#####  
+#####                                       Pegasus LVS COMPARISON
+#####  
+#####  Version                       :   22.14-s007
+#####  NVN Run Start                 :   Mon Aug 18 00:47:56 2025
+#####  ERC Summary File              :   result.sum
+#####  Extraction Report File        :   inverter_nmos3finger_3u.lvsrpt
+#####  Comparison Report File        :   inverter_nmos3finger_3u.lvsrpt.cls
+#####  Top Cell                      :   inverter_nmos3finger_3u  <vs>  inverter_nmos3finger_3u
+#####  
+#####                                :      @     @
+#####                                :       @   @ 
+#####                                :        @ @  
+#####  Run Result                    :     MISMATCH
+#####                                :        @ @  
+#####                                :       @   @ 
+#####                                :      @     @
+#####  
+#####  Run Summary                   :   [ERROR] Connectivity Mismatches
+#####                                :   [ERROR] Pin Mismatches
+#####                                :   [INFO]  ERC Results: Empty
+#####                                :   [INFO]  Extraction Clean
+#####  
+#####  Layout Design                 :   /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/inverter_nmos3finger_3u.gds (GDSII)
+#####  Layout File                   :   inverter_nmos3finger_3u.net (cdl)
+#####  Schematic File                :   ../inverter_nmos3finger_3u.cdl (cdl)
+#####  Rules File                    :   /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/../Sky130_LVS/sky130.lvs.pvl
+#####  Pin Swap File                 :   inverter_nmos3finger_3u.lvsrpt.cps
+#####  
+#####  Extraction CPU Time           :   0h 0m 1s - (1s)
+#####  Extraction Exec Time          :   0h 0m 6s - (6s)
+#####  Extraction Peak Memory Usage  :   142.00MB
+#####  NVN CPU Time                  :   0h 0m 0s - (0s)                 
+#####  NVN Exec Time                 :   0h 0m 1s - (1s)                 
+#####  NVN Peak Memory Usage         :   323.52MB
+#####  LVS Total CPU Time            :   0h 0m 1s - (1s)                 
+#####  LVS Total Exec Time           :   0h 0m 7s - (7s)                 
+#####  LVS Total Peak Memory Usage   :   323.52MB
+#####  
+##############################################################################################################
+
+

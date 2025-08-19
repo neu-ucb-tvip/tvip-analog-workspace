@@ -1,0 +1,18 @@
+# XXXX: Net Cross Reference (nxf) (File format 1)
+# XXXX: Layout Primary inverter_nmos3finger_3u
+# XXXX: End of header.
+% MN 4 MN 4 
+0 D 0 D
+0 G 0 G
+0 S 0 S
+0 B 0 B
+% MP 4 MP 4 
+0 D 0 D
+0 G 0 G
+0 S 0 S
+0 B 0 B
+% inverter_nmos3finger_3u 0 inverter_nmos3finger_3u 4 
+0 3 0 VDD
+0 1 0 VIN
+0 4 0 VOUT
+0 2 0 VSS

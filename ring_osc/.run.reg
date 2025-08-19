@@ -1,0 +1,32 @@
+# This Pegasus GUI File Index Registry was created automatically
+# Do not attempt to modify this file as any change may lead
+# to Pegasus GUI Tools malfunction.
+# 
+"Layout GDSII" input none /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/inverter_nmos3finger_3u.gds
+"Pegasus Job Mode" internal none lvs
+"Rule File" input text /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/../Sky130_LVS/sky130.lvs.pvl
+"Comparison Report" output cls /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/inverter_nmos3finger_3u.lvsrpt.cls
+"Extraction Report" output erc /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/inverter_nmos3finger_3u.lvsrpt
+"Mask SVDB Directory" internal none /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/.
+"QRC Top Cell" internal none inverter_nmos3finger_3u
+"LVS Report Options" internal none -none
+"Schematic Top Cell" internal none inverter_nmos3finger_3u
+"Layout Top Cell" internal none inverter_nmos3finger_3u
+"ERC Summary" output text /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/result.sum
+"Extraction Result" internal none CLEAN
+"ERC Result" internal none EMPTY
+"Run Directory" internal none /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/
+"UI Data" internal none ENABLED
+"Pegasus Mode Info" internal none BNFIOMOMCDGIBCMAEKCNNJOLIEHJBJEP
+"Report MaxResults" internal none 100000
+"Pegasus Version" internal none 22.14-s007
+"Binary Name" internal none Pegasus
+"Pegasus Build Date" internal none "Tue Jan 31 16:35:56 PST 2023"
+"Pegasus Job Time" internal none 1755503265
+"Schematic Netlist" input text /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/../inverter_nmos3finger_3u.cdl
+"Comparison Result" internal none MISMATCH
+"LVS Run Name" internal none inverter_nmos3finger_3u.lvsrpt
+"Pegasus Version" internal none 22.14-s007
+"Binary Name" internal none pegasusnvn
+"Pegasus Build Date" internal none "Tue Jan 31 16:35:56 PST 2023"
+"Pegasus Job Time" internal none 1755503276
