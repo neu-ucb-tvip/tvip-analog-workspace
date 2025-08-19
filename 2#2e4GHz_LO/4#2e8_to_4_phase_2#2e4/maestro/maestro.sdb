@@ -1,0 +1,1377 @@
+<?xml version="1.0"?>
+<setupdb version="6">maestro
+	<active>Active Setup
+		<jobcontrolmode>LSCS</jobcontrolmode>
+		<corners>
+			<corner enabled="1">_default</corner>
+		</corners>
+		<sharedvarinfo></sharedvarinfo>
+		<overwritehistory>0</overwritehistory>
+		<tests>
+			<test enabled="1">2.4GHz_LO_4.8_to_4_phase_2.4_1
+				<tool>ADE</tool>
+				<tooloptions>
+					<option>cell
+						<value>4.8_to_4_phase_2.4</value>
+					</option>
+					<option>lib
+						<value>2.4GHz_LO</value>
+					</option>
+					<option>path
+						<value>$AXL_SETUPDB_DIR</value>
+					</option>
+					<option>sim
+						<value>spectre</value>
+					</option>
+					<option>view
+						<value>schematic</value>
+					</option>
+					<option>state
+						<value>active</value>
+					</option>
+				</tooloptions>
+				<outputs>
+					<output>dft(clip(vout 7.5e-08 1e-07) 7.5e-08 1e-07 256 "Rectangular" 1 "default" 1.0)
+						<evalType>point</evalType>
+					</output>
+					<output>dB20((dft(clip(vout 7.5e-08 1e-07) 7.5e-08 1e-07 256 "Rectangular" 1 "default" 1.0)))
+						<evalType>point</evalType>
+					</output>
+					<output>dB20(dft(clip(vout 7.5e-08 1e-07) 7.5e-08 1e-07 256 "Rectangular" 1 "default" 1.0))
+						<evalType>point</evalType>
+					</output>
+					<output>4.8Ghz spectrum
+						<evalType>point</evalType>
+					</output>
+					<output>dB20(dft((clip (I + 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0))
+						<evalType>point</evalType>
+					</output>
+					<output>dB20(dft((clip (I_plus 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0))
+						<evalType>point</evalType>
+					</output>
+					<output>dB20(dft(((clip I_plus 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0))
+						<evalType>point</evalType>
+					</output>
+					<output>dB20((dft (((clip I_plus 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0)))
+						<evalType>point</evalType>
+					</output>
+					<output>2.4Ghz spectrum
+						<evalType>point</evalType>
+					</output>
+					<output>integral
+						<evalType>point</evalType>
+					</output>
+					<output>i
+						<evalType>point</evalType>
+					</output>
+					<output>integ(current 3)
+						<evalType>point</evalType>
+					</output>
+					<output>0
+						<evalType>point</evalType>
+					</output>
+					<output>(integ(current 9e-08 1e-07 nil) / 1e-08)
+						<evalType>point</evalType>
+					</output>
+					<output>(integ(current 4e-08 5e-08 nil) / 1e-08)
+						<evalType>point</evalType>
+					</output>
+					<output>vco_out_spectrum
+						<evalType>point</evalType>
+					</output>
+					<output>(integ(current 2e-08 3e-08 nil) / 1e-08)
+						<evalType>point</evalType>
+					</output>
+					<output>(integ(current 2e-08 3e-08 nil))
+						<evalType>point</evalType>
+					</output>
+					<output>integ(current 2e-08 3e-08 nil)
+						<evalType>point</evalType>
+					</output>
+					<output>integ(current 2e-08 2.7e-08 nil)
+						<evalType>point</evalType>
+					</output>
+					<output>(integ(current 2e-08 2.7e-08 nil) / 2.7e-09)
+						<evalType>point</evalType>
+					</output>
+					<output>integrated curr
+						<evalType>point</evalType>
+					</output>
+					<output>fast_plus
+						<evalType>point</evalType>
+					</output>
+					<output>total_i
+						<evalType>point</evalType>
+					</output>
+					<output>inv_osc_plus
+						<evalType>point</evalType>
+					</output>
+				</outputs>
+				<vars>
+					<var>C
+						<value>.55p</value>
+					</var>
+					<var>i
+						<value>.42m</value>
+					</var>
+					<var>L
+						<value>1.52n</value>
+					</var>
+					<var>tw
+						<value>1u</value>
+					</var>
+					<var>crossw
+						<value>2u</value>
+					</var>
+					<var>nwid
+						<value>2u</value>
+					</var>
+					<var>r
+						<value>3.824</value>
+					</var>
+					<var>mixwid
+						<value>4u</value>
+					</var>
+				</vars>
+			</test>
+			<test enabled="1">PSS
+				<tool>ADE</tool>
+				<tooloptions>
+					<option>cell
+						<value>4.8_to_4_phase_2.4</value>
+					</option>
+					<option>lib
+						<value>2.4GHz_LO</value>
+					</option>
+					<option>sim
+						<value>spectre</value>
+					</option>
+					<option>view
+						<value>schematic</value>
+					</option>
+					<option>path
+						<value>$AXL_SETUPDB_DIR</value>
+					</option>
+					<option>state
+						<value>active</value>
+					</option>
+				</tooloptions>
+				<vars>
+					<var>r
+						<value>3.824</value>
+					</var>
+					<var>nwid
+						<value>5u</value>
+					</var>
+					<var>crossw
+						<value>10u</value>
+					</var>
+					<var>invw
+						<value>5u</value>
+					</var>
+					<var>tw
+						<value>4u</value>
+					</var>
+					<var>C
+						<value>.72p</value>
+					</var>
+					<var>i
+						<value>.8m</value>
+					</var>
+					<var>L
+						<value>1.52n</value>
+					</var>
+					<var>wid
+						<value>5u</value>
+					</var>
+					<var>widp
+						<value>9u</value>
+					</var>
+					<var>mixwid
+						<value>4u</value>
+					</var>
+				</vars>
+			</test>
+			<test enabled="1">current_power
+				<tool>ADE</tool>
+				<tooloptions>
+					<option>cell
+						<value>4.8_to_4_phase_2.4</value>
+					</option>
+					<option>lib
+						<value>2.4GHz_LO</value>
+					</option>
+					<option>sim
+						<value>spectre</value>
+					</option>
+					<option>view
+						<value>schematic</value>
+					</option>
+					<option>path
+						<value>$AXL_SETUPDB_DIR</value>
+					</option>
+					<option>state
+						<value>active</value>
+					</option>
+				</tooloptions>
+				<vars>
+					<var>r
+						<value>3.824</value>
+					</var>
+					<var>nwid
+						<value>2u</value>
+					</var>
+					<var>crossw
+						<value>2u</value>
+					</var>
+					<var>tw
+						<value>1u</value>
+					</var>
+					<var>C
+						<value>.72p</value>
+					</var>
+					<var>i
+						<value>.42m</value>
+					</var>
+					<var>L
+						<value>1.52n</value>
+					</var>
+					<var>wid
+						<value>5u</value>
+					</var>
+					<var>widp
+						<value>9u</value>
+					</var>
+					<var>mixwid
+						<value>4u</value>
+					</var>
+				</vars>
+				<outputs>
+					<output>integ_total_i
+						<evalType>point</evalType>
+					</output>
+					<output>total_i
+						<evalType>point</evalType>
+					</output>
+				</outputs>
+			</test>
+		</tests>
+		<extensions>
+			<extension>Parasitics
+				<callback>_parSetupDBExtensionCB</callback>
+				<iconvalue></iconvalue>
+				<icontype></icontype>
+			</extension>
+		</extensions>
+		<currentmode>Single Run, Sweeps and Corners</currentmode>
+		<checksasserts netlist="0">
+			<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_1</test>
+			<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_2</test>
+			<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_3</test>
+			<test netlist="0" netlistscope="all">current_power</test>
+			<test netlist="0" netlistscope="all">PSS</test>
+		</checksasserts>
+		<plottingoptions>
+			<plottingoption>waveformtemplate
+				<value>(None)</value>
+			</plottingoption>
+			<plottingoption>plottingmode
+				<value>Replace</value>
+			</plottingoption>
+			<plottingoption>plottype
+				<value>None</value>
+			</plottingoption>
+			<plottingoption>usewaveformtemplate
+				<value>no</value>
+			</plottingoption>
+			<plottingoption>useMaestroPlottingTemplate
+				<value>yes</value>
+			</plottingoption>
+			<plottingoption>allplottingtemplates
+				<value></value>
+			</plottingoption>
+			<plottingoption>defaultplottingtemplate
+				<value></value>
+			</plottingoption>
+			<plottingoption>distributedplot_enabled
+				<value>no</value>
+			</plottingoption>
+			<plottingoption>autoplotmode
+				<value>Replace</value>
+			</plottingoption>
+		</plottingoptions>
+		<exploreroptions>
+			<exploreroption>waveformtemplate
+				<value>(None)</value>
+			</exploreroption>
+			<exploreroption>autoplotmode
+				<value>Replace</value>
+			</exploreroption>
+		</exploreroptions>
+		<incrementalsimsetup>
+			<useincremental>0</useincremental>
+			<reusenetlist>0</reusenetlist>
+			<reusesaverunhist>0</reusesaverunhist>
+			<copyreferenceresults>1</copyreferenceresults>
+		</incrementalsimsetup>
+		<overwritehistoryname>ExplorerRun.0</overwritehistoryname>
+		<parameters>
+			<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM1
+				<parameter enabled="1">fingers
+					<value>4</value>
+					<promptname>Fingers</promptname>
+				</parameter>
+			</location>
+			<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/PM47
+				<parameter enabled="1">fingers
+					<value>4</value>
+					<promptname>Fingers</promptname>
+				</parameter>
+				<parameter enabled="1">w
+					<value>10u</value>
+					<promptname>Total Width</promptname>
+				</parameter>
+			</location>
+			<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM54
+				<parameter enabled="1">fw
+					<value>2.5u</value>
+					<promptname>Finger Width</promptname>
+				</parameter>
+			</location>
+			<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM56
+				<parameter enabled="1">fw
+					<value>2u</value>
+					<promptname>Finger Width</promptname>
+				</parameter>
+			</location>
+			<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/PM49
+				<parameter enabled="1">fw
+					<value>1u</value>
+					<promptname>Finger Width</promptname>
+				</parameter>
+				<parameter enabled="1">w
+					<value>4u</value>
+					<promptname>Total Width</promptname>
+				</parameter>
+			</location>
+		</parameters>
+		<disabledtests>
+			<test>PSS</test>
+		</disabledtests>
+		<incrementalsimulationoptions>
+			<incrementalSimulation>0</incrementalSimulation>
+		</incrementalsimulationoptions>
+	</active>
+	<history>History
+		<historyentry assemblerOrExplorer="assembler" roOrView="view" runningOrFinished="finished">Interactive.0
+			<checkpoint>
+				<jobcontrolmode>LSCS</jobcontrolmode>
+				<corners>
+					<corner enabled="1">_default</corner>
+				</corners>
+				<sharedvarinfo></sharedvarinfo>
+				<overwritehistory>0</overwritehistory>
+				<tests>
+					<test enabled="1">2.4GHz_LO_4.8_to_4_phase_2.4_1
+						<tool>ADE</tool>
+						<tooloptions>
+							<option>cell
+								<value>4.8_to_4_phase_2.4</value>
+							</option>
+							<option>lib
+								<value>2.4GHz_LO</value>
+							</option>
+							<option>path
+								<value>$AXL_SETUPDB_DIR/test_states</value>
+							</option>
+							<option>sim
+								<value>spectre</value>
+							</option>
+							<option>view
+								<value>schematic</value>
+							</option>
+							<option>state
+								<value>Interactive.0</value>
+							</option>
+						</tooloptions>
+						<outputs>
+							<output>dft(clip(vout 7.5e-08 1e-07) 7.5e-08 1e-07 256 "Rectangular" 1 "default" 1.0)
+								<evalType>point</evalType>
+							</output>
+							<output>dB20((dft(clip(vout 7.5e-08 1e-07) 7.5e-08 1e-07 256 "Rectangular" 1 "default" 1.0)))
+								<evalType>point</evalType>
+							</output>
+							<output>dB20(dft(clip(vout 7.5e-08 1e-07) 7.5e-08 1e-07 256 "Rectangular" 1 "default" 1.0))
+								<evalType>point</evalType>
+							</output>
+							<output>4.8Ghz spectrum
+								<evalType>point</evalType>
+							</output>
+							<output>dB20(dft((clip (I + 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0))
+								<evalType>point</evalType>
+							</output>
+							<output>dB20(dft((clip (I_plus 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0))
+								<evalType>point</evalType>
+							</output>
+							<output>dB20(dft(((clip I_plus 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0))
+								<evalType>point</evalType>
+							</output>
+							<output>dB20((dft (((clip I_plus 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0)))
+								<evalType>point</evalType>
+							</output>
+							<output>2.4Ghz spectrum
+								<evalType>point</evalType>
+							</output>
+							<output>integral
+								<evalType>point</evalType>
+							</output>
+							<output>i
+								<evalType>point</evalType>
+							</output>
+							<output>integ(current 3)
+								<evalType>point</evalType>
+							</output>
+							<output>0
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 9e-08 1e-07 nil) / 1e-08)
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 4e-08 5e-08 nil) / 1e-08)
+								<evalType>point</evalType>
+							</output>
+							<output>vco_out_spectrum
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 2e-08 3e-08 nil) / 1e-08)
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 2e-08 3e-08 nil))
+								<evalType>point</evalType>
+							</output>
+							<output>integ(current 2e-08 3e-08 nil)
+								<evalType>point</evalType>
+							</output>
+							<output>integ(current 2e-08 2.7e-08 nil)
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 2e-08 2.7e-08 nil) / 2.7e-09)
+								<evalType>point</evalType>
+							</output>
+							<output>integrated curr
+								<evalType>point</evalType>
+							</output>
+							<output>fast_plus
+								<evalType>point</evalType>
+							</output>
+						</outputs>
+						<vars>
+							<var>C
+								<value>.55p</value>
+							</var>
+							<var>i
+								<value>.6m</value>
+							</var>
+							<var>L
+								<value>1.52n</value>
+							</var>
+							<var>tw
+								<value>1u</value>
+							</var>
+							<var>crossw
+								<value>2u</value>
+							</var>
+							<var>nwid
+								<value>2u</value>
+							</var>
+							<var>r
+								<value>3.824</value>
+							</var>
+							<var>mixwid
+								<value>4u</value>
+							</var>
+						</vars>
+					</test>
+					<test enabled="1">PSS
+						<tool>ADE</tool>
+						<tooloptions>
+							<option>cell
+								<value>4.8_to_4_phase_2.4</value>
+							</option>
+							<option>lib
+								<value>2.4GHz_LO</value>
+							</option>
+							<option>sim
+								<value>spectre</value>
+							</option>
+							<option>view
+								<value>schematic</value>
+							</option>
+							<option>path
+								<value>$AXL_SETUPDB_DIR/test_states</value>
+							</option>
+							<option>state
+								<value>Interactive.0</value>
+							</option>
+						</tooloptions>
+						<vars>
+							<var>r
+								<value>3.824</value>
+							</var>
+							<var>nwid
+								<value>5u</value>
+							</var>
+							<var>crossw
+								<value>10u</value>
+							</var>
+							<var>invw
+								<value>5u</value>
+							</var>
+							<var>tw
+								<value>4u</value>
+							</var>
+							<var>C
+								<value>.72p</value>
+							</var>
+							<var>i
+								<value>.8m</value>
+							</var>
+							<var>L
+								<value>1.52n</value>
+							</var>
+							<var>wid
+								<value>5u</value>
+							</var>
+							<var>widp
+								<value>9u</value>
+							</var>
+							<var>mixwid
+								<value>4u</value>
+							</var>
+						</vars>
+					</test>
+					<test enabled="1">current_power
+						<tool>ADE</tool>
+						<tooloptions>
+							<option>cell
+								<value>4.8_to_4_phase_2.4</value>
+							</option>
+							<option>lib
+								<value>2.4GHz_LO</value>
+							</option>
+							<option>sim
+								<value>spectre</value>
+							</option>
+							<option>view
+								<value>schematic</value>
+							</option>
+							<option>path
+								<value>$AXL_SETUPDB_DIR/test_states</value>
+							</option>
+							<option>state
+								<value>Interactive.0</value>
+							</option>
+						</tooloptions>
+						<vars>
+							<var>r
+								<value>3.824</value>
+							</var>
+							<var>nwid
+								<value>2u</value>
+							</var>
+							<var>crossw
+								<value>2u</value>
+							</var>
+							<var>tw
+								<value>1u</value>
+							</var>
+							<var>C
+								<value>.72p</value>
+							</var>
+							<var>i
+								<value>.8m</value>
+							</var>
+							<var>L
+								<value>1.52n</value>
+							</var>
+							<var>wid
+								<value>5u</value>
+							</var>
+							<var>widp
+								<value>9u</value>
+							</var>
+							<var>mixwid
+								<value>4u</value>
+							</var>
+						</vars>
+						<outputs>
+							<output>integ_total_i
+								<evalType>point</evalType>
+							</output>
+							<output>total_i
+								<evalType>point</evalType>
+							</output>
+						</outputs>
+					</test>
+				</tests>
+				<extensions>
+					<extension>Parasitics
+						<callback>_parSetupDBExtensionCB</callback>
+						<iconvalue></iconvalue>
+						<icontype></icontype>
+					</extension>
+				</extensions>
+				<currentmode>Single Run, Sweeps and Corners</currentmode>
+				<checksasserts netlist="0">
+					<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_1</test>
+					<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_2</test>
+					<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_3</test>
+					<test netlist="0" netlistscope="all">current_power</test>
+					<test netlist="0" netlistscope="all">PSS</test>
+				</checksasserts>
+				<plottingoptions>
+					<plottingoption>waveformtemplate
+						<value>(None)</value>
+					</plottingoption>
+					<plottingoption>plottingmode
+						<value>Append</value>
+					</plottingoption>
+					<plottingoption>plottype
+						<value>None</value>
+					</plottingoption>
+					<plottingoption>usewaveformtemplate
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>useMaestroPlottingTemplate
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>allplottingtemplates
+						<value></value>
+					</plottingoption>
+					<plottingoption>defaultplottingtemplate
+						<value></value>
+					</plottingoption>
+					<plottingoption>distributedplot_enabled
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>autoplotmode
+						<value>Append</value>
+					</plottingoption>
+				</plottingoptions>
+				<exploreroptions>
+					<exploreroption>waveformtemplate
+						<value>(None)</value>
+					</exploreroption>
+					<exploreroption>autoplotmode
+						<value>Append</value>
+					</exploreroption>
+				</exploreroptions>
+				<incrementalsimsetup>
+					<useincremental>0</useincremental>
+					<reusenetlist>0</reusenetlist>
+					<reusesaverunhist>0</reusesaverunhist>
+					<copyreferenceresults>1</copyreferenceresults>
+				</incrementalsimsetup>
+				<overwritehistoryname>ExplorerRun.0</overwritehistoryname>
+				<parameters>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM1
+						<parameter enabled="1">fingers
+							<value>4</value>
+							<promptname>Fingers</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/PM47
+						<parameter enabled="1">fingers
+							<value>4</value>
+							<promptname>Fingers</promptname>
+						</parameter>
+						<parameter enabled="1">w
+							<value>10u</value>
+							<promptname>Total Width</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM54
+						<parameter enabled="1">fw
+							<value>2.5u</value>
+							<promptname>Finger Width</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM56
+						<parameter enabled="1">fw
+							<value>2u</value>
+							<promptname>Finger Width</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/PM49
+						<parameter enabled="1">fw
+							<value>1u</value>
+							<promptname>Finger Width</promptname>
+						</parameter>
+						<parameter enabled="1">w
+							<value>4u</value>
+							<promptname>Total Width</promptname>
+						</parameter>
+					</location>
+				</parameters>
+				<disabledtests>
+					<test>PSS</test>
+				</disabledtests>
+				<incrementalsimulationoptions>
+					<incrementalSimulation>0</incrementalSimulation>
+				</incrementalsimulationoptions>
+				<sortVariableValues>0</sortVariableValues>
+			</checkpoint>
+			<timestamp>Jun 29 21:34:19 2025</timestamp>
+			<uuid>{bb8a3e5d-025d-45c0-8540-5245f5d41487}</uuid>
+			<resultsname>/home/aa/users/cs199-cdv/tvip-analog-workspace/2#2e4GHz_LO/4#2e8_to_4_phase_2#2e4/maestro/results/maestro/Interactive.0.rdb</resultsname>
+			<simresults>$AXL_SETUPDB_DIR/results/maestro/Interactive.0.rdb</simresults>
+			<rawdatadelstrategy>SaveAll
+				<simdatasavemode>All</simdatasavemode>
+			</rawdatadelstrategy>
+			<saveevalerrorstrategy>SaveNone</saveevalerrorstrategy>
+			<netlistdelstrategy>SaveAll</netlistdelstrategy>
+			<uselocalpsfdir>false</uselocalpsfdir>
+			<localpsfdir>/tmp/eda-1.EECS.Berkeley.EDU_cs199-cdv_213419433</localpsfdir>
+			<psfdir>/home/aa/users/cs199-cdv/simulation/2.4GHz_LO/4.8_to_4_phase_2.4/maestro/results/maestro/Interactive.0</psfdir>
+			<simdir>$AXL_PROJECT_DIR/2.4GHz_LO/4.8_to_4_phase_2.4/maestro/results/maestro/Interactive.0</simdir>
+			<gendatasheetplotsonsimulation>0</gendatasheetplotsonsimulation>
+			<loggingdatabasedir>/home/aa/users/cs199-cdv/tvip-analog-workspace/2#2e4GHz_LO/4#2e8_to_4_phase_2#2e4/maestro/results/maestro</loggingdatabasedir>
+			<runlog>/home/aa/users/cs199-cdv/tvip-analog-workspace/2#2e4GHz_LO/4#2e8_to_4_phase_2#2e4/maestro/results/maestro/Interactive.0.log</runlog>
+			<runlogfile>$AXL_SETUPDB_DIR/results/maestro/Interactive.0.log</runlogfile>
+			<schematicpoint></schematicpoint>
+			<test>all</test>
+		</historyentry>
+		<historyentry assemblerOrExplorer="assembler" roOrView="view" runningOrFinished="finished">Interactive.1
+			<checkpoint>
+				<jobcontrolmode>LSCS</jobcontrolmode>
+				<corners>
+					<corner enabled="1">_default</corner>
+				</corners>
+				<sharedvarinfo></sharedvarinfo>
+				<overwritehistory>0</overwritehistory>
+				<tests>
+					<test enabled="1">2.4GHz_LO_4.8_to_4_phase_2.4_1
+						<tool>ADE</tool>
+						<tooloptions>
+							<option>cell
+								<value>4.8_to_4_phase_2.4</value>
+							</option>
+							<option>lib
+								<value>2.4GHz_LO</value>
+							</option>
+							<option>path
+								<value>$AXL_SETUPDB_DIR/test_states</value>
+							</option>
+							<option>sim
+								<value>spectre</value>
+							</option>
+							<option>view
+								<value>schematic</value>
+							</option>
+							<option>state
+								<value>Interactive.1</value>
+							</option>
+						</tooloptions>
+						<outputs>
+							<output>dft(clip(vout 7.5e-08 1e-07) 7.5e-08 1e-07 256 "Rectangular" 1 "default" 1.0)
+								<evalType>point</evalType>
+							</output>
+							<output>dB20((dft(clip(vout 7.5e-08 1e-07) 7.5e-08 1e-07 256 "Rectangular" 1 "default" 1.0)))
+								<evalType>point</evalType>
+							</output>
+							<output>dB20(dft(clip(vout 7.5e-08 1e-07) 7.5e-08 1e-07 256 "Rectangular" 1 "default" 1.0))
+								<evalType>point</evalType>
+							</output>
+							<output>4.8Ghz spectrum
+								<evalType>point</evalType>
+							</output>
+							<output>dB20(dft((clip (I + 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0))
+								<evalType>point</evalType>
+							</output>
+							<output>dB20(dft((clip (I_plus 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0))
+								<evalType>point</evalType>
+							</output>
+							<output>dB20(dft(((clip I_plus 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0))
+								<evalType>point</evalType>
+							</output>
+							<output>dB20((dft (((clip I_plus 7.5e-08) 1e-07) 7.5e-08 1e-07 1024 "Rectangular" 1 "default" 1.0)))
+								<evalType>point</evalType>
+							</output>
+							<output>2.4Ghz spectrum
+								<evalType>point</evalType>
+							</output>
+							<output>integral
+								<evalType>point</evalType>
+							</output>
+							<output>i
+								<evalType>point</evalType>
+							</output>
+							<output>integ(current 3)
+								<evalType>point</evalType>
+							</output>
+							<output>0
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 9e-08 1e-07 nil) / 1e-08)
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 4e-08 5e-08 nil) / 1e-08)
+								<evalType>point</evalType>
+							</output>
+							<output>vco_out_spectrum
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 2e-08 3e-08 nil) / 1e-08)
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 2e-08 3e-08 nil))
+								<evalType>point</evalType>
+							</output>
+							<output>integ(current 2e-08 3e-08 nil)
+								<evalType>point</evalType>
+							</output>
+							<output>integ(current 2e-08 2.7e-08 nil)
+								<evalType>point</evalType>
+							</output>
+							<output>(integ(current 2e-08 2.7e-08 nil) / 2.7e-09)
+								<evalType>point</evalType>
+							</output>
+							<output>integrated curr
+								<evalType>point</evalType>
+							</output>
+							<output>fast_plus
+								<evalType>point</evalType>
+							</output>
+							<output>total_i
+								<evalType>point</evalType>
+							</output>
+						</outputs>
+						<vars>
+							<var>C
+								<value>.55p</value>
+							</var>
+							<var>i
+								<value>.4m</value>
+							</var>
+							<var>L
+								<value>1.52n</value>
+							</var>
+							<var>tw
+								<value>1u</value>
+							</var>
+							<var>crossw
+								<value>2u</value>
+							</var>
+							<var>nwid
+								<value>2u</value>
+							</var>
+							<var>r
+								<value>3.824</value>
+							</var>
+							<var>mixwid
+								<value>4u</value>
+							</var>
+						</vars>
+					</test>
+					<test enabled="1">PSS
+						<tool>ADE</tool>
+						<tooloptions>
+							<option>cell
+								<value>4.8_to_4_phase_2.4</value>
+							</option>
+							<option>lib
+								<value>2.4GHz_LO</value>
+							</option>
+							<option>sim
+								<value>spectre</value>
+							</option>
+							<option>view
+								<value>schematic</value>
+							</option>
+							<option>path
+								<value>$AXL_SETUPDB_DIR/test_states</value>
+							</option>
+							<option>state
+								<value>Interactive.1</value>
+							</option>
+						</tooloptions>
+						<vars>
+							<var>r
+								<value>3.824</value>
+							</var>
+							<var>nwid
+								<value>5u</value>
+							</var>
+							<var>crossw
+								<value>10u</value>
+							</var>
+							<var>invw
+								<value>5u</value>
+							</var>
+							<var>tw
+								<value>4u</value>
+							</var>
+							<var>C
+								<value>.72p</value>
+							</var>
+							<var>i
+								<value>.8m</value>
+							</var>
+							<var>L
+								<value>1.52n</value>
+							</var>
+							<var>wid
+								<value>5u</value>
+							</var>
+							<var>widp
+								<value>9u</value>
+							</var>
+							<var>mixwid
+								<value>4u</value>
+							</var>
+						</vars>
+					</test>
+					<test enabled="1">current_power
+						<tool>ADE</tool>
+						<tooloptions>
+							<option>cell
+								<value>4.8_to_4_phase_2.4</value>
+							</option>
+							<option>lib
+								<value>2.4GHz_LO</value>
+							</option>
+							<option>sim
+								<value>spectre</value>
+							</option>
+							<option>view
+								<value>schematic</value>
+							</option>
+							<option>path
+								<value>$AXL_SETUPDB_DIR/test_states</value>
+							</option>
+							<option>state
+								<value>Interactive.1</value>
+							</option>
+						</tooloptions>
+						<vars>
+							<var>r
+								<value>3.824</value>
+							</var>
+							<var>nwid
+								<value>2u</value>
+							</var>
+							<var>crossw
+								<value>2u</value>
+							</var>
+							<var>tw
+								<value>1u</value>
+							</var>
+							<var>C
+								<value>.72p</value>
+							</var>
+							<var>i
+								<value>.8m</value>
+							</var>
+							<var>L
+								<value>1.52n</value>
+							</var>
+							<var>wid
+								<value>5u</value>
+							</var>
+							<var>widp
+								<value>9u</value>
+							</var>
+							<var>mixwid
+								<value>4u</value>
+							</var>
+						</vars>
+						<outputs>
+							<output>integ_total_i
+								<evalType>point</evalType>
+							</output>
+							<output>total_i
+								<evalType>point</evalType>
+							</output>
+						</outputs>
+					</test>
+				</tests>
+				<extensions>
+					<extension>Parasitics
+						<callback>_parSetupDBExtensionCB</callback>
+						<iconvalue></iconvalue>
+						<icontype></icontype>
+					</extension>
+				</extensions>
+				<currentmode>Single Run, Sweeps and Corners</currentmode>
+				<checksasserts netlist="0">
+					<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_1</test>
+					<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_2</test>
+					<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_3</test>
+					<test netlist="0" netlistscope="all">current_power</test>
+					<test netlist="0" netlistscope="all">PSS</test>
+				</checksasserts>
+				<plottingoptions>
+					<plottingoption>waveformtemplate
+						<value></value>
+					</plottingoption>
+					<plottingoption>plottingmode
+						<value>Replace</value>
+					</plottingoption>
+					<plottingoption>plottype
+						<value>None</value>
+					</plottingoption>
+					<plottingoption>usewaveformtemplate
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>useMaestroPlottingTemplate
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>allplottingtemplates
+						<value></value>
+					</plottingoption>
+					<plottingoption>defaultplottingtemplate
+						<value></value>
+					</plottingoption>
+					<plottingoption>distributedplot_enabled
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>autoplotmode
+						<value>Replace</value>
+					</plottingoption>
+				</plottingoptions>
+				<exploreroptions>
+					<exploreroption>waveformtemplate
+						<value>(None)</value>
+					</exploreroption>
+					<exploreroption>autoplotmode
+						<value>Replace</value>
+					</exploreroption>
+				</exploreroptions>
+				<incrementalsimsetup>
+					<useincremental>0</useincremental>
+					<reusenetlist>0</reusenetlist>
+					<reusesaverunhist>0</reusesaverunhist>
+					<copyreferenceresults>1</copyreferenceresults>
+				</incrementalsimsetup>
+				<overwritehistoryname>ExplorerRun.0</overwritehistoryname>
+				<parameters>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM1
+						<parameter enabled="1">fingers
+							<value>4</value>
+							<promptname>Fingers</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/PM47
+						<parameter enabled="1">fingers
+							<value>4</value>
+							<promptname>Fingers</promptname>
+						</parameter>
+						<parameter enabled="1">w
+							<value>10u</value>
+							<promptname>Total Width</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM54
+						<parameter enabled="1">fw
+							<value>2.5u</value>
+							<promptname>Finger Width</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM56
+						<parameter enabled="1">fw
+							<value>2u</value>
+							<promptname>Finger Width</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/PM49
+						<parameter enabled="1">fw
+							<value>1u</value>
+							<promptname>Finger Width</promptname>
+						</parameter>
+						<parameter enabled="1">w
+							<value>4u</value>
+							<promptname>Total Width</promptname>
+						</parameter>
+					</location>
+				</parameters>
+				<disabledtests>
+					<test>PSS</test>
+				</disabledtests>
+				<incrementalsimulationoptions>
+					<incrementalSimulation>0</incrementalSimulation>
+				</incrementalsimulationoptions>
+				<sortVariableValues>0</sortVariableValues>
+			</checkpoint>
+			<timestamp>Jun 30 09:43:46 2025</timestamp>
+			<uuid>{60c0a48a-66a3-4101-b84d-177a02ac750f}</uuid>
+			<resultsname>/home/aa/users/cs199-cdv/tvip-analog-workspace/2#2e4GHz_LO/4#2e8_to_4_phase_2#2e4/maestro/results/maestro/Interactive.1.rdb</resultsname>
+			<simresults>$AXL_SETUPDB_DIR/results/maestro/Interactive.1.rdb</simresults>
+			<rawdatadelstrategy>SaveAll
+				<simdatasavemode>All</simdatasavemode>
+			</rawdatadelstrategy>
+			<saveevalerrorstrategy>SaveNone</saveevalerrorstrategy>
+			<netlistdelstrategy>SaveAll</netlistdelstrategy>
+			<uselocalpsfdir>false</uselocalpsfdir>
+			<localpsfdir>/tmp/eda-1.EECS.Berkeley.EDU_cs199-cdv_094346485</localpsfdir>
+			<psfdir>/home/aa/users/cs199-cdv/simulation/2.4GHz_LO/4.8_to_4_phase_2.4/maestro/results/maestro/Interactive.1</psfdir>
+			<simdir>$AXL_PROJECT_DIR/2.4GHz_LO/4.8_to_4_phase_2.4/maestro/results/maestro/Interactive.1</simdir>
+			<gendatasheetplotsonsimulation>0</gendatasheetplotsonsimulation>
+			<loggingdatabasedir>/home/aa/users/cs199-cdv/tvip-analog-workspace/2#2e4GHz_LO/4#2e8_to_4_phase_2#2e4/maestro/results/maestro</loggingdatabasedir>
+			<runlog>/home/aa/users/cs199-cdv/tvip-analog-workspace/2#2e4GHz_LO/4#2e8_to_4_phase_2#2e4/maestro/results/maestro/Interactive.1.log</runlog>
+			<runlogfile>$AXL_SETUPDB_DIR/results/maestro/Interactive.1.log</runlogfile>
+			<schematicpoint></schematicpoint>
+			<test>all</test>
+		</historyentry>
+		<historyentry assemblerOrExplorer="explorer" roOrView="view" runningOrFinished="finished">ExplorerRun.0
+			<checkpoint>
+				<jobcontrolmode>LSCS</jobcontrolmode>
+				<corners>
+					<corner enabled="1">_default</corner>
+				</corners>
+				<sharedvarinfo></sharedvarinfo>
+				<overwritehistory>0</overwritehistory>
+				<tests>
+					<test enabled="1">current_power
+						<tool>ADE</tool>
+						<tooloptions>
+							<option>cell
+								<value>4.8_to_4_phase_2.4</value>
+							</option>
+							<option>lib
+								<value>2.4GHz_LO</value>
+							</option>
+							<option>sim
+								<value>spectre</value>
+							</option>
+							<option>view
+								<value>schematic</value>
+							</option>
+							<option>path
+								<value>$AXL_SETUPDB_DIR/test_states</value>
+							</option>
+							<option>state
+								<value>ExplorerRun.0</value>
+							</option>
+						</tooloptions>
+						<vars>
+							<var>r
+								<value>3.824</value>
+							</var>
+							<var>nwid
+								<value>2u</value>
+							</var>
+							<var>crossw
+								<value>2u</value>
+							</var>
+							<var>tw
+								<value>1u</value>
+							</var>
+							<var>C
+								<value>.72p</value>
+							</var>
+							<var>i
+								<value>.42m</value>
+							</var>
+							<var>L
+								<value>1.52n</value>
+							</var>
+							<var>wid
+								<value>5u</value>
+							</var>
+							<var>widp
+								<value>9u</value>
+							</var>
+							<var>mixwid
+								<value>4u</value>
+							</var>
+						</vars>
+						<outputs>
+							<output>integ_total_i
+								<evalType>point</evalType>
+							</output>
+							<output>total_i
+								<evalType>point</evalType>
+							</output>
+						</outputs>
+					</test>
+				</tests>
+				<extensions>
+					<extension>Parasitics
+						<callback>_parSetupDBExtensionCB</callback>
+						<iconvalue></iconvalue>
+						<icontype></icontype>
+					</extension>
+				</extensions>
+				<currentmode>Single Run, Sweeps and Corners</currentmode>
+				<checksasserts netlist="0">
+					<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_1</test>
+					<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_2</test>
+					<test netlist="0" netlistscope="all">2.4GHz_LO_4.8_to_4_phase_2.4_3</test>
+					<test netlist="0" netlistscope="all">current_power</test>
+					<test netlist="0" netlistscope="all">PSS</test>
+				</checksasserts>
+				<plottingoptions>
+					<plottingoption>plottype
+						<value>Auto</value>
+					</plottingoption>
+					<plottingoption>autoplotmode
+						<value>Replace</value>
+					</plottingoption>
+					<plottingoption>useMaestroPlottingTemplate
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>waveformtemplate
+						<value>(None)</value>
+					</plottingoption>
+					<plottingoption>autoplotsignals
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>autoplotwaveexpr
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>autoplotscalarexpr
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>annotatedesignname
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>annotatesimdate
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>annotatedesignvars
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>annotatetemperature
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>annotatescalaroutputs
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>annotatespecmarkers
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>directplotmode
+						<value>Append</value>
+					</plottingoption>
+					<plottingoption>directplotafter
+						<value>All Selections Are Made</value>
+					</plottingoption>
+					<plottingoption>histogramtype
+						<value>pass/fail</value>
+					</plottingoption>
+					<plottingoption>histogrambins
+						<value>10</value>
+					</plottingoption>
+					<plottingoption>showhistogramdensity
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>showhistogramdeviation
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>showhistogrampercentmarkers
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>histogramqqplot
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>showhistogrampoints
+						<value>yes</value>
+					</plottingoption>
+					<plottingoption>printafter
+						<value>Each Selection</value>
+					</plottingoption>
+					<plottingoption>distributedplot_enabled
+						<value>no</value>
+					</plottingoption>
+					<plottingoption>usewaveformtemplate
+						<value>no</value>
+					</plottingoption>
+				</plottingoptions>
+				<exploreroptions>
+					<exploreroption>waveformtemplate
+						<value>(None)</value>
+					</exploreroption>
+					<exploreroption>autoplotmode
+						<value>Replace</value>
+					</exploreroption>
+				</exploreroptions>
+				<incrementalsimsetup>
+					<useincremental>0</useincremental>
+					<reusenetlist>0</reusenetlist>
+					<reusesaverunhist>0</reusesaverunhist>
+					<copyreferenceresults>1</copyreferenceresults>
+				</incrementalsimsetup>
+				<overwritehistoryname>ExplorerRun.0</overwritehistoryname>
+				<parameters>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM1
+						<parameter enabled="1">fingers
+							<value>4</value>
+							<promptname>Fingers</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/PM47
+						<parameter enabled="1">fingers
+							<value>4</value>
+							<promptname>Fingers</promptname>
+						</parameter>
+						<parameter enabled="1">w
+							<value>10u</value>
+							<promptname>Total Width</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM54
+						<parameter enabled="1">fw
+							<value>2.5u</value>
+							<promptname>Finger Width</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/NM56
+						<parameter enabled="1">fw
+							<value>2u</value>
+							<promptname>Finger Width</promptname>
+						</parameter>
+					</location>
+					<location>2.4GHz_LO/4.8_to_4_phase_2.4/schematic/PM49
+						<parameter enabled="1">fw
+							<value>1u</value>
+							<promptname>Finger Width</promptname>
+						</parameter>
+						<parameter enabled="1">w
+							<value>4u</value>
+							<promptname>Total Width</promptname>
+						</parameter>
+					</location>
+				</parameters>
+				<disabledtests></disabledtests>
+				<incrementalsimulationoptions>
+					<incrementalSimulation>0</incrementalSimulation>
+				</incrementalsimulationoptions>
+				<runnabletests>
+					<test>current_power</test>
+				</runnabletests>
+				<vars></vars>
+				<allsweepsenabled>1</allsweepsenabled>
+				<sortVariableValues>0</sortVariableValues>
+			</checkpoint>
+			<timestamp>Jun 30 13:12:54 2025</timestamp>
+			<uuid>{c0c715f5-5952-44ab-b0ef-b8be6870731c}</uuid>
+			<resultsname>/home/aa/users/cs199-cdv/tvip-analog-workspace/2#2e4GHz_LO/4#2e8_to_4_phase_2#2e4/maestro/results/maestro/ExplorerRun.0.rdb</resultsname>
+			<simresults>$AXL_SETUPDB_DIR/results/maestro/ExplorerRun.0.rdb</simresults>
+			<rawdatadelstrategy>SaveAll
+				<simdatasavemode>All</simdatasavemode>
+			</rawdatadelstrategy>
+			<saveevalerrorstrategy>SaveNone</saveevalerrorstrategy>
+			<netlistdelstrategy>SaveAll</netlistdelstrategy>
+			<uselocalpsfdir>false</uselocalpsfdir>
+			<localpsfdir>/tmp/eda-1.EECS.Berkeley.EDU_cs199-cdv_131254958</localpsfdir>
+			<psfdir>/home/aa/users/cs199-cdv/simulation/2.4GHz_LO/4.8_to_4_phase_2.4/maestro/results/maestro/ExplorerRun.0</psfdir>
+			<simdir>$AXL_PROJECT_DIR/2.4GHz_LO/4.8_to_4_phase_2.4/maestro/results/maestro/ExplorerRun.0</simdir>
+			<gendatasheetplotsonsimulation>0</gendatasheetplotsonsimulation>
+			<loggingdatabasedir>/home/aa/users/cs199-cdv/tvip-analog-workspace/2#2e4GHz_LO/4#2e8_to_4_phase_2#2e4/maestro/results/maestro</loggingdatabasedir>
+			<runlog>/home/aa/users/cs199-cdv/tvip-analog-workspace/2#2e4GHz_LO/4#2e8_to_4_phase_2#2e4/maestro/results/maestro/ExplorerRun.0.log</runlog>
+			<runlogfile>$AXL_SETUPDB_DIR/results/maestro/ExplorerRun.0.log</runlogfile>
+			<schematicpoint></schematicpoint>
+			<test>all</test>
+		</historyentry>
+	</history>
+</setupdb>
