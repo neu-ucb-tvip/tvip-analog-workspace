@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	 via2 rules		   				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.26			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -16,38 +16,38 @@ NOT via2.not_areaid.mt via2.insideSR via2_neither ;
 
 // rule via2.1x
 //	via2 must be 0.2 um X 0.2 um, except inside areaid.mt (moduleCut),
-//	where it can be these square sizes: 0.20 um, 0.28 um, 1.2 um, 1.5 um
+//	where it can be these square sizes: 0.2 um, 0.28 um, 1.2 um, 1.5 um
 //	DRM appears to have conflicting & wrong information;
 // 	rules via2.1b, via2.1c, via2.1e, via2.1f are removed
 
-	rule via2.1a {
-	caption "AL FLow - Min and max L and W of via2 outside areaid.mt == 0.200 um"
-	rect_chk -not via2_neither -eq 0.200 -by -eq 0.200 -orthogonal_only
-	}
+  rule CDR.via2.1a {
+	caption "CDR: Min and max L and W of via2 outside areaid.mt: 0.20 um"
+	rect_chk -not via2_neither -eq 0.20 -by -eq 0.20 -orthogonal_only
+  }
 
 // rules via2.1b / via2.1c / via2.1d / via2.1e have conflicting information
 //  keeping via2.1d as correct
 //	rule via2.1b { Three sizes of square Via2s allowed inside areaid.mt: 0.280, 1.200um and 1.500um }
 //	rule via2.1c { Two sizes of square Via2s allowed inside areaid.mt: 1.200um and 1.500um }
 //	rule via2.1e { Three sizes of square Via2s allowed inside areaid.mt: 0.800um, 1.200um and 1.500um }
-// rule via2.1f is wrong; via2 must be 0.2 um X 0.2 um
+// 	rule via2.1f is wrong; via2 must be 0.2 um X 0.2 um
 //	rule via2.1f { AL Flow - Two sizes of square Via2s allowed outside areaid.mt: 0.800um and 1.200um }
 
    rule via2.1d {
-	caption "AL Flow - Four sizes of square Via2s allowed inside areaid.mt: 0.200um, 0.280um, 1.200um and 1.500um"
+	caption "Four sizes of square Via2s allowed inside areaid.mt: 0.200um, 0.280um, 1.200um and 1.500um"
 	rect_chk -not via2.areaid.mt -eq 0.200 -by -eq 0.200 -orthogonal_only -outputlayer via2.1d_b 
 	rect_chk -not via2.1d_b -eq 0.280 -by -eq 0.280 -orthogonal_only -outputlayer via2.1d_c
 	rect_chk -not via2.1d_c -eq 1.200 -by -eq 1.200 -orthogonal_only -outputlayer via2.1d_d
 	rect_chk -not via2.1d_d -eq 1.500 -by -eq 1.500 -orthogonal_only
    }
 
-   rule via2.2 {
-	caption "AL Flow - Spacing of via2 to via2: 0.200 um"
+   rule CDR.via2.2 {
+	caption "CDR: Min spacing of via2: 0.20 um"
 	exte via2 -lt 0.200 -single_point -output region
    }
 
    rule via2.3 {
-	  caption "AL Flow - Only min. square via2s are allowed except die seal ring where vias are (via2 CD)*L == 0.20 * L"
+	  caption "Only min. square via2s are allowed except die seal ring where vias are (via2 CD)*L == 0.20 * L"
 	  caption " this seal ring via2 does not have W = 0.2 um"
 	  rect_chk -not via2.insideSR -eq 0.20 ;
    }
@@ -56,61 +56,60 @@ NOT via2.not_areaid.mt via2.insideSR via2_neither ;
 //   Rules via2.cover.1 & via2.cover.2 are added to find via2 regions not inside met2 & met3
 // edge_select added to find 0.0 enclosure
 
-  rule via2.4 {
-	caption "CDR: AL Flow - via2 must be enclosed by met2 by at least: 0.040 um"
-//	enc via2 met2 -lt 0.040 -outside_also -output region
+  rule CDR.via2.4 {
+	caption "CDR: Min enclosure of via2 by met2: 0.04 um"
 	enc via2 met2 -lt 0.040 -output region
 	edge_select via2 met2 ;
   }
 
-//  According to DRM, this is not an AL only rule, but keeping it here...
   rule via2.4a {
-	caption "Inside areaid.mt, 1.5 um via2 must be enclosed by met2 by at least: 0.140 um"
+	caption "Inside areaid.mt, Min enclosure of 1.5 um via2 by met2: 0.14 um"
 	rect_chk via2.areaid.mt -eq 1.50 -orthogonal_only -outputlayer via2.4b_a
 	enc via2.4b_a met2 -lt 0.140 -output region
 	edge_select via2.4b_a met2 ;
   }
 
-  rule via2.5 {
-	caption "CDR: AL Flow - via2 must be enclosed by met2 on one of two adjacent sides by at least: 0.085 um"
+  rule CDR.via2.5 {
+	caption "CDR: Min enclosure of via2 by met2 on one of two adjacent sides: 0.085 um"
 	rect_enc via2 met2 -good 0.085 0.000 0.085 0.000
   }
 #ENDIF  // ifndef CU
 
 #IFDEF CU
 
-	rule via2.11 {
-	caption "Cu FLow - Min and max L and W of via2 == 0.210 um"
+ rule via2.11 {
+	caption "Cu FLow - Min and max L and W of via2 == 0.21 um"
 	rect_chk -not via2 -eq 0.210 -by -eq 0.210 -orthogonal_only
-	}
+  }
 
-	rule via2.12 {
-	caption "Cu Flow - Spacing of via2 to via2: 0.180 um"
+  rule via2.12 {
+	caption "Cu Flow - Spacing of via2 to via2: 0.18 um"
 	exte via2 -lt 0.180 -single_point -output region
-	}
+  }
 
-	//rule via2.13 {
-	//	caption "Cu Flow - Min Spacing betweeb via2 rows: 0.200 um"
-	//	caption "	TBA   "
-	//}
+  //rule via2.13 {
+  //	caption "Cu Flow - Min Spacing betweeb via2 rows: 0.20 um"
+  //	caption "	TBA   "
+  //}
 
-	rule via2.14 {
-	caption "Cu Flow - Via2 must be enclosed by Met2 by at least: 0.035 um"   
+  rule via2.14 {
+	caption "Cu Flow - Via2 must be enclosed by met2 by at least: 0.035 um"   
 	enc via2 met2 -lt 0.035 -output region
 	edge_select via2 met2
-	}
+  }
 
-	//rule via2.irdrc.1 {
-	//	caption "	TBA   "
-	//}
+  //rule via2.irdrc.1 {
+  //	caption "	TBA   "
+  //}
 
-	//rule via2.irdrc.2 {
-	//	caption "	TBA   "
-	//}
+  //rule via2.irdrc.2 {
+  //	caption "	TBA   "
+  //}
 
-	//rule via2.irdrc.3 {
-	//	caption "	TBA   "
-	//}
+  //rule via2.irdrc.3 {
+  //	caption "	TBA   "
+  //}
+	
 #ENDIF  // ifdef CU
 
 

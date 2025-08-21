@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  Derived Layers		  			//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 //////////////////////////////////////////////////////////////////
 
 select -outside pad areaid.ft -outputlayer bondPad
@@ -16,7 +16,7 @@ select -label poly -textname "dummy_poly" -textlayer text -outputlayer dummy_pol
 holes SEALID -outputlayer Chip_extent_pvsTmp1
 or Chip_extent_pvsTmp1 SEALID -outputlayer Chip_extent
 
-or cfom cp1m_mk cmm1_mk cmm2_mk -outputlayer Diecut_pmm_pvsTmp1
+or diff_mask poly_mask m1_mask m2_mask -outputlayer Diecut_pmm_pvsTmp1
 not areaid.dt Diecut_pmm_pvsTmp1 -outputlayer Diecut_pmm
 
 with_width met1 -gt 3.000 -outputlayer huge_met1
@@ -38,7 +38,7 @@ NOT ALL SEALID -outputlayer ALL_not_sealid
 
 select -cut -not ALL SEALID -outputlayer ALL_outside_sealid
 
-holes SEALID sealid_hole
+holes SEALID -inner -empty -outputlayer sealid_hole
 
 OR sealid_hole ALL_outside_sealid -outputlayer fill_area 
 
@@ -71,13 +71,21 @@ select -inside gate lvtn -outputlayer LVTN_Gate
 //   input diff: diff_all (OR diff_dg diff_fill)
 
 // diff_all: OR (diff dg) (diff fill)   [in layer_defs]
-// diff_in:  OR (diff dg) (diff fill) (tap dg)
+// diff_in:  OR (diff dg) (tap dg)
 // diff:	 diff_all NOT (diff_res)
 // ntap: 	AND (nsdm diff_in nwell) NOT poly
 // ptap: 	(nsdm diff_in NOT nwell) NOT poly  ; also remove (dnwell NOT ptub)
 // tap: 	OR (ntap ptap)
 
-OR diff_all tap_dg  diff_in ;
+
+// v2.10:  REMOVING diff_fill from  diff_in  definition
+// PREVIOUS:  diff_in:  OR (diff dg) (diff fill) (tap dg)
+// this will allow applying separate rules for diff_fill 
+//   withouth changing the difftap & hvdifftap rules
+
+//OR diff_all tap_dg diff_in ;
+OR diff_dg tap_dg diff_in ;
+
 
 // ndiff:  (diff AND nsdm) NOT nwell
 // pdiff:  (diff AND psdm) AND nwell

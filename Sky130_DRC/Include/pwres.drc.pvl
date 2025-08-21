@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  pwres rules		 				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.49			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -10,29 +10,29 @@
 //}
 
 //rule pwres.2 {
-//	caption "Min/Max width of pwell resistor == 2.650 um"
+//	caption "Min/Max width of pwell resistor == 2.65 um"
 // 	inte pwell_res -eq 2.650 -single_point -output region
 //	caption "Checked in pwres.3"
 //}
 
 rule pwres.3 {
-	caption "Min length of pwell resistor: 26.500 um"
+	caption "Min length of pwell resistor: 26.50 um"
 	rect_chk -not pwell_res -eq 2.650 -by -lege 26.500 265.00
 }
 
 //rule pwres.4 {
-//	caption "Max length of pwell resistor == 265.00 um"
+//	caption "Max length of pwell resistor == 265.0 um"
 //	caption "Checked in pwres.3"
 //}
 
 rule pwres.5 {
-	caption "Min/Max spacing of tap inside the pwell resistor to nwell == 0.220 um"
+	caption "Min/Max spacing of tap inside the pwell resistor to nwell == 0.22 um"
 	select -inside tap pwell_res -outputlayer pwres.5_a  //djb
 	exte pwres.5_a nwell -lt 0.220 -single_point -output region
 }
 
 rule pwres.6 {
-	caption "Min/Max width of tap inside the pwell resistor == 0.530 um"
+	caption "Min/Max width of tap inside the pwell resistor == 0.53 um"
 	select -inside tap pwell_res -outputlayer pwres.6_a  //djb
 	with_width pwres.6_a -ne 0.530 
 }

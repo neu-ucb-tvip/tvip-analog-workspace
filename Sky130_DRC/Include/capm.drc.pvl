@@ -1,0 +1,312 @@
+//////////////////////////////////////////////////////////////////
+//	  capm & cap2m rules     		   		//
+// Version 0.0_2.10  June 25, 2025				//
+// DRM Section 5.7.21                            		//
+//////////////////////////////////////////////////////////////////
+
+////////////////////////////////
+
+// removing fill shapes from met3 & met4 checks here
+// sizing of plates creating false spacing errors to fill
+// add separate spacing capm to fill rule
+
+// v2.10:  moved capm, cap2m spacing checks involving fill to density file,
+//		and made these more comprehensive
+
+// capm
+
+// AND, NOT propagate connectivity from the first layer
+// no issue using "met3" here as m3_fill is at least 1.2 um away from capm
+
+AND met3 capm -outputlayer m3_bot_plate 
+NOT met3 capm -outputlayer m3_not_capm 
+
+rule "capm.1a" {
+	caption "met3 must completely enclose capm"
+	not capm m3_dg
+}
+rule "capm.1b" {
+	caption "capm without met4 is prohibited"
+	select -outside capm m4_dg
+}
+
+rule "capm.2a" {
+	caption "capm without via3 is prohibited"
+	select -interact -not capm via3
+}
+
+rule "capm.2b" {
+	caption "capm must contain at least 2 via3"
+	select -enclose capm -lt 2 via3
+}
+
+
+//////////////////////////////////////////////////////////////////
+// The rules concerning the spacing to "capm bottom plates" are ambiguous
+// DRM states:
+// "capm bottom plate min space and capm bottom plate minimum space to (capm not overlapping met3)"
+// ?? but capm CANNOT be "not overlapping met3" since met3 has to enclose capm
+// ?? should it be, "met3 not overlapping capm" ??
+
+// What if the met3 used as the bottom plate extended for large distances?
+// Would you really need to keep all other capm / met3 at least 1.2 um away?
+
+// I'm going to simply use:
+// Rule 3a:  min space between capm:  1.2 um
+//   For this rule, the bottom plate extends 0.14 um around capm
+// Rule 3b:  min space between unconnected capm & met3:  1.2 um
+
+// For 3a, I look for capm spacings not covered by met3, 
+// so that an array of caps with a continuous plate of met3 does not give errors
+// I do NOT consider if bottom plates are connected outside of the array
+// This is consistent with SW deck
+
+// For 3b, I simpy look for the spacing of capm to unconnected met3
+// This rule checks for connectivity through other metals
+
+// It's unclear to me if either of these implementations is correct
+//   3a & 3b both have bottom plate extended by 0.14 um (consistent with SW)
+//   3a should possibly be altered to connect capm with all metals
+//   3b should possibly be altered to only connect through met3
+//
+// Note that SW deck gives false errors if met3 extends more than 0.14 um around capm
+//////////////////////////////////////////////////////////////////
+
+// capm.3a
+
+size -by 0.14 m3_bot_plate -outputlayer m3_capm_plate
+
+exte -lt 1.2 m3_capm_plate -output region -outputlayer capm.3a.possible
+
+// join the capm and output regions to make the error look nicer
+
+select -inside -not capm.3a.possible met3 -outputlayer capm.3a_part ;
+exte -lt 0.145 capm capm.3a_part -output region -outputlayer capm.3a_part2 ;
+
+rule capm.3a {
+	caption "Min space between capm bottom plates"
+	caption "For this rule, capm is extended by 0.14 um to form bottom plate"
+	OR capm.3a_part capm.3a_part2 ;
+}	
+
+//////////////////////////////////
+
+// capm.3b
+
+// note that I use "edge_expand" to create an intermediate met3 layer,
+//   so that I can correctly look for met3 shapes outside of the cap
+// The "exte" check won't work if cap_bot is enclosed by met3, even with shield 0.
+
+AND m3_dg capm -outputlayer cap_bot
+
+//  extend cap_bot by 0.14 um since this is considered "cap bottom"
+//  this is consistent with SW deck
+
+//size -by 1.2 cap_bot -outputlayer cap_bot_1p2
+size -by 1.34 cap_bot -outputlayer cap_bot_1p2
+
+connect cap_bot_1p2 met3 -by capm
+
+AND cap_bot_1p2 met3 -not_connected -outputlayer met3_not_connected
+
+//exte -lt 1.2 cap_bot met3_not_connected -output region -outputlayer capm.m3_too_close
+exte -lt 1.34 cap_bot met3_not_connected -output region -outputlayer capm.m3_too_close
+
+select -enclose m3_dg capm -outputlayer m3_capm_enclose
+edge_expand m3_capm_enclose -inside_by 0.005 -outputlayer met3_capm_edge
+
+connect cap_bot met3
+connect met3_capm_edge met3
+
+rule CDR.capm.3b { 
+	caption "CDR: Min space capm bottom plates to unconnected met3: 1.2 um"
+	caption "For this rule, capm is extended by 0.14 um to form bottom plate"
+	exte -lt 1.2 cap_bot met3_capm_edge -exclude_shielded 0 -not_connected -output region 
+	copy capm.m3_too_close ;
+}
+
+
+//////////////////////////////////////////////////////////////////
+
+
+rule CDR.capm.3c {
+	caption "CDR: Min capm space: 0.84 um"
+	exte capm -lt 0.84 -abut -lt 90 -single_point -output region
+}
+
+rule "CDR.capm.4" {
+	caption "CDR: Min capm width: 1.0 um"
+	inte capm -lt 1.0 -abut -lt 90 -single_point -output region
+}
+
+rule "CDR.capm.5" {
+	caption "CDR: Min enclosure of capm by met3: 0.14 um"
+	enc capm m3_dg -lt 0.14 -measure all -abut -lt 90 -single_point -output region
+}
+
+rule "CDR.capm.6" {
+	caption "CDR: Min enclosure of via3 by capm: 0.14 um"
+	enc via3 capm -lt 0.14 -measure all -abut -lt 90 -single_point -output region
+}
+
+rule "CDR.capm.7" {
+	caption "CDR: Min spacing of capm and via3: 0.14 um "
+	exte capm via3 -lt 0.14 -abut -lt 90 -single_point -output region
+	select -touch via3 capm ;
+}
+
+rule "capm.8a" {
+	caption "Max capm aspect ratio (L/W): 20.0 um"
+	rect_chk capm -aspect -gt 20.00
+}
+rule "capm.8b" {
+	caption "Only rectangular capm is permitted"
+	rect_chk -not capm
+}
+rule "capm.8c" {
+	caption "Max area of capm: 1,000,000 square um"
+	area capm -gt 1000000
+}
+
+rule "capm.9a" {
+	caption "Min space of capm to via2: 0.14 um"
+	exte capm via2 -lt 0.14 -abut -lt 90 -single_point -output region
+	select -touch via2 capm ;
+}
+rule "capm.9b" {
+	caption "capm cannot overlap via2"
+	and capm via2
+}
+
+
+// cap2m
+
+// no issue using "met4" here as m4_fill is at least 1.2 um away from cap2m
+
+AND met4 cap2m -outputlayer m4_bot_plate
+
+rule "cap2m.1a" {
+	caption "cap2m without met4 is prohibited"
+	not cap2m m4_dg
+}
+rule "cap2m.1b" {
+	caption "cap2m without met5 is prohibited"
+	select -outside cap2m m5_dg
+}
+
+rule "cap2m.2a" {
+	caption "cap2m without via4 is prohibited"
+	select -interact -not cap2m via4
+}
+
+rule "cap2m.2b" {
+	caption "cap2m must contain at least 2 via4"
+	select -enclose cap2m -lt 2 via4
+}
+
+////////////////////////////////////////////////////////////////////
+// cap2m.3a & cap2m.3b rules similiar to capm
+//////////////////////////////////
+
+// cap2m.3a
+
+size -by 0.14 m4_bot_plate -outputlayer m4_cap2m_plate
+
+exte -lt 1.2 m4_cap2m_plate -output region -outputlayer cap2m.3a.possible
+
+// join the cap2m and output regions to make the error look nicer
+
+select -inside -not cap2m.3a.possible met4 -outputlayer cap2m.3a_part ;
+exte -lt 0.145 cap2m cap2m.3a_part -output region -outputlayer cap2m.3a_part2 ;
+
+rule CDR.cap2m.3a {
+	caption "CDR: Min space between cap2m bottom plates"
+	caption "For this rule, cap2m is extended by 0.14 um to form bottom plate"
+	OR cap2m.3a_part cap2m.3a_part2 ;
+}	
+
+//////////////////////////////////
+
+// cap2m.3b
+
+// note that I use "edge_expand" to create an intermediate met4 layer,
+//   so that I can correctly look for met4 shapes outside of the cap
+// The "exte" check won't work if cap2m_bot is enclosed by met4, even with shield 0.
+
+AND m4_dg cap2m -outputlayer cap2m_bot
+
+//  extend cap2m_bot by 0.14 um since this is considered "cap bottom"
+//  this is consistent with SW deck
+
+size -by 1.34 cap2m_bot -outputlayer cap2m_bot_1p2
+
+connect cap2m_bot_1p2 met4 -by cap2m
+
+AND cap2m_bot_1p2 met4 -not_connected -outputlayer met4_not_connected
+
+exte -lt 1.34 cap2m_bot met4_not_connected -output region -outputlayer cap2m.m4_too_close
+
+select -enclose m4_dg cap2m -outputlayer m4_cap2m_enclose
+edge_expand m4_cap2m_enclose -inside_by 0.005 -outputlayer met4_cap2m_edge
+
+connect cap2m_bot met4
+connect met4_cap2m_edge met4
+
+rule CDR.cap2m.3b { 
+	caption "CDR: Min space cap2m bottom plates to unconnected met4: 1.2 um"
+	caption "For this rule, cap2m is extended by 0.14 um to form bottom plate"
+	exte -lt 1.2 cap2m_bot met4_cap2m_edge -exclude_shielded 0 -not_connected -output region 
+	copy cap2m.m4_too_close ;
+}
+
+//////////////////////////////////
+
+rule CDR.cap2m.3c {
+	caption "CDR: Min cap2m space: 0.84 um"
+	exte cap2m -lt 0.84 -abut -lt 90 -single_point -output region
+}
+
+rule CDR.cap2m.4 {
+	caption "CDR: Min cap2m width: 1.0 um"
+	inte cap2m -lt 1.0 -abut -lt 90 -single_point -output region
+}
+
+rule CDR.cap2m.5 {
+	caption "CDR: Min enclosure of cap2m by met4: 0.14 um"
+	enc cap2m m4_dg -lt 0.14 -measure all -abut -lt 90 -single_point -output region
+}
+
+rule CDR.cap2m.6 {
+	caption "CDR: Min enclosure of via4 by cap2m: 0.2 um"
+	enc via4 cap2m -lt 0.20 -measure all -abut -lt 90 -single_point -output region
+}
+
+rule CDR.cap2m.7 {
+	caption "CDR: Min spacing of cap2m and via4: 0.2 um "
+	exte cap2m via4 -lt 0.20 -single_point -output region
+	select -touch via4 cap2m ;
+}
+
+rule "cap2m.8a" {
+	caption "Max cap2m aspect ratio (L/W): 20.0 um"
+	rect_chk cap2m -aspect -gt 20.00
+}
+rule "cap2m.8b" {
+	caption "Only rectangular cap2m is permitted"
+	rect_chk -not cap2m
+}
+rule "cap2m.8c" {
+	caption "Max area of cap2m: 1,000,000 square um"
+	area cap2m -gt 1000000
+}
+
+rule "cap2m.9a" {
+	caption "Min space of cap2m to via3: 0.14 um"
+	exte cap2m via3 -lt 0.14 -single_point -output region
+	select -touch via3 cap2m ;
+}
+rule "cap2m.9b" {
+	caption "cap2m cannot overlap via3 except for stacked capm / cap2m capacitors"
+	and cap2m (not via3 capm) ;
+}
+

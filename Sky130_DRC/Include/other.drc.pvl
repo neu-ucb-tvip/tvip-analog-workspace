@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  Other Rules		  				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 //////////////////////////////////////////////////////////////////
 //
 // Other rules:
@@ -19,26 +19,31 @@
 // licon inside LI and (poly or diff or tap) covered by rules licon.4a & licon.4b
 // poly licon inside npc is covered by rule licon.18
 
+
+// v2.10 - updating coverage checks to usg DG layers only
+//	  - fill shapes 
+
 #IFNDEF SRAM
-  rule mcon.cover.1 {
+  rule CDR.mcon.cover.1 {
 	caption "CDR: mcon must be inside li"
-	NOT mcon li1 ;
+	NOT mcon li_dg ;
   }
 #ENDIF
 
 #IFDEF SRAM
-  rule mcon.cover.1 {
+  rule CDR.mcon.cover.1 {
 	caption "CDR: mcon must be inside li"
-	NOT mcon_notcore li1 ;
+	NOT mcon_notcore li_dg ;
   }
-  rule mcon.cover.1_SRAM {
+  rule CDR.mcon.cover.1_SRAM {
+	caption "CORE WARNING: alternate mcon.cover.1 rule used in areaid.ce regions "
 	caption "mcon insice areaid.ce must overlap li"
-	select -outside mcon_core li1 ;
+	select -outside mcon_core li_dg ;
 
   }
   rule mcon.WARNING {
-  	caption "WARNING: alternate mcon.cover.1 rule used in areaid.ce regions "
-	caption "WARNING: real mcon.cover.1 errors may be missed "
+	caption "CORE WARNING: alternate mcon.cover.1 rule used in areaid.ce regions "
+	caption "CORE WARNING: real mcon.cover.1 errors may be missed "
 	extent_drawn areaid.ce ; ;
   }
 #ENDIF
@@ -46,111 +51,116 @@
 
 rule mcon.cover.2 {
 	caption "mcon must be inside met1"
-	NOT mcon met1 ;
+	NOT mcon m1_dg ;
 }
 rule via1.cover.1 {
 	caption "via1 must be inside met1"
-	NOT via1 met1 ;
+	NOT via1 m1_dg ;
 }
 rule via1.cover.2 {
 	caption "via1 must be inside met2"
-	NOT via1 met2 ;
+	NOT via1 m2_dg ;
 }
 rule via2.cover.1 {
 	caption "via2 must be inside met2"
-	NOT via2 met2 ;
+	NOT via2 m2_dg ;
 }
 rule via2.cover.2 {
 	caption "via2 must be inside met3"
-	NOT via2 met3 ;
+	NOT via2 m3_dg ;
 }
 rule via3.cover.1 {
 	caption "via3 must be inside met3"
-	NOT via3 met3 ;
+	NOT via3 m3_dg ;
 }
 rule via3.cover.2 {
 	caption "via3 must be inside met4"
-	NOT via3 met4 ;
+	NOT via3 m3_dg ;
 }
 rule via4.cover.1 {
 	caption "via4 must be inside met4"
-	NOT via4 met4 ;
+	NOT via4 m4_dg ;
 }
 rule via4.cover.2 {
 	caption "via4 must be inside met5"
-	NOT via4 met5 ;
+	NOT via4 m4_dg ;
 }
 
 
 //////////////////////////////////////////////////////////////////
 //  Res layers 
 
-select -cut -not diff_res li1 -outputlayer diffres_maybe
-NOT diff_dg diffres_maybe  diff_dg_not_res ;
+#IFNDEF NOWARN
+
+  select -cut -not diff_res li1 -outputlayer diffres_maybe
+  NOT diff_dg diffres_maybe  diff_dg_not_res ;
 
 //select -touch -not diffres_maybe diff_dg_not_res -eq 2 -outputlayer diffres_not_touch_2
 
-rule difftap.res { 
-  caption "diff res must fit exactly inside diff drawing"
-  select -touch -not diffres_maybe diff_dg_not_res -eq 2 ;
-  select -cut diff_res diff ;
-}
+  rule difftap.res { 
+  	caption "WARNING: diff res must fit exactly inside diff drawing"
+  	select -touch -not diffres_maybe diff_dg_not_res -eq 2 ;
+  	select -cut diff_res diff ;
+  }
 
-select -cut -not li1_res li1 -outputlayer lires_maybe
-NOT li1_dg lires_maybe  li_dg_not_res
+  select -cut -not li1_res li_dg -outputlayer lires_maybe
+  NOT li_dg lires_maybe  li_dg_not_res
 
 //select -touch -not lires_maybe li_dg_not_res -eq 2 -outputlayer lires_not_touch_2
 
-rule li.res { 
-  caption "li res must fit exactly inside li drawing"
-  select -touch -not lires_maybe li_dg_not_res -eq 2 ;
-  select -cut li1_res li1 ;
-}
+  rule li.res { 
+  	caption "WARNING: li res must fit exactly inside li drawing"
+  	select -touch -not lires_maybe li_dg_not_res -eq 2 ;
+  	select -cut li1_res li_dg ;
+  }
 
-select -cut -not met1_res li1 -outputlayer met1res_maybe
-NOT met1_dg met1res_maybe  met1_dg_not_res ;
+  select -cut -not met1_res m1_dg -outputlayer met1res_maybe
+  NOT m1_dg met1res_maybe  m1_dg_not_res ;
 
-rule m1.res { 
-  caption "met1 res must fit exactly inside met1 drawing"
-  select -touch -not met1res_maybe met1_dg_not_res -eq 2 ;
-  select -cut met1_res met1 ;
-}
+  rule m1.res { 
+  	caption "WARNING: met1 res must fit exactly inside met1 drawing"
+  	select -touch -not met1res_maybe m1_dg_not_res -eq 2 ;
+  	select -cut met1_res m1_dg ;
+  }
 
-select -cut -not met2_res li1 -outputlayer met2res_maybe
-NOT met2_dg met2res_maybe  met2_dg_not_res ;
+  select -cut -not met2_res m2_dg -outputlayer met2res_maybe
+  NOT m2_dg met2res_maybe  m2_dg_not_res ;
 
-rule m2.res { 
-  caption "met2 res must fit exactly inside met2 drawing"
-  select -touch -not met2res_maybe met2_dg_not_res -eq 2 ;
-  select -cut met2_res met2 ;
-}
+  rule m2.res { 
+  	caption "WARNING: met2 res must fit exactly inside met2 drawing"
+  	select -touch -not met2res_maybe m2_dg_not_res -eq 2 ;
+  	select -cut met2_res m2_dg ;
+  }
 
-select -cut -not met3_res li1 -outputlayer met3res_maybe
-NOT met3_dg met3res_maybe  met3_dg_not_res ;
+  select -cut -not met3_res m3_dg -outputlayer met3res_maybe
+  NOT m3_dg met3res_maybe  m3_dg_not_res ;
 
-rule m3.res { 
-  caption "met3 res must fit exactly inside met3 drawing"
-  select -touch -not met3res_maybe met3_dg_not_res -eq 2 ;
-  select -cut met3_res met3 ;
-}
+  rule m3.res { 
+  	caption "WARNING: met3 res must fit exactly inside met3 drawing"
+  	select -touch -not met3res_maybe m3_dg_not_res -eq 2 ;
+  	select -cut met3_res m3_dg ;
+  }
 
-select -cut -not met4_res li1 -outputlayer met4res_maybe
-NOT met4_dg met4res_maybe  met4_dg_not_res ;
+  select -cut -not met4_res m4_dg -outputlayer met4res_maybe
+  NOT m4_dg met4res_maybe  m4_dg_not_res ;
 
-rule m4.res { 
-  caption "met4 res must fit exactly inside met4 drawing"
-  select -touch -not met4res_maybe met4_dg_not_res -eq 2 ;
-  select -cut met4_res met4 ;
-}
+  rule m4.res { 
+  	caption "WARNING: met4 res must fit exactly inside met4 drawing"
+  	select -touch -not met4res_maybe m4_dg_not_res -eq 2 ;
+  	select -cut met4_res m4_dg ;
+  }
 
-select -cut -not met5_res li1 -outputlayer met5res_maybe
-NOT met5_dg met5res_maybe  met5_dg_not_res ;
+  select -cut -not met5_res m5_dg -outputlayer met5res_maybe
+  NOT m5_dg met5res_maybe  m5_dg_not_res ;
 
-rule m5.res { 
-  caption "met5 res must fit exactly inside met5 drawing"
-  select -touch -not met5res_maybe met5_dg_not_res -eq 2 ;
-  select -cut met5_res met5 ;
-}
+  rule m5.res { 
+  	caption "WARNING: met5 res must fit exactly inside met5 drawing"
+  	select -touch -not met5res_maybe m5_dg_not_res -eq 2 ;
+  	select -cut met5_res m4_dg ;
+  }
+
+#ENDIF	// #ifndef NOWARN
+
 
 //////////////////////////////////////////////////////////////////
 //  Blocking layers 
@@ -160,20 +170,20 @@ rule li.block.1 {
 	AND li1 li1_block ;
 }
 rule m1.block.1 {
-	  caption "met1 cannot overlap met1 blockage"
-	  AND met1 met1_block ;
+	caption "met1 cannot overlap met1 blockage"
+	AND met1 met1_block ;
 }
 rule m2.block.1 {
-	  caption "met2 cannot overlap met2 blockage"
-	  AND met2 met2_block ;
+	caption "met2 cannot overlap met2 blockage"
+	AND met2 met2_block ;
 }
 rule m3.block.1 {
-	  caption "met3 cannot overlap met3 blockage"
-	  AND met3 met3_block ;
+	caption "met3 cannot overlap met3 blockage"
+	AND met3 met3_block ;
 }
 rule m4.block.1 {
-	  caption "met4 cannot overlap met4 blockage"
-	  AND met4 met4_block ;
+	caption "met4 cannot overlap met4 blockage"
+	AND met4 met4_block ;
 }
 rule m5.block.1 {
  	caption "met5 cannot overlap met5 blockage"
@@ -193,15 +203,15 @@ rule m2.block.2 {
 	exte met2 met2_block -lt 0.14 -single_point -output region 
 }
 rule m3.block.2 {
-	caption "Min spacing of met3 to met3 blockage: 0.30 um"
+	caption "Min spacing of met3 to met3 blockage: 0.3 um"
 	exte met3 met3_block -lt 0.30 -single_point -output region 
 }
 rule m4.block.2 {
-	caption "Min spacing of met4 to met4 blockage: 0.30 um"
+	caption "Min spacing of met4 to met4 blockage: 0.3 um"
 	exte met4 met4_block -lt 0.30 -single_point -output region 
 }
 rule m5.block.2 {
-	caption "Min spacing of met5 to met5 blockage: 1.60 um"
+	caption "Min spacing of met5 to met5 blockage: 1.6 um"
 	exte met5 met5_block -lt 1.60 -single_point -output region 
 }
 
@@ -232,106 +242,108 @@ rule m5.block.2 {
 //      layer_def cmm5_waffle_drop	1264	
 //      layer_map 117 -datatype     4 	1264	//cmm5,waffle drop,117:4
 
+#IFNDEF NOWARN
+
 // diff
-layer_def cfom_fill 9001
-layer_map 22 -datatype 99 9001 // old cfom fill
+  layer_def cfom_fill 9001
+  layer_map 22 -datatype 99 9001 // old cfom fill
 
 
-rule "diff.fill.1" {
-	caption "cfom/fill (GDS 22:99) is not supported. Use diff/fill (GDS 65:99)"
+  rule "diff.oldfill.1" {
+	caption "WARNING: cfom/fill (GDS 22:99) is not supported. Use diff/fill (GDS 65:99)"
 	copy cfom_fill ;
-}
-rule "diff.fill.2" {
-	caption "cfom/waffleDrop (GDS 22:24) is not supported. Use diff/fill_block (GDS 65:98)"
+  }
+  rule "diff.oldfill.2" {
+	caption "WARNING: cfom/waffleDrop (GDS 22:24) is not supported. Use diff/fill_block (GDS 65:98)"
 	copy cfom_waffle_drop ;
-} 
+  } 
 
 // poly
-layer_def cp1m_fill 9091
-layer_map 28 -datatype 28 9091 // old poly fill
+  layer_def cp1m_fill 9091
+  layer_map 28 -datatype 28 9091 // old poly fill
 
-rule "poly.fill.1" {
-	caption "cp1m/fill (GDS 28:28) is not supported. Use poly/fill (GDS 66:99)"
+  rule "poly.oldfill.1" {
+	caption "WARNING: cp1m/fill (GDS 28:28) is not supported. Use poly/fill (GDS 66:99)"
 	copy cp1m_fill ;
-}
+  }
 
-rule "poly.fill.2" {
-	caption "cp1m/waffleDrop (GDS 33:24) is not supported. Use poly/fill_block (GDS 66:98)"
+  rule "poly.oldfill.2" {
+	caption "WARNING: cp1m/waffleDrop (GDS 33:24) is not supported. Use poly/fill_block (GDS 66:98)"
 	copy cp1m_waffle_drop ;
-}
+  }
 
-// LI
-layer_def cli1m_fill 9111
-layer_map 56 -datatype 28 9111 // old li fill
+  layer_def cli1m_fill 9111
+  layer_map 56 -datatype 28 9111 // old li fill
 
-rule "li.fill.1" {
-	caption "cli1m/fill (GDS 56:28) is not supported. Use li/fill (GDS 67:99)"
+  rule "li.oldfill.1" {
+	caption "WARNING: cli1m/fill (GDS 56:28) is not supported. Use li/fill (GDS 67:99)"
 	copy cli1m_fill
-}
+  }
 
-// M1
-layer_def cmm1_fill 9002
-layer_map 36 -datatype 28 9002 // old cmm1 fill
+  layer_def cmm1_fill 9002
+  layer_map 36 -datatype 28 9002 // old cmm1 fill
 
-rule "m1.fill.1" {
-	caption "cmm1/fill (GDS 36:28) is not supported. Use met1/fill (GDS 68:99)"
+  rule "m1.oldfill.1" {
+	caption "WARNING: cmm1/fill (GDS 36:28) is not supported. Use met1/fill (GDS 68:99)"
 	copy cmm1_fill
-}
+  }
 
-rule "m1.fill.2" {
-	caption "cmm1/waffleDrop (GDS 62:24) is not supported. Use met1/fill_block (GDS 68:98)"
+  rule "m1.oldfill.2" {
+	caption "WARNING: cmm1/waffleDrop (GDS 62:24) is not supported. Use met1/fill_block (GDS 68:98)"
 	copy cmm1_waffle_drop
-}
+  }
 
-layer_def cmm2_fill 9003
-layer_map 41 -datatype 28 9003 // old cmm2 fill
+  layer_def cmm2_fill 9003
+  layer_map 41 -datatype 28 9003 // old cmm2 fill
 
-rule "m2.fill.1" {
-	caption "cmm2/fill (GDS 41:28) is not supported. Use met2/fill (GDS 69:99)"
+  rule "m2.oldfill.1" {
+	caption "WARNING: cmm2/fill (GDS 41:28) is not supported. Use met2/fill (GDS 69:99)"
 	copy cmm2_fill
-}
+  }
 
-rule "m2.fill.2" {
-	caption "cmm2/waffleDrop (GDS 105:52) is not supported. Use met2/fill_block (GDS 69:98)"
+  rule "m2.oldfill.2" {
+	caption "WARNING: cmm2/waffleDrop (GDS 105:52) is not supported. Use met2/fill_block (GDS 69:98)"
 	copy cmm2_waffle_drop
-}
+  }
 
 
-layer_def cmm3_fill 9004
-layer_map 34 -datatype 28 9004 // old cmm3 fill
+  layer_def cmm3_fill 9004
+  layer_map 34 -datatype 28 9004 // old cmm3 fill
 
-rule "m3.fill.1" {
-	caption "cmm3/fill (GDS 34:28) is not supported. Use met3/fill (GDS 70:99)"
+  rule "m3.oldfill.1" {
+	caption "WARNING: cmm3/fill (GDS 34:28) is not supported. Use met3/fill (GDS 70:99)"
 	copy cmm3_fill
-}
+  }
 
-rule "m3.fill.2" {
-	caption "cmm3/waffleDrop (GDS 107:52) is not supported. Use met3/fill_block (GDS 70:98)"
+  rule "m3.oldfill.2" {
+	caption "WARNING: cmm3/waffleDrop (GDS 107:52) is not supported. Use met3/fill_block (GDS 70:98)"
 	copy cmm3_waffle_drop
-}
+  }
 
-layer_def cmm4_fill 9005
-layer_map 51 -datatype 28 9005 // old cmm4 fill
+  layer_def cmm4_fill 9005
+  layer_map 51 -datatype 28 9005 // old cmm4 fill
 
-rule "m4.fill.1" {
-	caption "cmm4/fill (GDS 51:28) is not supported. Use met4/fill (GDS 71:99)"
+  rule "m4.oldfill.1" {
+	caption "WARNING: cmm4/fill (GDS 51:28) is not supported. Use met4/fill (GDS 71:99)"
 	copy cmm4_fill
-}
+  }
 
-rule "m4.fill.2" {
-	caption "cmm4/waffleDrop (GDS 112:4) is not supported. Use met4/fill_block (GDS 71:98)"
+  rule "m4.oldfill.2" {
+	caption "WARNING: cmm4/waffleDrop (GDS 112:4) is not supported. Use met4/fill_block (GDS 71:98)"
 	copy cmm4_waffle_drop
-}
+  }
 
-layer_def cmm5_fill 9006
-layer_map 59 -datatype 28 9006 // old cmm5 fill
+  layer_def cmm5_fill 9006
+  layer_map 59 -datatype 28 9006 // old cmm5 fill
 
-rule "m5.fill.1" {
-	caption "cmm5/fill (GDS 59:28)) is not supported. Use met5/fill (GDS 72:99)"
+  rule "m5.oldfill.1" {
+	caption "WARNING: cmm5/fill (GDS 59:28)) is not supported. Use met5/fill (GDS 72:99)"
 	copy cmm5_fill
-}
+  }
 
-rule "m5.fill.2" {
-	caption "cmm5/waffleDrop (GDS 117:4) is not supported. Use met5/fill_block (GDS 72:98)"
+  rule "m5.oldfill.2" {
+	caption "WARNING: cmm5/waffleDrop (GDS 117:4) is not supported. Use met5/fill_block (GDS 72:98)"
 	copy cmm5_waffle_drop
-}
+  }
+
+#ENDIF 	// ifndef NOWARN

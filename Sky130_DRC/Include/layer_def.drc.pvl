@@ -1,15 +1,15 @@
 //////////////////////////////////////////////////////////////////
 //	  Input layer definitions	//
-// Version 0.0_2.8  June 17, 2025	//
+// Version 0.0_2.12  July 22, 2025	//
 //				  	//
 //////////////////////////////////////////////////////////////////
 //
 // NOTES	  
-// 	met drawing layers are now (eg): met1_dg
-// 	met fill shapes read in (eg):	met1_fill
+// 	met drawing layers are now (eg): m1_dg
+// 	met fill shapes read in (eg):	m1_fill
 //
 //	tap is no longer a separate layer from diff
-//	layers here are now diff_in and tap_dg
+//	layers here are now diff_dg and tap_dg
 
 layer_def diff_dg		1001	
 layer_map 65 -datatype     20 	1001	//diff,drawing,65:20
@@ -19,6 +19,9 @@ layer_map 65 -texttype 	   20 	1002	//diff,text,65:20
 // tap is no longer defined in S130 PDK
 // drawn tap is merged into diff on mask
 // will derive "tap" instead in derived layer file
+// tap remains in the Sky130 PDK, however.
+// "tap_dg" read in and processed to support legacy designs
+
 layer_def tap_dg		1003	
 layer_map 65 -datatype     44 	1003	//tap,drawing,65:44
 
@@ -60,37 +63,37 @@ layer_def npc		     	1021
 layer_map 95 -datatype     20	1021	//npc,drawing,95:20
 layer_def licon	     	1022	
 layer_map 66 -datatype     44	1022	//licon,drawing,66:44
-layer_def li1_dg	     	1023	
+layer_def li_dg	     	1023	
 layer_map 67 -datatype     20	1023	//li1,drawing,67:20
 layer_def li1_text	     	1024	
 layer_map 67 -texttype     20	1024	//li1,text,67:20
 layer_def mcon		     	1025	
 layer_map 67 -datatype     44	1025	//mcon,drawing,67:44
-layer_def met1_dg	     	1026	
+layer_def m1_dg	     	1026	
 layer_map 68 -datatype     20	1026	//met1,drawing,68:20
 layer_def met1_text	     	1027	
 layer_map 68 -texttype     20	1027	//met1,text,68:20
 layer_def via1		     	1028	
 layer_map 68 -datatype     44	1028	//via1,drawing,68:44
-layer_def met2_dg	     	1029	
+layer_def m2_dg	     	1029	
 layer_map 69 -datatype     20	1029	//met2,drawing,69:20
 layer_def met2_text	     	1030	
 layer_map 69 -texttype     20	1030	//met2,text,69:20
 layer_def via2		     	1031	
 layer_map 69 -datatype     44	1031	//via2,drawing,69:44
-layer_def met3_dg	     	1032	
+layer_def m3_dg	     	1032	
 layer_map 70 -datatype     20	1032	//met3,drawing,70:20
 layer_def met3_text	     	1033	
 layer_map 70 -texttype     20	1033	//met3,text,70:20
 layer_def via3		     	1034	
 layer_map 70 -datatype     44	1034	//via3,drawing,70:44
-layer_def met4_dg	     	1035	
+layer_def m4_dg	     	1035	
 layer_map 71 -datatype     20	1035	//met4,drawing,71:20
 layer_def met4_text		1036	
 layer_map 71 -texttype     20	1036	//met4,text,71:20
 layer_def via4			1037	
 layer_map 71 -datatype     44	1037	//via4,drawing,71:44
-layer_def met5_dg		1038	
+layer_def m5_dg		1038	
 layer_map 72 -datatype     20	1038	//met5,drawing,72:20
 layer_def met5_text		1039	
 layer_map 72 -texttype     20	1039	//met5,text,72:20
@@ -222,7 +225,7 @@ layer_map 82 -datatype     27	1098	//inductor,terminal2,82:27
 layer_def inductor_trm3	     	1099	
 layer_map 82 -datatype     28	1099	//inductor,terminal3,82:28
 layer_def li1_block	     	1100	
-layer_map 67 -datatype      1 	1100	//li1,block,67:10
+layer_map 67 -datatype     10 	1100	//li1,block,67:10
 layer_def met1_block	     	1101	
 layer_map 68 -datatype     10	1101	//met1,block,68:10
 layer_def met2_block	     	1102	
@@ -400,27 +403,27 @@ layer_def cpdm_mk	        1196
 layer_map 37 -datatype      0   1196	//cpdm,mask,37:0
 layer_def cnsm_mk	        1197	
 layer_map 22 -datatype      0   1197	//cnsm,mask,22:0
-layer_def cmm5_mk	        1198	
+layer_def m5_mask	        1198	
 layer_map 59 -datatype      0   1198	//cmm5,mask,59:0
 layer_def cviam4_mk	        1199	
 layer_map 58 -datatype      0   1199	//cviam4,mask,58:0
-layer_def cmm4_mk	        1200	
+layer_def m4_mask	        1200	
 layer_map 51 -datatype      0   1200	//cmm4,mask,51:0
 layer_def cviam3_mk	        1201	
 layer_map 50 -datatype      0   1201	//cviam3,mask,50:0
-layer_def cmm3_mk	        1202	
+layer_def m3_mask	        1202	
 layer_map 34 -datatype      0   1202	//cmm3,mask,34:0
 layer_def cviam2_mk	        1203	
 layer_map 44 -datatype      0   1203	//cviam2,mask,44:0
-layer_def cmm2_mk	        1204	
+layer_def m2_mask	        1204	
 layer_map 41 -datatype      0   1204	//cmm2,mask,41:0
 layer_def cviam1_mk	        1205	
 layer_map 40 -datatype      0   1205	//cviam1,mask,40:0
-layer_def cmm1_mk	        1206	
+layer_def m1_mask	        1206	
 layer_map 36 -datatype      0   1206	//cmm1,mask,36:0
 layer_def ctm1_mk	        1207	
 layer_map 35 -datatype      0   1207	//ctm1,mask,35:0
-layer_def cli1m_mk	        1208	
+layer_def li_mask	        1208	
 layer_map 56 -datatype      0   1208	//cli1m,mask,56:0
 layer_def clicm1_mk	        1209	
 layer_map 43 -datatype      0   1209	//clicm1,mask,43:0
@@ -436,7 +439,7 @@ layer_def chvntm_mk	        1214
 layer_map 39 -datatype      0   1214	//chvntm,mask,39:0
 layer_def cntm_mk	        1215	
 layer_map 27 -datatype      0   1215	//cntm,mask,27:0
-layer_def cp1m_mk	        1216	
+layer_def poly_mask	        1216	
 layer_map 28 -datatype      0   1216	//cp1m,mask,28:0
 layer_def clvom_mk		1217	
 layer_map 46 -datatype      0   1217	//clvom,mask,46:0
@@ -454,7 +457,7 @@ layer_def cnwm_mk	        1223
 layer_map 21 -datatype      0   1223	//cnwm,mask,21:0
 layer_def cdnm_mk	        1224	
 layer_map 48 -datatype      0   1224	//cdnm,mask,48:0
-layer_def cfom_mk	        1225	
+layer_def diff_mask	        1225	
 layer_map 23 -datatype      0   1225	//cfom,mask,23:0
 
 layer_def cfom		        1226	
@@ -491,7 +494,7 @@ layer_def clvtnm_mk_add 	1241
 layer_map 25 -datatype     43 	1241	//clvtnm,mask add,25:43
 layer_def chvtpm_mk_add		1242	
 layer_map 97 -datatype     43 	1242	//chvtpm,mask add,97:43
-layer_def cli1m_mk_add		1243	
+layer_def li_mask_add		1243	
 layer_map 115 -datatype    43	1243	//cli1m,mask add,115:43
 layer_def clicm1_mk_add		1244	
 layer_map 106 -datatype    43 	1244	//clicm1,mask add,106:43
@@ -499,9 +502,9 @@ layer_def cpsdm_mk_add		1245
 layer_map 31 -datatype     21 	1245	//cpsdm,mask add,31:21
 layer_def cnsdm_mk_add		1246	
 layer_map 29 -datatype     21 	1246	//cnsdm,mask add,29:21
-layer_def cp1m_mk_add		1247	
+layer_def poly_mask_add		1247	
 layer_map 33 -datatype     43 	1247	//cp1m,mask add,33:43
-layer_def cfom_mk_add		1248	
+layer_def diff_mask_add		1248	
 layer_map 22 -datatype     21 	1248	//cfom,mask add,22:21
 layer_def cntm_mk_drop  	1249	
 layer_map 26 -datatype     22 	1249	//cntm,mask drop,26:22
@@ -509,7 +512,7 @@ layer_def clvtnm_mk_drop 	1250
 layer_map 25 -datatype     42 	1250	//clvtnm,mask drop,25:42
 layer_def chvtpm_mk_drop	1251	
 layer_map 97 -datatype     42 	1251	//chvtpm,mask drop,97:42
-layer_def cli1m_mk_drop		1252	
+layer_def li_mask_drop		1252	
 layer_map 115 -datatype    42 	1252	//cli1m,mask drop,115:42
 layer_def clicm1_mk_drop	1253	
 layer_map 106 -datatype    42	1253	//clicm1,mask drop,106:42
@@ -517,25 +520,27 @@ layer_def cpsdm_mk_drop		1254
 layer_map 31 -datatype     22 	1254	//cpsdm,mask drop,31:22
 layer_def cnsdm_mk_drop		1255	
 layer_map 29 -datatype     22 	1255	//cnsdm,mask drop,29:22,
-layer_def cp1m_mk_drop		1256	
+layer_def poly_mask_drop		1256	
 layer_map 33 -datatype     42 	1256	//cp1m,mask drop,33:42,
-layer_def cfom_mk_drop		1257	
+layer_def diff_mask_drop		1257	
 layer_map 22 -datatype     22 	1257	//cfom,mask drop,22:22,
 
-layer_def cmm4_waffle_drop	1258	
-layer_map 112 -datatype     4 	1258	//cmm4,waffle drop,112:4
-layer_def cmm3_waffle_drop	1259	
-layer_map 107 -datatype    24 	1259	//cmm3,waffle drop,107:24
-layer_def cmm2_waffle_drop	1260	
-layer_map 105 -datatype    52 	1260	//cmm2,waffle drop,105:52
-layer_def cmm1_waffle_drop	1261	
-layer_map 62 -datatype     24 	1261	//cmm1,waffle drop,62:24
-layer_def cp1m_waffle_drop	1262	
-layer_map 33 -datatype     24 	1262	//cp1m,waffle drop,33:24
-layer_def cfom_waffle_drop	1263	
-layer_map 22 -datatype     24 	1263	//cfom,waffle drop,22:24
+layer_def cfom_waffle_drop	1258	
+layer_map 22 -datatype     24 	1258	//cfom,waffle drop,22:24
+layer_def cp1m_waffle_drop	1259	
+layer_map 33 -datatype     24 	1259	//cp1m,waffle drop,33:24
+
+layer_def cmm1_waffle_drop	1260	
+layer_map 62 -datatype     24 	1260	//cmm1,waffle drop,62:24
+layer_def cmm2_waffle_drop	1261	
+layer_map 105 -datatype    52 	1261	//cmm2,waffle drop,105:52
+layer_def cmm3_waffle_drop	1262	
+layer_map 107 -datatype    24 	1262	//cmm3,waffle drop,107:24
+layer_def cmm4_waffle_drop	1263	
+layer_map 112 -datatype     4 	1263	//cmm4,waffle drop,112:4
 layer_def cmm5_waffle_drop	1264	
 layer_map 117 -datatype     4 	1264	//cmm5,waffle drop,117:4
+
 
 //////////////////////////////////////////////////////////////////
 // Metal res layers 
@@ -556,8 +561,7 @@ layer_def met5_res 	     	1295
 layer_map 72 -datatype     13	1295	// met5 res
 
 //////////////////////////////////////////////////////////////////
-// Fill shapes
-// Note: these layers not in SKY130 PDK as of May 29, 2025
+// Fill & fill_block
 
 // 1281  diff	fill	65	  99
 // 1282  poly	fill	66	  99
@@ -568,34 +572,55 @@ layer_map 72 -datatype     13	1295	// met5 res
 // 1287  met4	fill	71	  99
 // 1288  met5	fill	72	  99
 
-layer_def diff_fill		1281
-layer_map 65 -datatype     99	1281	//diff,fill,65:99
-layer_def poly_fill	     	1282
-layer_map 66 -datatype     99	1282	//poly,fill,66:99
-layer_def li_fill	     	1283
-layer_map 67 -datatype     99	1283	//li,fill,67:99
+// fill
+layer_def diff_fill		1286
+layer_map 65 -datatype     99	1286	//diff,fill,65:99
+layer_def poly_fill	     	1287
+layer_map 66 -datatype     99	1287	//poly,fill,66:99
+layer_def li_fill	     	1288
+layer_map 67 -datatype     99	1288	//li,fill,67:99
 
-layer_def met1_fill	     	1284
-layer_map 68 -datatype     99	1284	//met1,fill,68:99
-layer_def met2_fill	     	1285
-layer_map 69 -datatype     99	1285	//met2,fill,69:99
-layer_def met3_fill	     	1286
-layer_map 70 -datatype     99	1286	//met3,fill,70:99
-layer_def met4_fill	     	1287
-layer_map 71 -datatype     99	1287	//met4,fill,71:99
-layer_def met5_fill	     	1288
-layer_map 72 -datatype     99	1288	//met5,fill,72:99
+layer_def m1_fill	     	1281
+layer_map 68 -datatype     99	1281 	//met1,fill,68:99
+layer_def m2_fill	     	1282
+layer_map 69 -datatype     99	1282	//met2,fill,69:99
+layer_def m3_fill	     	1283
+layer_map 70 -datatype     99	1283 	//met3,fill,70:99
+layer_def m4_fill	     	1284
+layer_map 71 -datatype     99	1284	//met4,fill,71:99
+layer_def m5_fill	     	1285
+layer_map 72 -datatype     99	1285	//met5,fill,72:99
+
+// fill_block
+layer_def diff_fillblock	1296
+layer_map 65 -datatype     98	1296	//diff,fill_block,65:98
+layer_def poly_fillblock	1297
+layer_map 66 -datatype     98	1297	//poly,fill_block,66:98
+layer_def li_fillblock	     	1298
+layer_map 67 -datatype     98	1298	//li,fill_block,67:98
+
+layer_def m1_fillblock	     	1291
+layer_map 68 -datatype     98	1291	//met1,fill_block,68:98
+layer_def m2_fillblock	     	1292
+layer_map 69 -datatype     98	1292	//met2,fill_block,69:98
+layer_def m3_fillblock	     	1293
+layer_map 70 -datatype     98	1293	//met3,fill_block,70:98
+layer_def m4_fillblock	     	1294
+layer_map 71 -datatype     98	1294	//met4,fill_block,71:98
+layer_def m5_fillblock	     	1295
+layer_map 72 -datatype     98	1295	//met5,fill_block,72:98
+
 
 // Add fill shapes to drawing layers
 
 OR diff_dg diff_fill diff_all ;
 OR poly_dg poly_fill poly ;
-OR li1_dg  li_fill   li1  ;
-OR met1_dg met1_fill met1 ;
-OR met2_dg met2_fill met2 ;
-OR met3_dg met3_fill met3 ;
-OR met4_dg met4_fill met4 ;
-OR met5_dg met5_fill met5 ;
+OR li_dg   li_fill   li1  ;
+OR m1_dg   m1_fill   met1 ;
+OR m2_dg   m2_fill   met2 ;
+OR m3_dg   m3_fill   met3 ;
+OR m4_dg   m4_fill   met4 ;
+OR m5_dg   m5_fill   met5 ;
  
 //////////////////////////////////////////////////////////////////
 // Adding RDL for future PDK usage

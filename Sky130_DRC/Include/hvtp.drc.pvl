@@ -1,26 +1,26 @@
 //////////////////////////////////////////////////////////////////
-//		  hvtp rules				  	//
-// Version 0.0_2.8  June 17, 2025				//
+//	hvtp rules				  		//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.6						//
 //////////////////////////////////////////////////////////////////
 
 rule hvtp.1 {
-	caption "CDR: Min width of hvtp: 0.380 um"
+	caption "CDR: Min width of hvtp: 0.38 um"
 	inte hvtp -lt 0.380 -single_point -output region
 }
 
 rule hvtp.2 {
-	caption "Min space between hvtp to hvtp: 0.380 um"
+	caption "CDR: Min spacing of hvtp to hvtp: 0.38 um"
 	exte hvtp -lt 0.380 -single_point -output region
 }
 
 rule hvtp.3 {
-	caption "Min enclosure of pfet by hvtp: 0.180 um"
-	enc pfet hvtp -lt 0.180 -output region
+	caption "Min enclosure of pfet outside of areaid.ce by hvtp: 0.18 um"
+	enc (select -outside pfet areaid.ce) hvtp -lt 0.180 -output region
 }
 
 rule hvtp.4 {
-	caption "Min spacing between pfet and hvtp: 0.180 um"
+	caption "Min spacing between pfet and hvtp: 0.18 um"
 	exte pfet hvtp -lt 0.180 -single_point -output region
 }
 
@@ -30,7 +30,7 @@ rule hvtp.5 {
 }
 
 rule hvtp.6 {
-	caption "Min area of hvtp Holes: 0.265"
+	caption "Min area of hvtp holes: 0.265 sq um"
 	holes hvtp -outputlayer hvtp.6_a
 	area hvtp.6_a -lt 0.265
 }

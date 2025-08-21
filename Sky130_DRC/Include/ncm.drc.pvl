@@ -1,17 +1,17 @@
 //////////////////////////////////////////////////////////////////
 //	  ncm rules		   				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.9						//
 //////////////////////////////////////////////////////////////////
 
 
-rule ncm.1 {
-	caption "Width of ncm: 0.380 um"
+rule CDR.ncm.1 {
+	caption "CDR: Min width of ncm: 0.38 um"
 	inte ncm -lt 0.380 -single_point -output region
 }
 
-rule ncm.2a {
-	caption "Spacing of ncm to ncm: 0.380 um"
+rule CDR.ncm.2 {
+	caption "CDR: Min spacing of ncm: 0.38 um"
 	caption "Manual merge ncm if space is below minimum"
 	exte ncm -lt 0.380 -single_point -output region
 }
@@ -22,7 +22,7 @@ rule ncm.2a {
 
 
 rule ncm.3 {
-	caption "Min enclosure of P+diff by Ncm: 0.180 um"
+	caption "Min enclosure of P+diff by Ncm: 0.18 um"
 	enc pdiff Ncm -lt 0.180 -output region
 }
 
@@ -36,14 +36,14 @@ and pdiff ( NOT areaid.ed areaid.de ) -outputlayer pdiff_edde
 // also this will make future edits easier
 
 rule ncm.4 {
-	caption "Min enclosure of P+diff within (areaid:esd AndNot areaid:diode) by Ncm: 0.180 um"
+	caption "Min enclosure of P+diff within (areaid:esd AndNot areaid:diode) by Ncm: 0.18 um"
 	enc pdiff_edde Ncm -lt 0.180 -output region
 }
 
 // I interpret the ncm.5 and ncm.6 spacing rules to imply that touching (space = 0.0) is a violation
 
 rule ncm.5 {
-	caption "Min space, no overlap, between ncm and (LVTN_gate) OR (diff containing lvtn): 0.230 um
+	caption "Min space, no overlap, between ncm and (LVTN_gate) OR (diff containing lvtn): 0.23 um
 	select -enclose diff lvtn -outputlayer ncm.5_a
 	or LVTN_gate ncm.5_a -outputlayer ncm.5_b
 // this will find space < 0.23 and overlap cases
@@ -55,7 +55,7 @@ rule ncm.5 {
 }
 
 rule ncm.6 {
-	caption "Min space, no overlap, between ncm and nfet: 0.200 um"
+	caption "Min space, no overlap, between ncm and nfet: 0.20 um"
 // this will find space < 0.20 and overlap cases
 	exte ncm nfet -lt 0.200 -overlap -single_point -output region -outputlayer ncm.6_a
 // find touching cases

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  photo rules		 				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.15						//
 //////////////////////////////////////////////////////////////////
 
@@ -14,12 +14,12 @@ select -enclose (AND areaid.po dnwell) nwell -outputlayer photo
 //}
 	
 rule photo.2 {
-	caption "Min/Max width of photoDiode "
+	caption "Min/Max width of photoDiode: 3.0 um "
 	inte photo -lt 3.0 -output region
 }
 	
 rule photo.3 {
-	caption "Min spacing between photoDiode "
+	caption "Min spacing between photoDiode: 5.0 um "
 	exte photo -lt 5.0 -output region
 }
 

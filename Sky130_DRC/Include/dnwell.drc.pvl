@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////////
 //	  dnwell rules						//
-// Version 0.0_2.8  June 17, 2025			  	//
+// Version 0.0_2.12  July 22, 2025			  	//
 // DRM Section 5.7.2						//
 //////////////////////////////////////////////////////////////////
 
-rule "dnwell.2" {
-	caption "Min width of deep nwell: 3.000 um"
-	inte dnwell -lt 3.000 -output region
+rule CDRW.dnwell.2 {
+	caption "CDRW: Min width of deep nwell: 3. um"
+	inte dnwell -lt 3.0 -output region
 }
 
 //////////////////////////////////////////////////////////////////
@@ -16,24 +16,24 @@ stamp dnwell_lvi dnwell dnwell_lv
 
 and dnwell uhvi -outputlayer dnwell_uhvi ;
 
-rule dnwell.3 {
-	caption "CDR: Min spacing/notch between deep nwells. Rule exempt inside UHVI: 6.300 um"
-	exte dnwell_lv -lt 6.300 -abut -lt 90 -single_point -output region
+rule CDRW.dnwell.3 {
+	caption "CDRW: Min spacing/notch between deep nwell (rule exempt inside UHVI): 6.3 um"
+	exte dnwell_lv -lt 6.3 -abut -lt 90 -single_point -output region
 }
 rule "dnwell.3a" {
-	caption "Min spacing of dwnell in v20 on same net < 2.5"
+	caption "Min spacing of dwnell in v20 on same net: 2.5"
 	exte dnwell_uhvi -lt 12.0 -abut -lt 90 -single_point -output region -connected
 }
 rule "dnwell.3d" {
-	caption "Min spacing of dwnell in v20 not on same net < 12.0"
+	caption "Min spacing of dwnell in v20 not on same net: 12.0"
 	exte dnwell_uhvi -lt 12.0 -abut -lt 90 -single_point -output region -not_connected
 }
 rule "dnwell.3b" {
-	caption "Min spacing of dnwell in uhvi to dnwell outside uhvi < 12.0"
+	caption "Min spacing of dnwell in uhvi to dnwell outside uhvi: 12.0"
 	exte dnwell_uhvi dnwell_lv -lt 12.0 -abut -lt 90 -single_point -output region -exclude_false_notch
 }
 rule "dnwell.3c" {
-	caption "Min spacing of dnwell in v20 to nwell outside v20 < 9.5"
+	caption "Min spacing of dnwell in v20 to nwell outside v20: 9.5"
 	exte dnwell_uhvi dnwell_lv -lt 9.5 -abut -lt 90 -single_point -output region 
 }
 

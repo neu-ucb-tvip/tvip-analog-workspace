@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	 via1 rules						//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.24			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ NOT via1_not_mt via1.insideSR via1_neither ;
 
 rule via1.3 {
   caption "Only min. square vias are allowed except die seal ring where vias are (via1 CD)*L == 0.20 * L"
-  caption " this seal ring via1 does not have W = 0.20 um "
+  caption " this seal ring via1 does not have W = 0.2 um "
   rect_chk -not via1.insideSR -eq 0.20 ;
 }
 
@@ -70,19 +70,19 @@ rule via1.3 {
 //	rect_chk  via1.mt -eq 0.150 -orthogonal_only 
 
   rule via1.1a {
-	caption "AL FLow - Min and max L and W of via1 outside areaid.mt == 0.150 um"
+	caption "CDR: Min and max L and W of via1 outside areaid.mt == 0.15 um"
 	rect_chk -not via1_neither -eq 0.150 -by -eq 0.150 -orthogonal_only
   }
 
   rule via1.1b {
-	caption "AL Flow - Three sizes of square Vias allowed inside areaid.mt: 0.150um, 0.230um and 0.280um"
+	caption "AL Flow - Three sizes of square Vias allowed inside areaid.mt: 0.15 um, 0.23 um and 0.28 um"
 	rect_chk -not via1_mt -eq 0.150 -by -eq 0.150 -orthogonal_only -outputlayer via1.not15
 	rect_chk -not via1.not15	 -eq 0.230 -by -eq 0.230 -orthogonal_only -outputlayer via1.not15_23
 	rect_chk -not via1.not15_23  -eq 0.280 -by -eq 0.280 -orthogonal_only
   }
 
-  rule via1.2 {
-	caption "AL Flow - Spacing of via1 to via1: 0.170 um"
+  rule CDR.via1.2 {
+	caption "CDR: Min spacing of via1: 0.17 um"
 	exte via1 -lt 0.170 -single_point -output region
   }
 
@@ -96,14 +96,14 @@ rule via1.3 {
 
 // via.4a is updated to apply to all via1 shapes outside of areaid.mt (Module Cut)
 
-  rule via1.4a {
+  rule CDR.via1.4a {
 	caption "CDR: via1 outside of areaid.mt must be enclosed by met1 by at least: 0.055 um"
 	enc via1_not_mt met1 -lt 0.055 -output region
 	edge_select via1_not_mt met1 ;
   }
 
   rule via1.4b {
-	caption "AL Flow - Inside areaid.mt, 0.230 um via1 must be enclosed by met1 by at least: 0.030 um"
+	caption "Inside areaid.mt, 0.23 um via1 must be enclosed by met1 by at least: 0.03 um"
 	rect_chk via1_mt -eq 0.230 -orthogonal_only -outputlayer via1.4b_a
 	enc via1.4b_a met1 -lt 0.030 -outside_also -output region
   }
@@ -111,24 +111,24 @@ rule via1.3 {
 //  rule via1.4c  is unnecessary as the minimum enclosure is 0.0;
 //     0.28 um via1 shapes that are not covered by met1 are flagged by rule via1.cover.1
 //  rule via1.4c {
-//	caption "AL Flow - Inside areaid.mt, 0.280 um via1 must be enclosed by met1 by at least: 0.0 um"
+//	caption "AL Flow - Inside areaid.mt, 0.28 um via1 must be enclosed by met1 by at least: 0. um"
 // }
 
-  rule via1.5a {
-	caption "CDR: AL Flow - 0.150 um via1 must be enclosed by met1 on one of two adjacent sides by at least: 0.085 um"
+  rule CDR.via1.5a {
+	caption "CDR: Min enclosure of 0.15 um via1 by met1 on one of two adjacent sides: 0.085 um"
 	rect_chk via1 -eq 0.150 -orthogonal_only -outputlayer via1.5a_a
 	rect_enc via1.5a_a met1 -good 0.085 0.000 0.085 0.000
   }
 
   rule via1.5b {
-	caption "AL Flow - 0.230 um via1 must be enclosed by met1 on one of two adjacent sides by at least: 0.085 um"
+	caption "Min enclosure of 0.23 um via1 by met1 on one of two adjacent sides: 0.085 um"
 	rect_chk via1 -eq 0.230 -orthogonal_only -outputlayer via1.5b_a
 	rect_enc via1.5b_a met1 -good 0.085 0.000 0.085 0.000
   }
 
-//  rule via1.5c is obsolete and removed
+//  rule via1.5c is unnecessary since the enclosure is 0.0s
 //  rule via1.5c {
-//	caption "AL Flow - Inside areaid.mt, 0.280 um via1 must be enclosed by met1 on one of two adjacent sides by at least: 0.000 um"
+//	caption "AL Flow - Inside areaid.mt, 0.28 um via1 must be enclosed by met1 on one of two adjacent sides by at least: 0.00 um"
 //  }
 
 
@@ -146,30 +146,30 @@ rule via1.3 {
 // Copying rule via1.4a here so that I can keep it above inside the "IFNDEF CU" switch
 
   rule via1.4a_CU {
-	caption "0.150 um via1 must be enclosed by met1 by at least: 0.055 um"
+	caption "0.15 um via1 must be enclosed by met1 by at least: 0.055 um"
 	rect_chk via1 -eq 0.150 -orthogonal_only -outputlayer via1.4a_a
 	enc via1.4a_a met1 -lt 0.055 -output region
 	edge_select via1 met1 ;
   }
 
-	rule via1.11 {
-	caption "Cu FLow - Min and max L and W of via1 outside areaid.mt == 0.180 um"
+  rule via1.11 {
+	caption "Cu FLow - Min and max L and W of via1 outside areaid.mt == 0.18 um"
 	not via1 areaid.mt -outputlayer via1.1a_a
 	rect_chk -not via1.1a_a -eq 0.180 -orthogonal_only
-	}
+  }
 
-	rule via1.12 {
-	caption "Cu Flow - Spacing of via1 to via1: 0.130 um"
+  rule via1.12 {
+	caption "Cu Flow - Spacing of via1 to via1: 0.13 um"
 	exte via1 -lt 0.130 -single_point -output region
-	}
+  }
 
 
 // smallest center is 2 dbu (0.002 um)
 // area is 0.000004 um^2
 
-	bbox via1 -centers 0.002 -outputlayer via1_center
+  bbox via1 -centers 0.002 -outputlayer via1_center
 
-// 5 vias gives area of 0.000020 um^2, density is 1.633e-6
+// 5 vias gives area of 0.00002 um^2, density is 1.633e-6
 // 6 vias gives area of 0.000204 um^2, density is 1.959e-6
 	
 //  this density command works, but overlapping regions are merged
@@ -178,39 +178,40 @@ rule via1.3 {
 // I like this command better for reporting & viewing the errors:
 //  -centers will output a 0.5um box at the center of the window
 
-	rule via1.13 {
-	caption "Cu Flow - Max of 5 vias within 0.350 um"
+  rule via1.13 {
+	caption "Cu Flow - Max of 5 vias within 0.35 um"
 	caption "  error box is at approximate center of the offending vias "
 	density via1_center -gt 1.95e-6 -window 3.5 -step 0.7 -backup -centers 0.5 -rdb "via1.13.rdb" 
-	}
+  }
  
-	rule via1.14 {
-	caption "Cu Flow - 0.180 u vedm via1 must be enclosed by parallel edges of Met1 by at least: 0.040 um"   
-	rect_chk via1 -eq 0.180 -orthogonal_only -outputlayer via1.14_a
+  rule via1.14 {
+	caption "Cu Flow - 0.18 um via1 must be enclosed by parallel edges of met1 by at least: 0.04 um"   
+	rect_chk via1 -eq 0.18 -orthogonal_only -outputlayer via1.14_a
 	rect_enc via1.14_a met1 -good 0.040 0.040 0.040 0.040
-	}
+  }
 
-	//rule via1.irdrc.1 {
-	//	caption "	TBA   "
-	//}
+  //rule via1.irdrc.1 {
+  //	caption "	TBA   "
+  //}
 
-	//rule via1.irdrc.2 {
-	//	caption "	TBA   "
-	//}
+  //rule via1.irdrc.2 {
+  //	caption "	TBA   "
+  //}
 
-	//rule via1.irdrc.3 {
-	//	caption "	TBA   "
-	//}
+  //rule via1.irdrc.3 {
+  //	caption "	TBA   "
+  //}
 
-	//rule via1.irdrc.4 {
-	//	caption "	TBA   "
-	//}
+  //rule via1.irdrc.4 {
+  //	caption "	TBA   "
+  //}
 
-	rule via1.14a {
-	caption "Cu Flow - 0.180 Îum via1 must be enclosed by 45 deg edges of Met1 by at least: 0.037 um"
+  rule via1.14a {
+	caption "Cu Flow - Min enclosure of 0.180 um via1 by 45 deg edges of met1: 0.037 um"
 	angle met1 -ltgt 44 46 -outputlayer via1.14a_a
 	enc via1 via1.14a_a -lt 0.037 -output region
-	}
+  }
+
 #ENDIF  // ifdef CU
 
 

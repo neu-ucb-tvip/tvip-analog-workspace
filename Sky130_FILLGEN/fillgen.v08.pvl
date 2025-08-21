@@ -1,0 +1,1396 @@
+//////////////////////////////////////////////////////////////////
+//	  	 Sky130 Fill Generation Routine	                //
+// 		    Version 08 July 22, 2025			//
+//////////////////////////////////////////////////////////////////
+//								//
+//		Revision History				//
+//								//
+//  v08: 3 new FILLCELLs					//
+//	 additional diff fill sizes				//
+//	 poly in 3 pass						//
+//	 more m5 sizes						//
+//  	 MACROs for poly, m5 					//
+//								//
+//  v07d:  added MACRO for diff fill				//
+//  v07c:  diff alt3 bigger shapes				//
+//  v07b:  fix DRCs, diff alt3 (0.5 x 0.5)			//
+//  v07:  alt diff fill generation in filler cells		//
+//  v06:  place wider diff in PASS2				//
+//  	allow diff fill to overlap nsdm / psdm border		//
+//								//
+//  v05h_alt:  m3/m4 1.34 spacing to capm/cap2m			//
+//  v05h Last v05g version ("3rd try")				//
+//	same as 2nd try but poly size now 0.72 x 0.72					
+//
+//  v05g diff & poly fill variations				//
+//  v05f has new poly_diff_2_FILLCELL  2.96 x 3.02		//
+//  v05e has only comment changes from v05d			//
+//  v05d changed edge_expand for HV_all to 0.20			//
+//  v05:  add more diff & poly fill after fill-cell	   	//
+//	  increase HV keepout to avoid too close diff_fill 	//
+//	  increase nsdm / psdm keepout  		   	//
+//	  remove dill_fill straddling COREID		   	//
+//	  increase LI fill size 			   	//
+//  v04:  Release with DRC update v2.9				//
+//  v03:  Tweaks to some fill sizes				//
+//  v02:  Updates to comments					//
+//  v01:  Initial release					//
+//								//
+//////////////////////////////////////////////////////////////////
+
+// needed to put all fill shapes on 0.5 um grid 
+grid 5 ;
+
+//  Read in all layers
+
+layer_def diff_dg		1001	
+layer_map 65 -datatype     20 	1001	//diff,drawing,65:20
+layer_def diff_txt		1002	
+layer_map 65 -texttype 	   20 	1002	//diff,text,65:20
+
+layer_def tap_dg		1003	
+layer_map 65 -datatype     44 	1003	//tap,drawing,65:44
+
+layer_def nwell			1004	
+layer_map 64 -datatype     20 	1004	//nwell,drawing,64:20
+layer_def dnwell		1005	
+layer_map 64 -datatype     18 	1005  	//dnwell,drawing,64:18
+layer_def pwbm			1006	
+layer_map 19 -datatype     44 	1006	//pwbm,drawing,19:44
+layer_def pwde			1007	
+layer_map 124 -datatype    20 	1007	//pwde,drawing,124:20
+layer_def hvtr			1008	
+layer_map 18 -datatype     20 	1008	//hvtr,drawing,18:20
+layer_def hvtp			1009	
+layer_map 78 -datatype     44 	1009	//hvtp,drawing,78:44
+layer_def ldntm			1010	
+layer_map 11 -datatype     44 	1010	//ldntm,drawing,11:44
+layer_def hvi			1011	
+layer_map 75 -datatype     20 	1011	//hvi,drawing,75:20
+layer_def tunm			1012	
+layer_map 80 -datatype     20 	1012	//tunm,drawing,80:20
+layer_def lvtn			1013	
+layer_map 125 -datatype    44 	1013	//lvtn,drawing,125:44
+layer_def poly_dg		1014	
+layer_map 66 -datatype     20 	1014	//poly,drawing,66:20
+layer_def poly_txt		1015	
+layer_map 66 -texttype     20 	1015	//poly,text,66:20
+layer_def hvntm			1016	
+layer_map 125 -datatype    20 	1016	//hvntm,drawing,125:20
+layer_def nsdm			1017	
+layer_map 93 -datatype     44 	1017	//nsdm,drawing,93:44
+layer_def psdm			1018	
+layer_map 94 -datatype     20 	1018	//psdm,drawing,94:20
+layer_def rpm			1019	
+layer_map 86 -datatype     20	1019	//rpm,drawing,86:20
+layer_def urpm		     	1020	
+layer_map 79 -datatype     20	1020	//urpm,drawing,79:20
+layer_def npc		     	1021	
+layer_map 95 -datatype     20	1021	//npc,drawing,95:20
+layer_def licon	     		1022	
+layer_map 66 -datatype     44	1022	//licon,drawing,66:44
+layer_def li1_dg	     	1023	
+layer_map 67 -datatype     20	1023	//li1,drawing,67:20
+layer_def li1_text	     	1024	
+layer_map 67 -texttype     20	1024	//li1,text,67:20
+layer_def mcon		     	1025	
+layer_map 67 -datatype     44	1025	//mcon,drawing,67:44
+layer_def m1_dg	     	1026	
+layer_map 68 -datatype     20	1026	//m1,drawing,68:20
+layer_def m1_text	     	1027	
+layer_map 68 -texttype     20	1027	//m1,text,68:20
+layer_def via1		     	1028	
+layer_map 68 -datatype     44	1028	//via1,drawing,68:44
+layer_def m2_dg	     	1029	
+layer_map 69 -datatype     20	1029	//m2,drawing,69:20
+layer_def m2_text	     	1030	
+layer_map 69 -texttype     20	1030	//m2,text,69:20
+layer_def via2		     	1031	
+layer_map 69 -datatype     44	1031	//via2,drawing,69:44
+layer_def m3_dg	     	1032	
+layer_map 70 -datatype     20	1032	//m3,drawing,70:20
+layer_def m3_text	     	1033	
+layer_map 70 -texttype     20	1033	//m3,text,70:20
+layer_def via3		     	1034	
+layer_map 70 -datatype     44	1034	//via3,drawing,70:44
+layer_def m4_dg	     	1035	
+layer_map 71 -datatype     20	1035	//m4,drawing,71:20
+layer_def m4_text		1036	
+layer_map 71 -texttype     20	1036	//m4,text,71:20
+layer_def via4			1037	
+layer_map 71 -datatype     44	1037	//via4,drawing,71:44
+layer_def m5_dg		1038	
+layer_map 72 -datatype     20	1038	//m5,drawing,72:20
+layer_def m5_text		1039	
+layer_map 72 -texttype     20	1039	//m5,text,72:20
+layer_def pad			1040	
+layer_map 76 -datatype     20	1040	//pad,drawing,76:20
+layer_def pad_text		1041	
+layer_map 76 -texttype     20	1041	//pad,text,76:20
+layer_def nsm			1042	
+layer_map 61 -datatype     20	1042	//nsm,drawing,61:20
+layer_def capm		     	1043	
+layer_map 89 -datatype     44	1043	//capm,drawing,89:44
+layer_def cap2m		     	1044	
+layer_map 97 -datatype     44	1044	//cap2m,drawing,97:44
+layer_def vhvi		     	1045	
+layer_map 74 -datatype     21	1045	//vhvi,drawing,74:21
+layer_def uhvi		     	1046	
+layer_map 74 -datatype     22	1046	//uhvi,drawing,74:22
+layer_def npn		     	1047	
+layer_map 82 -datatype     20	1047	//npn,drawing,82:20
+layer_def inductor	     	1048	
+layer_map 82 -datatype     24	1048	//inductor,drawing,82:24
+layer_def capacitor_in	     	1049	
+layer_map 82 -datatype     64	1049	//capacitor,drawing,82:64
+layer_def pnp		     	1050	
+layer_map 82 -datatype     44	1050	//pnp,drawing,82:44
+layer_def LVS_prune	     	1051	
+layer_map 84 -datatype     44	1051	//LVS prune,drawing,84:44
+layer_def ncm		     	1052	
+layer_map 92 -datatype     44	1052	//ncm,drawing,92:44
+layer_def padCenter	     	1053	
+layer_map 81 -datatype     20	1053	//padCenter,drawing,81:20
+layer_def target	     	1054	
+layer_map 76 -datatype     44	1054	//target,drawing,76:44
+
+//////////////////////////////////////////////////////////////////
+// areaid layers
+
+layer_def SEALID	 	1055	// Virtuoso:areaidseal
+layer_map 81 -datatype      1 	1055 	// SEALID,identifier,81:1
+// (81:7) does not exist in GDS layer map
+//layer_map 81 -datatype    7	1055	// SEALID,identifier,81:7
+layer_def areaid.ce		1056	// memory core id
+layer_map 81 -datatype      2	1056	//areaid.ce,identifier,81:2
+layer_def areaid.fe		1057	
+layer_map 81 -datatype      3	1057	//areaid.fe,identifier,81:3
+layer_def areaid.sc		1058	
+layer_map 81 -datatype      4	1058	//areaid.sc,identifier,81:4
+layer_def areaid.sf		1059	
+layer_map 81 -datatype      6	1059	//areaid.sf,identifier,81:6
+layer_def areaid.sr		1061	
+layer_map 81 -datatype      8	1061	//areaid.sr,identifier,81:8
+layer_def areaid.mt		1062	
+layer_map 81 -datatype     10	1062	//areaid.mt,identifier,81:10
+layer_def areaid.dt		1063	
+layer_map 81 -datatype     11	1063	//areaid.dt,identifier,81:11
+layer_def areaid.ft	     	1064	
+layer_map 81 -datatype     12	1064	//areaid.ft,identifier,81:12
+layer_def areaid.ww	     	1065	
+layer_map 81 -datatype     13	1065	//areaid.ww,identifier,81:13
+layer_def areaid.ld	     	1066	
+layer_map 81 -datatype     14	1066	//areaid.ld,identifier,81:14
+layer_def areaid.ns	     	1067	
+layer_map 81 -datatype     15	1067	//areaid.ns,identifier,81:15
+layer_def areaid.ij	     	1068	
+layer_map 81 -datatype     17	1068	//areaid.ij,identifier,81:17
+layer_def areaid.zr	     	1069	
+layer_map 81 -datatype     18	1069	//areaid.zr,identifier,81:18
+layer_def areaid.ed	     	1070	//ESD
+layer_map 81 -datatype     19	1070	//areaid.ed,identifier,81:19
+layer_def areaid.de	     	1071	
+layer_map 81 -datatype     23	1071	//areaid.de,identifier,81:23
+layer_def areaid.rd	     	1072	
+layer_map 81 -datatype     24	1072	//areaid.rd,identifier,81:24
+layer_def areaid.dn	     	1073	
+layer_map 81 -datatype     50	1073	//areaid.dn,identifier,81:50
+
+// ignore these 2 as they extend beyond SEALID
+//layer_def areaid.cr	     	1074	
+//layer_map 81 -datatype     51	1074	//areaid.cr,identifier,81:51
+//layer_def areaid.cd	     	1075	
+//layer_map 81 -datatype     52	1075	//areaid.cd,identifier,81:52
+
+layer_def localSub 		1076	// carve out substrate regions
+layer_map 81 -datatype     53	1076	//areaid.st,identifier,81:53
+layer_def areaid.op	     	1077	
+layer_map 81 -datatype     54	1077	//areaid.op,identifier,81:54
+layer_def areaid.en	     	1078	
+layer_map 81 -datatype     57	1078	//areaid.en,identifier,81:57
+layer_def areaid.en20	     	1079	
+layer_map 81 -datatype     58	1079	//areaid.en20,identifier,81:58
+layer_def areaid.le	     	1080	
+layer_map 81 -datatype     60	1080	//areaid.le,identifier,81:60
+layer_def areaid.hl	     	1081	
+layer_map 81 -datatype     63	1081	//areaid.hl,identifier,81:63
+layer_def lv_net	     	1299
+layer_map 81 -datatype     66	1299	// areaid:lvnet
+layer_def areaid.sd	     	1082	
+layer_map 81 -datatype     70	1082	//areaid.sd,identifier,81:70
+layer_def areaid.po	     	1083	
+layer_map 81 -datatype     81	1083	//areaid.po,identifier,81:81
+layer_def areaid.it	     	1084	
+layer_map 81 -datatype     84	1084	//areaid.it,identifier,81:84
+layer_def areaid.et		1085	
+layer_map 81 -datatype    101	1085	//areaid.et,identifier,81:101
+layer_def areaid.lvt		1086	
+layer_map 81 -datatype    108	1086	//areaid.lvt,identifier,81:108
+layer_def areaid.re		1087	
+layer_map 81 -datatype    125	1087	//areaid.re,identifier,81:125
+
+layer_def fom			1088	
+layer_map 22 -datatype     23	1088	//fom,dummy,22:23
+layer_def poly_gate		1089	
+layer_map 66 -datatype      9	1089	//poly,gate,66:9
+layer_def poly_model		1090	
+layer_map 66 -texttype     83	1090	//poly,model,66:83
+layer_def poly_res		1091	
+layer_map 66 -datatype     13	1091	//poly,resistor,66:13
+layer_def diff_res	     	1092	
+layer_map 65 -datatype     13	1092	//diff,resistor,65:13
+layer_def pwell_res	     	1093	
+layer_map 64 -datatype     13	1093	//pwell,resistor,64:13
+layer_def li1_res	     	1094	
+layer_map 67 -datatype     13	1094	//li1,resistor,67:13
+layer_def diff_hv	     	1095	
+layer_map 65 -datatype      8 	1095	//diff,high voltage,65:8
+layer_def m4_fuse	     	1096	
+layer_map 71 -datatype     17	1096	//m4,fuse,71:17
+layer_def inductor_trm1	     	1097	
+layer_map 82 -datatype     26	1097	//inductor,terminal1,82:26
+layer_def inductor_trm2	     	1098	
+layer_map 82 -datatype     27	1098	//inductor,terminal2,82:27
+layer_def inductor_trm3	     	1099	
+layer_map 82 -datatype     28	1099	//inductor,terminal3,82:28
+layer_def li_block	     	1100	
+layer_map 67 -datatype     10 	1100	//li1,block,67:10
+layer_def m1_block	     	1101	
+layer_map 68 -datatype     10	1101	//m1,block,68:10
+layer_def m2_block	     	1102	
+layer_map 69 -datatype     10	1102	//m2,block,69:10
+layer_def m3_block	     	1103	
+layer_map 70 -datatype     10	1103	//m3,block,70:10
+layer_def m4_block	     	1104	
+layer_map 71 -datatype     10	1104	//m4,block,71:10
+layer_def m5_block	     	1105	
+layer_map 72 -datatype     10	1105	//m5,block,72:10
+layer_def prBndry	     	1106	
+layer_map 235 -datatype     4	1106	//prBndry,boundary,235:4
+layer_def diff_bnd	     	1107	
+layer_map 65 -datatype      4 	1107	//diff,boundary,65:4
+layer_def tap_bnd	     	1108	
+layer_map 65 -datatype     60	1108	//tap,boundary,65:60
+layer_def mcon_bnd	     	1109	
+layer_map 67 -datatype     60	1109	//mcon,boundary,67:60
+layer_def poly_bnd	     	1110	
+layer_map 66 -datatype      4 	1110	//poly,boundary,66:4
+layer_def via1_bnd	     	1111	
+layer_map 68 -datatype     60	1111	//via1,boundary,68:60
+layer_def via2_bnd	     	1112	
+layer_map 69 -datatype     60	1112	//via2,boundary,69:60
+layer_def via3_bnd	     	1113	
+layer_map 70 -datatype     60	1113	//via3,boundary,70:60
+layer_def via4_bnd	     	1114	
+layer_map 71 -datatype     60	1114	//via4,boundary,71:60
+layer_def li1_label		1115	
+layer_map 67 -texttype      5	1115	//li1,label,67:5
+layer_def m1_label         	1116	
+layer_map 68 -texttype      5	1116	//m1,label,68:5
+layer_def m2_label         	1117	
+layer_map 69 -texttype      5	1117	//m2,label,69:5
+layer_def m3_label         	1118	
+layer_map 70 -texttype      5	1118	//m3,label,70:5
+layer_def m4_label         	1119	
+layer_map 71 -texttype      5	1119	//m4,label,71:5
+layer_def m5_label         	1120	
+layer_map 72 -texttype      5	1120	//m5,label,72:5
+layer_def poly_label         	1121	
+layer_map 66 -texttype      5	1121	//poly,label,66:5
+layer_def diff_label         	1122	
+layer_map 65 -texttype      6	1122	//diff,label,65:6
+layer_def pwell_in		1123	
+layer_map 64 -datatype     59 	1123	//pwell,drawing,64:59
+layer_def pwell_label		1124	
+layer_map 64 -texttype     59 	1124	//pwell,label,64:59
+layer_def pwelliso_label 	1125	
+layer_map 44 -datatype      5 	1125	//pwelliso,label,44:5
+layer_def pad_label		1126	
+layer_map 76 -texttype      5 	1126	//pad,label,76:5
+layer_def tap_label		1127	
+layer_map 65 -texttype      5 	1127	//tap,label,65:5
+layer_def nwell_label		1128	
+layer_map 64 -texttype      5 	1128	//nwell,label,64:5
+layer_def inductor_label 	1129	
+layer_map 82 -texttype     25	1129	//inductor,label,82:25
+layer_def text		     	1130	
+layer_map 83 -texttype     44	1130	//text,label,83:44
+layer_def li1_net	     	1131	
+layer_map 67 -texttype     23	1131	//li1,net,67:23
+layer_def m1_net	     	1132	
+layer_map 68 -texttype     23	1132	//m1,net,68:23
+layer_def m2_net	     	1133	
+layer_map 69 -texttype     23	1133	//m2,net,69:23
+layer_def m3_net	     	1134	
+layer_map 70 -texttype     23	1134	//m3,net,70:23
+layer_def m4_net	     	1135	
+layer_map 71 -texttype     23	1135	//m4,net,71:23
+layer_def m5_net	     	1136	
+layer_map 72 -texttype     23	1136	//m5,net,72:23
+layer_def poly_net	     	1137	
+layer_map 66 -texttype     23	1137	//poly,net,66:23
+layer_def diff_net	     	1138	
+layer_map 65 -texttype     23	1138	//diff,net,65:23
+layer_def li1_pin	     	1139	
+layer_map 67 -texttype      0 	1139	//li1,pin,67:0
+layer_map 67 -datatype     16 	1139	//li1,pin,67:16
+layer_map 67 -texttype     16 	1139	//li1,pin,67:16
+layer_def m1_pin		1141	
+layer_map 68 -texttype      0 	1141	//m1,pin,68:0
+layer_map 68 -datatype     16 	1141	//m1,pin,68:16
+layer_map 68 -texttype     16 	1141	//m1,pin,68:16
+layer_def m2_pin		1143	
+layer_map 69 -texttype      0 	1143	//m2,pin,69:0
+layer_map 69 -datatype     16  	1143	//m2,pin,69:16
+layer_map 69 -texttype     16	1143	//m2,pin,69:16
+layer_def m3_pin	     	1145	
+layer_map 70 -texttype      0 	1145	//m3,pin,70:0
+layer_map 70 -datatype     16  	1145	//m3,pin,70:16
+layer_map 70 -texttype     16	1145	//m3,pin,70:16
+layer_def m4_pin	     	1147	
+layer_map 71 -texttype      0 	1147	//m4,pin,71:0
+layer_map 71 -datatype     16  	1147	//m4,pin,71:16
+layer_map 71 -texttype     16	1147	//m4,pin,71:16
+layer_def m5_pin	     	1149	
+layer_map 72 -texttype      0 	1149	//m5,pin,72:0
+layer_map 72 -datatype     16  	1149	//m5,pin,72:16
+layer_map 72 -texttype     16	1149	//m5,pin,72:16
+layer_def poly_pin	     	1152	
+layer_map 66 -texttype      0 	1152	//poly,pin,66:0
+layer_map 66 -texttype     16	1152	//poly,pin,66:16
+layer_def diff_pin	     	1153	
+layer_map 65 -texttype     16	1153	//diff,pin,65:16
+layer_def nwell_pin	     	1154	
+layer_map 64 -datatype     16  	1154	//nwell,pin,64:16
+layer_map 64 -texttype      0 	1154	//nwell,pin,64:0
+layer_def pad_pin	     	1155	
+layer_map 76 -texttype      0 	1155	//pad,pin,76:0
+layer_map 76 -datatype     16   1155	//pad,pin,76:16
+layer_map 76 -texttype     16	1155	//pad,pin,76:16
+layer_def pwell_pin		1157	
+layer_map 122 -datatype    16 	1157	//pwell,pin,122:16
+layer_map 122 -texttype    16 	1157	//pwell,pin,122:16
+layer_map 122 -texttype     0 	1157	//pwell,pin,122:0
+layer_def pwelliso		1159	
+layer_map 44 -datatype     16 	1159	//pwelliso,pin,44:16
+layer_map 44 -texttype     16 	1159	//pwelliso,pin,44:16
+layer_def diff_cut		1171	
+layer_map 65 -datatype     14	1171	//diff,cut,65:14
+layer_def poly_cut	     	1172	
+layer_map 66 -datatype     14	1172	//poly,cut,66:14
+layer_def li1_cut	     	1173	
+layer_map 67 -datatype     14	1173	//li1,cut,67:14
+layer_def m1_cut	     	1174	
+layer_map 68 -datatype     14	1174	//m1,cut,68:14
+layer_def m2_cut	     	1175	
+layer_map 69 -datatype     14	1175	//m2,cut,69:14
+layer_def m3_cut	     	1176	
+layer_map 70 -datatype     14	1176	//m3,cut,70:14
+layer_def m4_cut	     	1177	
+layer_map 71 -datatype     14	1177	//m4,cut,71:14
+layer_def m5_cut	     	1178	
+layer_map 72 -datatype     14	1178	//m5,cut,72:14
+layer_def pwell_cut	     	1179	
+layer_map 64 -datatype     14	1179	//pwell,cut,64:14
+layer_def m5_probe	     	1180	
+layer_map 72 -datatype     25	1180	//m5,probe,72:25
+layer_def m4_probe	     	1181	
+layer_map 71 -datatype     25	1181	//m4,probe,71:25
+layer_def m3_probe	     	1182	
+layer_map 70 -datatype     25	1182	//m3,probe,70:25
+layer_def m2_probe	     	1183	
+layer_map 69 -datatype     25	1183	//m2,probe,69:25
+layer_def m1_probe	     	1184	
+layer_map 68 -datatype     25	1184	//m1,probe,68:25
+layer_def li1_probe	     	1185	
+layer_map 67 -datatype     25	1185	//li1,probe,67:25
+layer_def poly_probe	     	1186	
+layer_map 66 -datatype     25	1186	//poly,probe,66:25
+layer_def poly_short	     	1187	
+layer_map 66 -datatype     15	1187	//poly,short,66:15
+layer_def li1_short	     	1188	
+layer_map 67 -datatype     15	1188	//li1,short,67:15
+layer_def m1_short	     	1189	
+layer_map 68 -datatype     15	1189	//m1,short,68:15
+layer_def m2_short	     	1190	
+layer_map 69 -datatype     15	1190	//m2,short,69:15
+layer_def m3_short	     	1191	
+layer_map 70 -datatype     15	1191	//m3,short,70:15
+layer_def m4_short		1192	
+layer_map 71 -datatype     15	1192	//m4,short,71:15
+layer_def m5_short	     	1193	
+layer_map 72 -datatype     15	1193	//m5,short,72:15
+
+//////////////////////////////////////////////////////////////////
+// mask layers
+
+layer_def cncm_mk	     	1194	
+layer_map 17 -datatype      0   1194	//cncm,mask,17:0
+layer_def crpm_mk	        1195	
+layer_map 96 -datatype      0   1195	//crpm,mask,96:0
+layer_def cpdm_mk	        1196	
+layer_map 37 -datatype      0   1196	//cpdm,mask,37:0
+layer_def cnsm_mk	        1197	
+layer_map 22 -datatype      0   1197	//cnsm,mask,22:0
+layer_def cmm5_mk	        1198	
+layer_map 59 -datatype      0   1198	//cmm5,mask,59:0
+layer_def cviam4_mk	        1199	
+layer_map 58 -datatype      0   1199	//cviam4,mask,58:0
+layer_def cmm4_mk	        1200	
+layer_map 51 -datatype      0   1200	//cmm4,mask,51:0
+layer_def cviam3_mk	        1201	
+layer_map 50 -datatype      0   1201	//cviam3,mask,50:0
+layer_def cmm3_mk	        1202	
+layer_map 34 -datatype      0   1202	//cmm3,mask,34:0
+layer_def cviam2_mk	        1203	
+layer_map 44 -datatype      0   1203	//cviam2,mask,44:0
+layer_def cmm2_mk	        1204	
+layer_map 41 -datatype      0   1204	//cmm2,mask,41:0
+layer_def cviam1_mk	        1205	
+layer_map 40 -datatype      0   1205	//cviam1,mask,40:0
+layer_def cmm1_mk	        1206	
+layer_map 36 -datatype      0   1206	//cmm1,mask,36:0
+layer_def ctm1_mk	        1207	
+layer_map 35 -datatype      0   1207	//ctm1,mask,35:0
+layer_def cli1m_mk	        1208	
+layer_map 56 -datatype      0   1208	//cli1m,mask,56:0
+layer_def clicm1_mk	        1209	
+layer_map 43 -datatype      0   1209	//clicm1,mask,43:0
+layer_def cpsdm_mk	        1210	
+layer_map 32 -datatype      0   1210	//cpsdm,mask,32:0
+layer_def cnsdm_mk	        1211	
+layer_map 30 -datatype      0   1211	//cnsdm,mask,30:0
+layer_def cldntm_mk	        1212	
+layer_map 11 -datatype      0   1212	//cldntm,mask,11:0
+layer_def cnpc_mk	        1213	
+layer_map 49 -datatype      0   1213	//cnpc,mask,49:0
+layer_def chvntm_mk	        1214	
+layer_map 39 -datatype      0   1214	//chvntm,mask,39:0
+layer_def cntm_mk	        1215	
+layer_map 27 -datatype      0   1215	//cntm,mask,27:0
+layer_def cp1m_mk	        1216	
+layer_map 28 -datatype      0   1216	//cp1m,mask,28:0
+layer_def clvom_mk		1217	
+layer_map 46 -datatype      0   1217	//clvom,mask,46:0
+layer_def conom_mk	        1218	
+layer_map 88 -datatype      0   1218	//conom,mask,88:0
+layer_def ctunm_mk	        1219	
+layer_map 20 -datatype      0   1219	//ctunm,mask,20:0
+layer_def chvtrm_mk	        1220	
+layer_map 98 -datatype      0   1220	//chvtrm,mask,98:0
+layer_def chvtpm_mk	        1221	
+layer_map 97 -datatype      0   1221	//chvtpm,mask,97:0
+layer_def clvtnm_mk	        1222	
+layer_map 25 -datatype      0   1222	//clvtnm,mask,25:0
+layer_def cnwm_mk	        1223	
+layer_map 21 -datatype      0   1223	//cnwm,mask,21:0
+layer_def cdnm_mk	        1224	
+layer_map 48 -datatype      0   1224	//cdnm,mask,48:0
+layer_def cfom_mk	        1225	
+layer_map 23 -datatype      0   1225	//cfom,mask,23:0
+
+layer_def cfom		        1226	
+layer_map 22 -datatype     20	1226	//cfom,drawing,22:20
+layer_def clvtnm	     	1227	
+layer_map 25 -datatype     44	1227	//clvtnm,drawing,25:44
+layer_def chvtpm	     	1228	
+layer_map 88 -datatype     44	1228	//chvtpm,drawing,88:44
+layer_def conom		     	1229	
+layer_map 87 -datatype     44	1229	//conom,drawing,87:44
+layer_def clvom		     	1230	
+layer_map 45 -datatype     20	1230	//clvom,drawing,45:20
+layer_def cntm		     	1231	
+layer_map 26 -datatype     20	1231	//cntm,drawing,26:20
+layer_def chvntm	     	1232	
+layer_map 38 -datatype     20	1232	//chvntm,drawing,38:20
+layer_def cnpc		     	1233	
+layer_map 44 -datatype     20	1233	//cnpc,drawing,44:20
+layer_def cnsdm		     	1234	
+layer_map 29 -datatype     20	1234	//cnsdm,drawing,29:20
+layer_def cpsdm		     	1235	
+layer_map 31 -datatype     20	1235	//cpsdm,drawing,31:20
+layer_def cli1m			1236	
+layer_map 115 -datatype    44 	1236	//cli1m,drawing,115:44
+layer_def cviam3		1237	
+layer_map 112 -datatype    20 	1237	//cviam3,drawing,112:20
+layer_def cviam4		1238	
+layer_map 117 -datatype    20 	1238	//cviam4,drawing,117:20
+layer_def cncm			1239	
+layer_map 96 -datatype     44 	1239	//cncm,drawing,96:44
+layer_def cntm_mk_add 		1240	
+layer_map 26 -datatype     21 	1240	//cntm,mask add,26:21
+layer_def clvtnm_mk_add 	1241	
+layer_map 25 -datatype     43 	1241	//clvtnm,mask add,25:43
+layer_def chvtpm_mk_add		1242	
+layer_map 97 -datatype     43 	1242	//chvtpm,mask add,97:43
+layer_def cli1m_mk_add		1243	
+layer_map 115 -datatype    43	1243	//cli1m,mask add,115:43
+layer_def clicm1_mk_add		1244	
+layer_map 106 -datatype    43 	1244	//clicm1,mask add,106:43
+layer_def cpsdm_mk_add		1245	
+layer_map 31 -datatype     21 	1245	//cpsdm,mask add,31:21
+layer_def cnsdm_mk_add		1246	
+layer_map 29 -datatype     21 	1246	//cnsdm,mask add,29:21
+layer_def cp1m_mk_add		1247	
+layer_map 33 -datatype     43 	1247	//cp1m,mask add,33:43
+layer_def cfom_mk_add		1248	
+layer_map 22 -datatype     21 	1248	//cfom,mask add,22:21
+layer_def cntm_mk_drop  	1249	
+layer_map 26 -datatype     22 	1249	//cntm,mask drop,26:22
+layer_def clvtnm_mk_drop 	1250	
+layer_map 25 -datatype     42 	1250	//clvtnm,mask drop,25:42
+layer_def chvtpm_mk_drop	1251	
+layer_map 97 -datatype     42 	1251	//chvtpm,mask drop,97:42
+layer_def cli1m_mk_drop		1252	
+layer_map 115 -datatype    42 	1252	//cli1m,mask drop,115:42
+layer_def clicm1_mk_drop	1253	
+layer_map 106 -datatype    42	1253	//clicm1,mask drop,106:42
+layer_def cpsdm_mk_drop		1254	
+layer_map 31 -datatype     22 	1254	//cpsdm,mask drop,31:22
+layer_def cnsdm_mk_drop		1255	
+layer_map 29 -datatype     22 	1255	//cnsdm,mask drop,29:22,
+layer_def cp1m_mk_drop		1256	
+layer_map 33 -datatype     42 	1256	//cp1m,mask drop,33:42,
+layer_def cfom_mk_drop		1257	
+layer_map 22 -datatype     22 	1257	//cfom,mask drop,22:22,
+
+layer_def cmm4_waffle_drop	1258	
+layer_map 112 -datatype     4 	1258	//cmm4,waffle drop,112:4
+layer_def cmm3_waffle_drop	1259	
+layer_map 107 -datatype    24 	1259	//cmm3,waffle drop,107:24
+layer_def cmm2_waffle_drop	1260	
+layer_map 105 -datatype    52 	1260	//cmm2,waffle drop,105:52
+layer_def cmm1_waffle_drop	1261	
+layer_map 62 -datatype     24 	1261	//cmm1,waffle drop,62:24
+layer_def cp1m_waffle_drop	1262	
+layer_map 33 -datatype     24 	1262	//cp1m,waffle drop,33:24
+layer_def cfom_waffle_drop	1263	
+layer_map 22 -datatype     24 	1263	//cfom,waffle drop,22:24
+layer_def cmm5_waffle_drop	1264	
+layer_map 117 -datatype     4 	1264	//cmm5,waffle drop,117:4
+
+//////////////////////////////////////////////////////////////////
+// Metal res layers 
+
+layer_def m1_res 		1291
+layer_map 68 -datatype     13	1291	// m1 res
+
+layer_def m2_res 	     	1292
+layer_map 69 -datatype     13	1292	// m2 res
+
+layer_def m3_res 	     	1293
+layer_map 70 -datatype     13	1293	// m3 res
+
+layer_def m4_res 	     	1294
+layer_map 71 -datatype     13	1294	// m4 res
+
+layer_def m5_res 	     	1295
+layer_map 72 -datatype     13	1295	// m5 res
+
+//////////////////////////////////////////////////////////////////
+// Fill shapes
+
+// 1281  diff	fill	65	  99
+// 1282  poly	fill	66	  99
+// 1283  li1	fill	67	  99
+// 1284  m1	fill	68	  99
+// 1285  m2	fill	69	  99
+// 1286  m3	fill	70	  99
+// 1287  m4	fill	71	  99
+// 1288  m5	fill	72	  99
+
+layer_def diff_fill		1281
+layer_map 65 -datatype     99	1281	//diff,fill,65:99
+layer_def poly_fill	     	1282
+layer_map 66 -datatype     99	1282	//poly,fill,66:99
+layer_def li_fill	     	1283
+layer_map 67 -datatype     99	1283	//li,fill,67:99
+
+layer_def m1_fill	     	1284
+layer_map 68 -datatype     99	1284	//m1,fill,68:99
+layer_def m2_fill	     	1285
+layer_map 69 -datatype     99	1285	//m2,fill,69:99
+layer_def m3_fill	     	1286
+layer_map 70 -datatype     99	1286	//m3,fill,70:99
+layer_def m4_fill	     	1287
+layer_map 71 -datatype     99	1287	//m4,fill,71:99
+layer_def m5_fill	     	1288
+layer_map 72 -datatype     99	1288	//m5,fill,72:99
+
+// Add fill shapes to drawing layers
+
+OR diff_dg diff_fill diff ;
+OR poly_dg poly_fill poly ;
+OR li1_dg  li_fill   li1  ;
+OR m1_dg m1_fill m1 ;
+OR m2_dg m2_fill m2 ;
+OR m3_dg m3_fill m3 ;
+OR m4_dg m4_fill m4 ;
+OR m5_dg m5_fill m5 ;
+ 
+//////////////////////////////////////////////////////////////////
+
+layer_def diff_fill_block 	1311
+layer_map 65 -datatype   98	1311
+layer_def poly_fill_block 	1312
+layer_map 66 -datatype   98	1312
+layer_def li_fill_block 	1313
+layer_map 67 -datatype   98	1313
+
+layer_def m1_fill_block 	1301
+layer_map 68 -datatype   98	1301
+layer_def m2_fill_block 	1302
+layer_map 69 -datatype   98	1302
+layer_def m3_fill_block 	1303
+layer_map 70 -datatype   98	1303
+layer_def m4_fill_block 	1304
+layer_map 71 -datatype   98	1304
+layer_def m5_fill_block 	1305
+layer_map 72 -datatype   98	1305
+
+layer_def fillWindow	 	1305	// areaid fillWindow
+layer_map 81 -datatype   13	1305
+
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+// Layers
+
+extent_drawn -original -outputlayer ALL
+
+// areaid fillWindow    GDS 81:13
+
+
+// if fillWindow is empty, fill_area is ALL
+//  select -enclose -not ALL fillWindow -outputlayer ALL_emptyFillWindow
+//  OR fillWindow ALL_emptyFillWindow -outputlayer fill_area
+
+ 
+  NOT ALL SEALID -outputlayer ALL_not_sealid
+
+  // If SEALID is missing, "holes SEALID" is empty
+  // If sealid_hole is empty, fill_area is ALL
+
+  holes SEALID sealid_hole
+  select -enclose -not ALL sealid_hole -outputlayer ALL_outside_sealid
+
+  OR sealid_hole ALL_outside_sealid -outputlayer fill_area
+    
+
+// KO areas used by several layers
+
+size -by 1.0 SEALID -outputlayer KO_all_1
+edge_expand -inside_by 0.50 -corner_fill areaid.ft -outputlayer KO_all_2
+
+size -by 0.005 licon -outputlayer licon_KO
+size -by 0.005 mcon -outputlayer mcon_KO
+
+// OR KO_all_1 KO_all_2 LI_KO_1 (size -by 0.005 poly) -outputlayer LI_KO
+
+// this is needed in several locations
+
+OR hvi vhvi uhvi -outputlayer HV_all  ;
+
+//////////////////////////////////////////////////////////////////
+
+// ** Min spacing of poly fill to diff fill < 0.30 **
+
+//////////////////////////////////////////////////////////////////
+// POLY
+
+// Code for poly to create poly fill regions
+// poly & diff filled with fill cell in DIFF section
+
+// Low stepped density:   8%	(700 square micron window stepped at 70)
+// high stepped density: 38%  	(700 square micron window stepped at 70)
+
+// poly "pattern density RANGE" inside seal ring --
+//	2000 um square window stepped 200 um:	max 15%
+//       700 um square window stepped 70 um: 	max 30 %
+
+// poly_fill is 0.48 (min) x 0.72 (max)
+
+// keepout layers and min spacing
+//  	fill_block	1.0, no overlap
+//	SEALID: 	1.0, no overlap		KO_all_1
+//	diff_fill: 	0.3, no overlap
+//	diff_dg:  	1.0, no overlap
+//	poly:		1.0, no overlap
+//	poly_fill:	0.36, no overlap
+
+// poly fill no overlap with licon
+
+// min enclosures
+//	areaid:frame	0.50			KO_all_2
+
+// Other
+//	overlap with LI, LI fill seems OK
+// 	poly block	doesn't seem to exist
+
+density poly -lt 0.08 -window 700 -inside_of layer fill_area -outputlayer poly_fill_regions
+
+size -by 1.0  (OR diff_dg tap_dg poly_dg poly_fill_block) -outputlayer poly_KO_1
+size -by 0.3  diff_fill  -outputlayer poly_KO_2
+
+size -by 0.36 poly_fill -outputlayer poly_KO_3
+
+OR KO_all_1 KO_all_2 poly_KO_1 poly_KO_2 poly_KO_3 -outputlayer poly_KO
+
+
+// going to fill poly & diff at the same time since poly fill & diff fill cannot overlap
+
+
+//////////////////////////////////////////////////////////////////
+// DIFF
+
+// Low stepped density : 28%  (700 um window stepped 70 um)
+// High stepped density: 62%  (700 um window stepped 70 um)
+
+// diff "pattern density RANGE" --
+// 	 700 um window stepped 70 um:  max 30 %
+//	2000 um window stepped 200 um: max 15 %
+
+// diff is:  OR m1:dg  m1:fill
+
+// diff_fill is 0.5 (min) x 25.0 (max)
+
+// keepout layers and min spacing
+//	SEALID: 	1.0			KO_all_1
+//	diff_dg:  	0.5	** also consider tap !! **
+//  	fill_block	0.5, no overlap
+//	poly_dg:	0.5	NO overlap
+//	diff_fill: 	0.4
+//	licon: 		no overlap or butting
+//	poly_fill:	0.3	NO overlap
+
+// other min spacings	   
+//	nsdm			0.13	overlap is OK 
+//	psdm			0.13	overlap is OK 
+//	nwell			0.34  	overlap is OK
+//	hvnwell (5v,12v,20v)  	0.33	overlap is OK
+//	hvi, vhvi, uhvi 	0.18	overlap is OK	
+
+// min enclosures
+//	areaid:frame		0.50			KO_all_2
+//	nwell			0.18  
+//	hvnwell (5v,12v,20v) 	0.43	
+//	hvi (v5)	 	0.18	overlap is OK	
+//	  this last ENC rule appears to apply only to v5
+
+// Other
+//      ** diff fill cannot straddle hvi (5v) **
+//	overlap with LI, LI fill seems OK
+
+size -by 0.5  (OR diff_dg tap_dg diff_fill_block poly_dg) -outputlayer diff_KO_1
+size -by 0.3  poly_fill -outputlayer diff_KO_2
+size -by 0.4  diff_fill -outputlayer diff_KO_3
+
+// note that diff fill can be *completely* inside nsdm / psdm
+// 	but no straddling or touching
+// exclude these regions since we are using diff-poly fill cell
+// (cannot control if shapes in the fill cell straddle the nsdm / psdm border)
+// (the nsdm/psdm region inside standard cells too narrow for the fill cell anyway)
+// 
+// fill with diff and poly separately inside nsdm / psdm
+
+size -by 0.13 (OR nsdm psdm) diff_KO_4
+
+// nwell and hvnwell (5v,12v,20v)
+
+AND nwell HV_all  -outputlayer hvnwell
+NOT nwell hvnwell -outputlayer lvnwell
+
+//edge_expand -inside_by 1.0 areaid.ft -outputlayer m5_KO_3
+//   note that we need to use "-corner_fill" to fill space near corners
+//   otherwise fill shapes will be placed to close to nwell corners.
+
+// Just going to use 0.34 spacing to handle all nwell
+// Also, *some* DRC decks use 0.34 spacing for diff fill to nwell 
+//	(LV vs. HV nwell not considered)
+
+// ----------------------------------------------------------------------------
+// SW deck has several diff to HV nwell spacing minimums of 0.43 um
+// while I believe these checks should not apply to diff_fill, violations are found.
+// So, adding 0.43 for outside edge_expand for all HV nwell
+
+// Use nwell for the smaller values to avoid weird regions if nwell not completely enclosed by HV
+
+edge_expand -outside_by 0.34 -corner_fill nwell   -outputlayer lvnwell_outside
+edge_expand -outside_by 0.43 -corner_fill hvnwell -outputlayer hvnwell_outside
+OR lvnwell_outside hvnwell_outside -outputlayer nwell_outside
+
+edge_expand -inside_by  0.18 -corner_fill nwell   -outputlayer lvnwell_inside
+edge_expand -inside_by  0.43 -corner_fill hvnwell -outputlayer hvnwell_inside
+OR lvnwell_inside hvnwell_inside -outputlayer nwell_inside
+
+OR hvnwell_inside lvnwell_inside nwell_outside -outputlayer diff_KO_5
+// ----------------------------------------------------------------------------
+
+// diff_fill space to HV: 0.18  &  diff_fill enc by HV: 018
+// v05d update: Using 0.20 for both to keep diff_fill 0.4 um apart
+
+// HV_all is just the HV marker layers (does not include nwell)
+edge_expand -outside_by 0.20 -corner_fill HV_all -outputlayer HV_all_outside
+edge_expand -inside_by  0.20 -corner_fill HV_all -outputlayer HV_all_inside
+
+
+OR HV_all_outside  HV_all_inside  -outputlayer diff_KO_6
+
+OR KO_all_1 KO_all_2 diff_KO_1 diff_KO_2 diff_KO_3 diff_KO_4 diff_KO_5 diff_KO_6 licon_KO -outputlayer diff_KO
+
+NOT fill_area (OR diff_KO poly_KO) -outputlayer diff_poly_fill_area
+
+
+// v08  3 new FILLCELLs
+//  width 25.0 length 2.5 // width 10.0 length 2.5  // width 3.0 length 2.5
+//rect_gen -width 2.96 -length 3.02 -spacing 0.4  -offset  0 -inside_of layer diff_poly_fill_area -outputlayer diff_poly_fillgen_0
+
+// still do this: remove fill shapes that straddle vhi (v5)
+
+CMACRO GEN_DIFF  diff_poly_fill_area  diff_poly_fillgen_25i  25.0  2.5  diff_poly_fill_area_25
+select -cut -not diff_poly_fillgen_25i hvi -outputlayer diff_poly_fillgen_25
+
+CMACRO GEN_DIFF  diff_poly_fill_area_25  diff_poly_fillgen_10i  10.0  2.5  diff_poly_fill_area_10
+select -cut -not diff_poly_fillgen_10i hvi -outputlayer diff_poly_fillgen_10
+
+CMACRO GEN_DIFF  diff_poly_fill_area_10  diff_poly_fillgen_3i  3.0  2.5  diff_poly_fill_area_3
+select -cut -not diff_poly_fillgen_3i hvi -outputlayer diff_poly_fillgen_3
+
+OR diff_poly_fillgen_3 diff_poly_fillgen_10 diff_poly_fillgen_25 -outputlayer diff_poly_fillgen
+
+// still make  "diff_poly_fillgen"  as it's needed for KO
+//   ...but the other 3 are the outputs now...
+
+//rule diff_poly_fillgen    { copy diff_poly_fillgen ; }
+rule diff_poly_fillgen_3  { copy diff_poly_fillgen_3 ; }
+rule diff_poly_fillgen_10 { copy diff_poly_fillgen_10 ; }
+rule diff_poly_fillgen_25 { copy diff_poly_fillgen_25 ; }
+
+//////////////////////////////////////////////////////////////////
+// diff & poly separate fills
+
+// make different diff KO for nsdm / psdm 
+
+
+// ----------------------------------------------------------------------------
+// issue with nsdm / psdm is that the minimum enclosure is 0, and,
+// the minimum spacing to nsdm / psdm is less than the diff_fill spacing of 0.4
+// so diff_fill in nearby fill areas could be too close
+// to solve this, I simply use 0.4 for the edge_expand
+
+// note that rules for nsdm/psdm enclosure of diff should exclude diff_fill
+
+//edge_expand -outside_by 0.40 -corner_fill nsdm -outputlayer nsdm_p4
+//edge_expand -outside_by 0.40 -corner_fill psdm -outputlayer psdm_p4
+
+//OR nsdm_p4 psdm_p4 -outputlayer diff_KO_4_pass2
+
+// v06 update:
+// this sizing by 0.40 is limiting the size of diff fill at the nsdm/psdm border,
+//   because the outside size of each one overlaps the other one
+// instead, I'm going to outside size 0.4 the (OR nsdm psdm)
+// to make sure diff fill is not too close to the edge of the *other* region,
+//   still inside size by 0.13
+
+edge_expand -inside_by 0.13 -corner_fill nsdm -outputlayer nsdm_p13
+edge_expand -inside_by 0.13 -corner_fill psdm -outputlayer psdm_p13
+
+edge_expand -outside_by 0.40 -corner_fill (OR nsdm psdm) -outputlayer nsdm_psdm_p4
+
+OR nsdm_psdm_p4 nsdm_p13 psdm_p13  -outputlayer diff_KO_4_pass2
+
+// ----------------------------------------------------------------------------
+
+// created diff_poly areas need to be part of KO:
+
+size -by 0.4 diff_poly_fillgen -outputlayer pass2_KO
+
+OR KO_all_1 KO_all_2 diff_KO_1 diff_KO_2 diff_KO_3 diff_KO_4_pass2 diff_KO_5 diff_KO_6 licon_KO -outputlayer diff_KO_pass2
+
+NOT fill_area (OR pass2_KO diff_KO_pass2) -outputlayer diff_fill_area_pass2
+
+
+// ----------------------------------------------------------------------------
+// remove diff_fillgen straddling COREID to avoid false DRCs
+//select -cut -not diff_fillgen_0 areaid.ce -outputlayer diff_fillgen
+// ----------------------------------------------------------------------------
+
+
+// /////////////////////////////////////////////////////////////////////
+// POLY fill, 2nd pass (after FILLCELLS)
+
+// need to use the 2nd pass generate diff fill in the poly KO
+
+// poly fill to diff fill spacing:  0.3 min
+
+// but poly_fill to poly_fill min spacing is 0.36
+// KO generated from diff_fill using 0.3 size may not be big enough -
+//   poly_fill near the corners of KO areas could be < 0.36 um (it happened)
+// therefore, for this KO use 0.36
+//OR poly_KO (size -by 0.3 diff_fillgen) -outputlayer poly_KO_pass2
+
+OR poly_KO (size -by 0.36 diff_fillgen) -outputlayer poly_KO_pass2
+
+NOT fill_area (OR pass2_KO poly_KO_pass2) -outputlayer poly_fill_area_pass2
+
+// poly_fill is 0.48 (min) x 0.72 (max)
+
+
+CMACRO GEN_POLY  poly_fill_area_pass2 poly_fillgen_72   0.72 0.72  poly_fill_area_pass3
+CMACRO GEN_POLY  poly_fill_area_pass3 poly_fillgen_48   0.48 0.48  poly_fill_area_pass4
+CMACRO GEN_POLY  poly_fill_area_pass4 poly_fillgen_48_2 0.48 0.48  poly_fill_area_pass5
+
+//rect_gen -width 0.72 -length 0.72 -spacing 0.36  -offset  0 0 -inside_of layer poly_fill_area_pass2 -outputlayer poly_fillgen_72
+//size -by 0.36 poly_fillgen_72 -outputlayer poly_fillgen_72_sized
+//NOT poly_fill_area_pass2 poly_fillgen_72_sized poly_fill_area_pass3
+//rect_gen -width 0.48 -length 0.48 -spacing 0.36  -offset  0 0 -inside_of layer poly_fill_area_pass3 -outputlayer poly_fillgen_48
+
+// Generate a few more directly from the last REGION
+// Manual seems inaccurate:  -centers 0.02 gives square at center 0.02 um x 0.02 um
+//   "-centers 2" does NOT give 2 dbu size square
+
+size -by 0.24 poly_fill_area_pass5 -underover -outputlayer poly_fill_underover
+bbox poly_fill_underover -centers 0.02   -outputlayer  poly_bbox_c02
+
+size -by 0.23 poly_bbox_c02 -inside_of poly_fill_underover -outputlayer poly_fill_maybe
+rect_chk poly_fill_maybe -ge 0.48 -by -ge 0.48 -outputlayer poly_fill_bbox 
+
+OR poly_fillgen_72 poly_fillgen_48 poly_fillgen_48_2 poly_fill_bbox -outputlayer poly_fillgen_0 ;
+
+// find poly fill shapes are too close; can happen in nearby corners of separate fill regions
+select -with_neighbor -not poly_fillgen_0 -ge 1 -space -lt 0.36 -outputlayer poly_fillgen
+
+rule poly_fillgen { copy poly_fillgen ; }
+
+// /////////////////////////////////////////////////////////////////////
+// MACRO takes REGION, generates diff FILL, makes NEW_REGION (NOT sized FILL)
+// region fill_output new_region width length spacing offset
+// using KO not as a passed variable is OK as it's internal to MACROs 
+ 
+DMACRO GEN_POLY  REGION  FILL  W L  NEW_REGION {
+  rect_gen -width W -length L -spacing 0.36 -offset 0.0 -inside_of layer REGION -maintain_spacing -outputlayer FILL
+  size -by 0.36 FILL -outputlayer KO
+  NOT REGION KO -outputlayer NEW_REGION
+}
+// /////////////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////////////
+//v07 generate diff_fillgen_alt in nsdm/psdm areas directly
+
+size -by 0.5  poly_dg   -outputlayer polyd
+size -by 0.3  poly_fill -outputlayer polyg
+size -by 0.34 nwell     -outputlayer nws
+size -by 0.4  diff_fill -outputlayer difff
+size -by 0.5 (OR diff_dg tap_dg) -outputlayer diffg
+
+// these first ones are inside nsdm ; these will be outside nwell
+OR polyd polyg nws difff diffg -outputlayer diff_size_1
+
+edge_expand -inside_by 1.0 nsdm -outputlayer nsdm_edge_0
+edge_expand -inside_by 1.0 psdm -outputlayer psdm_edge_0
+
+size -by 0.495 -underover nsdm_edge_0 -outputlayer nsdm_edge
+size -by 0.495 -underover psdm_edge_0 -outputlayer psdm_edge
+
+//NOT nsdm diff_size_1 -outputlayer diff_region_1i
+NOT nsdm_edge diff_size_1 -outputlayer diff_region_1i
+size -by 0.25 -underover diff_region_1i -outputlayer diff_region_1
+// v07b 
+size -by 0.155 m1_dg -outputlayer m1_dg_si
+NOT diff_region_1i m1_dg_si -outputlayer diff_fillgen_alt1_i
+select -inside diff_fillgen_alt1_i nsdm -outputlayer diff_fillgen_alt1_i2
+
+// since we didn't use rect_gen, make sure these shapes are rectangles at least 0.5 x 0.5:
+rect_chk diff_fillgen_alt1_i2 -ge 0.5 -by -ge 0.5 -outputlayer diff_fillgen_alt1	// ****************************
+
+// these first ones are inside psdm ; these will usually be inside nwell
+// NOT the outside edges of nwell (nwe2) in case some are formed outside nwell (it happened)
+// note also, diff fill must be enclosed by HV (5v) nwell by 0.43 um (use nwe3)
+
+edge_expand -inside_by 0.18  -corner_fill nwell -outputlayer nwe1
+edge_expand -outside_by 0.34 -corner_fill nwell -outputlayer nwe2
+edge_expand -inside_by 0.43  -corner_fill (AND nwell hvi) -outputlayer nwe3
+
+OR polyd polyg nwe1 nwe2 nwe3 difff diffg -outputlayer diff_size_2
+
+//NOT psdm diff_size_2 -outputlayer diff_region_2i
+NOT psdm_edge diff_size_2 -outputlayer diff_region_2i
+size -by 0.25 -underover diff_region_2i -outputlayer diff_region_2
+// v07b  ... already have m1_dg_si 
+//size -by 0.155 m1_dg -outputlayer m1_dg_si
+NOT diff_region_2i m1_dg_si -outputlayer diff_fillgen_alt2_i
+select -inside diff_fillgen_alt2_i psdm -outputlayer diff_fillgen_alt2_i2
+
+// some of these are too close to nsdm; use: nsdm_out13
+NOT diff_fillgen_alt2_i2 nsdm_out13 -outputlayer diff_fillgen_alt2_i3
+
+// since we didn't use rect_gen, make sure these shapes are rectangles at least 0.5 x 0.5:
+rect_chk diff_fillgen_alt2_i3 -ge 0.5 -by -ge 0.5 -outputlayer diff_fillgen_alt2	// ****************************
+
+
+/////////////
+//rect_gen -width 0.5 -length 0.5 -spacing 0.4  -offset 0 -inside_of layer diff_region_1 diff_fill_area_pass2 -maintain_spacing  -outputlayer diff_fillgen_alt1
+//rect_gen -width 0.5 -length 0.5 -spacing 0.4  -offset 0 -inside_of layer diff_region_2 -maintain_spacing  -outputlayer diff_fillgen_alt2
+
+
+// v07b:  fill spaces NOT filled by diff_fillgen_alt1 & diff_fillgen_alt2
+// Area to fill is:  diff_fill_area_pass2  ...but with new diff fill removed
+//   (diff_fill_area_pass2 already has FILLCELL removed)
+// If this works, update to add larger shapes !!   				*************
+
+// v07c:  use larger shapes
+//    4.08x2.0   4.8x1.0    2.5x2.0     2.5x1.0 1.0x0.5   0.5x1.0   0.5x0.5
+//  FILLLCELL is ~ 3.0 x 3.0 so it seems unlikely 4.08x2.0 will fit anywhere	
+
+size -by 0.4 (OR diff_fillgen_alt1 diff_fillgen_alt2) -outputlayer diff_alt_KO
+
+
+// v07c:  need to maintain spacing to nsdm / psdm, but overlap is OK
+edge_expand -outside_by 0.13 -corner_fill nsdm -outputlayer nsdm_out13
+edge_expand -outside_by 0.13 -corner_fill psdm -outputlayer psdm_out13
+//NOT diff_fill_area_pass2 diff_alt_KO -outputlayer diff_region_3rd_pass
+NOT diff_fill_area_pass2 (OR diff_alt_KO nsdm_out13 psdm_out13) -outputlayer diff_region_3rd_pass
+
+
+// /////////////////////////////////////////////////////////////////////
+// MACRO takes REGION, generates diff FILL, makes NEW_REGION (NOT sized FILL)
+// region fill_output new_region width length spacing offset
+// I *think* using KO not as a passed variable is OK as it's internal to MACROs 
+ 
+DMACRO GEN_DIFF  REGION FILL  W L  NEW_REGION {
+  rect_gen -width W -length L -spacing 0.4 -offset 0.0 -inside_of layer REGION -maintain_spacing -outputlayer FILL
+  size -by 0.4 FILL -outputlayer KO
+  NOT REGION KO -outputlayer NEW_REGION
+}
+// /////////////////////////////////////////////////////////////////////
+
+
+// 2nd argument is the CREATED FILL
+// 3rd argument is the REGION FOR THE NEXT GEN
+
+// WIDTH (horizontal) is the FIRST NUMBER
+// HEIGHT (vertical)  is the 2ND NUMBER
+
+// STILL need to OR together all the gen FILL layers
+// smallest FILLCELL is  X=3 Y=2.5  so no need to fill with both values larger
+
+// PUT IN some 2nd pass of same sizes for smaller values !!
+// END output should be diff_fillgen_alt3
+
+CMACRO GEN_DIFF diff_region_3rd_pass    diff_fillgen_alt3_1a  25.0 2.0  diff_region_3rd_pass_2a
+CMACRO GEN_DIFF diff_region_3rd_pass_2a diff_fillgen_alt3_1b  15.0 2.0  diff_region_3rd_pass_2b
+CMACRO GEN_DIFF diff_region_3rd_pass_2b diff_fillgen_alt3_1c   5.0 2.0  diff_region_3rd_pass_2c
+CMACRO GEN_DIFF diff_region_3rd_pass_2c diff_fillgen_alt3_1d   2.5 2.0  diff_region_3rd_pass_2d
+CMACRO GEN_DIFF diff_region_3rd_pass_2d diff_fillgen_alt3_1e   1.5 2.0  diff_region_3rd_pass_2e
+CMACRO GEN_DIFF diff_region_3rd_pass_2e diff_fillgen_alt3_1f   1.0 2.0  diff_region_3rd_pass_2f
+CMACRO GEN_DIFF diff_region_3rd_pass_2f diff_fillgen_alt3_1g  0.75 2.0  diff_region_3rd_pass_2g
+CMACRO GEN_DIFF diff_region_3rd_pass_2g diff_fillgen_alt3_1h   0.5 2.0  diff_region_3rd_pass_2h
+
+OR diff_fillgen_alt3_1a diff_fillgen_alt3_1b diff_fillgen_alt3_1c diff_fillgen_alt3_1d 
+   diff_fillgen_alt3_1e diff_fillgen_alt3_1f diff_fillgen_alt3_1g diff_fillgen_alt3_1h
+  -outputlayer diff_fillgen_alt3_1
+    
+CMACRO GEN_DIFF diff_region_3rd_pass_2h diff_fillgen_alt3_2a  25.0 1.5  diff_region_3rd_pass_3a
+CMACRO GEN_DIFF diff_region_3rd_pass_3a diff_fillgen_alt3_2b  15.0 1.5  diff_region_3rd_pass_3b
+CMACRO GEN_DIFF diff_region_3rd_pass_3b diff_fillgen_alt3_2c   5.0 1.5  diff_region_3rd_pass_3c
+CMACRO GEN_DIFF diff_region_3rd_pass_3c diff_fillgen_alt3_2d   2.5 1.5  diff_region_3rd_pass_3d
+CMACRO GEN_DIFF diff_region_3rd_pass_3d diff_fillgen_alt3_2e   1.5 1.5  diff_region_3rd_pass_3e
+CMACRO GEN_DIFF diff_region_3rd_pass_3e diff_fillgen_alt3_2f   1.0 1.5  diff_region_3rd_pass_3f
+CMACRO GEN_DIFF diff_region_3rd_pass_3f diff_fillgen_alt3_2g  0.75 1.5  diff_region_3rd_pass_3g
+CMACRO GEN_DIFF diff_region_3rd_pass_3g diff_fillgen_alt3_2h   0.5 1.5  diff_region_3rd_pass_3h
+
+OR diff_fillgen_alt3_2a diff_fillgen_alt3_2b diff_fillgen_alt3_2c diff_fillgen_alt3_2d 
+   diff_fillgen_alt3_2e diff_fillgen_alt3_2f diff_fillgen_alt3_2g diff_fillgen_alt3_2h
+  -outputlayer diff_fillgen_alt3_2
+
+CMACRO GEN_DIFF diff_region_3rd_pass_3h diff_fillgen_alt3_3a  25.0 1.0  diff_region_3rd_pass_4a
+CMACRO GEN_DIFF diff_region_3rd_pass_4a diff_fillgen_alt3_3b  15.0 1.0  diff_region_3rd_pass_4b
+CMACRO GEN_DIFF diff_region_3rd_pass_4b diff_fillgen_alt3_3c   5.0 1.0  diff_region_3rd_pass_4c
+CMACRO GEN_DIFF diff_region_3rd_pass_4c diff_fillgen_alt3_3d   2.5 1.0  diff_region_3rd_pass_4d
+CMACRO GEN_DIFF diff_region_3rd_pass_4d diff_fillgen_alt3_3e   1.5 1.0  diff_region_3rd_pass_4e
+CMACRO GEN_DIFF diff_region_3rd_pass_4e diff_fillgen_alt3_3f   1.0 1.0  diff_region_3rd_pass_4f
+CMACRO GEN_DIFF diff_region_3rd_pass_4f diff_fillgen_alt3_3g  0.75 1.0  diff_region_3rd_pass_4g
+CMACRO GEN_DIFF diff_region_3rd_pass_4g diff_fillgen_alt3_3h   0.5 1.0  diff_region_3rd_pass_4h
+
+OR diff_fillgen_alt3_3a diff_fillgen_alt3_3b diff_fillgen_alt3_3c diff_fillgen_alt3_3d 
+   diff_fillgen_alt3_3e diff_fillgen_alt3_3f diff_fillgen_alt3_3g diff_fillgen_alt3_3h
+  -outputlayer diff_fillgen_alt3_3
+
+CMACRO GEN_DIFF diff_region_3rd_pass_4h diff_fillgen_alt3_4a  25.0 0.75  diff_region_3rd_pass_5a
+CMACRO GEN_DIFF diff_region_3rd_pass_5a diff_fillgen_alt3_4b  15.0 0.75  diff_region_3rd_pass_5b
+CMACRO GEN_DIFF diff_region_3rd_pass_5b diff_fillgen_alt3_4c   5.0 0.75  diff_region_3rd_pass_5c
+CMACRO GEN_DIFF diff_region_3rd_pass_5c diff_fillgen_alt3_4d   2.5 0.75  diff_region_3rd_pass_5d
+CMACRO GEN_DIFF diff_region_3rd_pass_5d diff_fillgen_alt3_4e   1.5 0.75  diff_region_3rd_pass_5e
+CMACRO GEN_DIFF diff_region_3rd_pass_5e diff_fillgen_alt3_4f   1.0 0.75  diff_region_3rd_pass_5f
+CMACRO GEN_DIFF diff_region_3rd_pass_5f diff_fillgen_alt3_4g  0.75 0.75  diff_region_3rd_pass_5g
+CMACRO GEN_DIFF diff_region_3rd_pass_5g diff_fillgen_alt3_4h   0.5 0.75  diff_region_3rd_pass_5h
+
+OR diff_fillgen_alt3_4a diff_fillgen_alt3_4b diff_fillgen_alt3_4c diff_fillgen_alt3_4d 
+   diff_fillgen_alt3_4e diff_fillgen_alt3_4f diff_fillgen_alt3_4g diff_fillgen_alt3_4h
+  -outputlayer diff_fillgen_alt3_4
+
+CMACRO GEN_DIFF diff_region_3rd_pass_5h diff_fillgen_alt3_5a  25.0 0.5  diff_region_3rd_pass_6a
+CMACRO GEN_DIFF diff_region_3rd_pass_6a diff_fillgen_alt3_5b  15.0 0.5  diff_region_3rd_pass_6b
+CMACRO GEN_DIFF diff_region_3rd_pass_6b diff_fillgen_alt3_5c   5.0 0.5  diff_region_3rd_pass_6c
+CMACRO GEN_DIFF diff_region_3rd_pass_6c diff_fillgen_alt3_5d   2.5 0.5  diff_region_3rd_pass_6d
+CMACRO GEN_DIFF diff_region_3rd_pass_6d diff_fillgen_alt3_5e   1.5 0.5  diff_region_3rd_pass_6e
+CMACRO GEN_DIFF diff_region_3rd_pass_6e diff_fillgen_alt3_5f   1.0 0.5  diff_region_3rd_pass_6f
+CMACRO GEN_DIFF diff_region_3rd_pass_6f diff_fillgen_alt3_5g  0.75 0.5  diff_region_3rd_pass_6g
+CMACRO GEN_DIFF diff_region_3rd_pass_6g diff_fillgen_alt3_5h   0.5 0.5  diff_region_3rd_pass_6h
+
+// extra pass of the last one
+
+CMACRO GEN_DIFF diff_region_3rd_pass_6h diff_fillgen_alt3_5i   0.5 0.5  diff_region_3rd_pass_6i
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+OR diff_fillgen_alt3_5a diff_fillgen_alt3_5b diff_fillgen_alt3_5c diff_fillgen_alt3_5d 
+   diff_fillgen_alt3_5e diff_fillgen_alt3_5f diff_fillgen_alt3_5g diff_fillgen_alt3_5h diff_fillgen_alt3_5i
+  -outputlayer diff_fillgen_alt3_5
+
+OR diff_fillgen_alt3_1 diff_fillgen_alt3_2 diff_fillgen_alt3_3 diff_fillgen_alt3_4 diff_fillgen_alt3_5  -outputlayer diff_fillgen_alt3
+
+// this is our new diff_fillgen !!
+//OR diff_fillgen_alt1 diff_fillgen_alt2 diff_fillgen_alt3 -outputlayer diff_fillgen
+OR diff_fillgen_alt1 diff_fillgen_alt2 diff_fillgen_alt3 -outputlayer diff_fillgen_01
+
+// make the following corrections:
+//   remove diff fill straddling COREID
+//   remove diff fill shapes that are too close; can happen in nearby separate fill regions 
+
+select -cut -not diff_fillgen_01 areaid.ce -outputlayer diff_fillgen_02
+
+// find diff fill shapes that are too close; can happen in nearby separate fill regions
+select -with_neighbor diff_fillgen_02 -ge 1 -space -lt 0.40 -outputlayer diff_fillgen_too_close
+size -by -0.2 diff_fillgen_too_close -outputlayer diff_fillgen_too_close_sized
+rect_chk diff_fillgen_too_close_sized -ge 0.5 -by -ge 0.5 -outputlayer diff_fillgen_keep 
+
+NOT diff_fillgen_02 diff_fillgen_too_close -outputlayer diff_fillgen_03
+OR diff_fillgen_03 diff_fillgen_keep -outputlayer diff_fillgen
+ 
+
+rule diff_fillgen { copy diff_fillgen ; }
+
+
+//////////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////////////
+// LI
+
+// LI min global density (inside seal ring): 33 %
+// LI max global density (inside seal ring): 62 %
+
+// 	there are no stepped density rules for LI
+
+// li_fill is 0.50 (min) x 5.0 (max)
+
+// No Overlap:
+//   	areaid:seal / licon / mcon / LI dg / LI fill / LI fill_block / LI block / poly dg
+//	LI fill overlap with diff dg / diff fill / poly fill 	OK
+// Min Spacings:  0.50
+//   	li_fill / licon / LI / mcon / LI fill_block: 	0.50 
+//      LI block 					0.17 
+// 	SEALID:  					1.0  
+// Min Enclosure of li_fill by areaid.ft:  		0.50
+
+size -by 0.50 (OR li1 licon mcon li_fill_block) -outputlayer LI_KO_1
+size -by 0.17 li_block -outputlayer LI_KO_2
+
+OR KO_all_1 KO_all_2 LI_KO_1 LI_KO_2 licon_KO mcon_KO (size -by 0.005 poly)  -outputlayer LI_KO
+
+NOT fill_area LI_KO -outputlayer LI_fill_area
+
+// 0.6 x 0.6 space 0.75 gave 25.8%
+// 1.0 x 1.0 space 0.5  gave 31.9%
+// 1.1 x 1.1 space 0.5 offest 0.25 gave 31.6% but offset is too big (space errors)
+rect_gen -width 1.1 -length 1.1 -spacing 0.5 -offset 0.0 0.0 -inside_of layer LI_fill_area -outputlayer LI_fillgen  
+
+rule LI_fillgen { copy LI_fillgen }
+
+//////////////////////////////////////////////////////////////////
+// M1
+
+// M1 min global density (inside seal ring):  33%
+// M1 max global density (inside seal ring):  62%
+
+// Low stepped OXIDE density:  700 um window, step 70 um:  80% MIN
+
+// m1 "pattern density RANGE" inside seal ring --
+// 	Max stepped density:  2000 um window, step 200 um:  15 % MAX
+
+// m1 is:  OR m1:dg  m1:fill
+// where routed, m1 appears mostly horizontal
+
+// m1 fill is 0.3 x 2.0 (largest)
+
+// m1 fill min spacing to m1_fill / mcon / m1 / via1 / m1 fill_block:  0.30
+// m1 fill min spacing to m1 block:	0.14
+// m1 fill min spacing to SEALID:  1.0
+// m1 fill min enclosure by areaid.ft  0.50  (frameRect)
+
+// m1_keepOut:
+// NOTE: "m1" include met1:dg and met1_fill
+
+size -by 0.30 (OR mcon m1 via1 m1_fill_block) -outputlayer m1_KO_1
+size -by 0.14 m1_block -outputlayer m1_KO_2
+
+OR KO_all_1 KO_all_2 m1_KO_1 m1_KO_2 -outputlayer m1_KO
+
+NOT fill_area m1_KO -outputlayer m1_fill_area
+
+rect_gen -width 0.6 -length 0.6 -spacing 0.4 -offset 0.1 0.1 -inside_of layer m1_fill_area -outputlayer m1_fillgen 
+
+rule m1_fillgen { copy m1_fillgen }
+
+
+//////////////////////////////////////////////////////////////////
+// M2
+
+// m2 min global density (inside seal ring): 33 %
+
+// m2 fill:  0.3 x 2.0 largest
+
+// m2 fill min spacing to m2_fill / via1 / m2 / via2 / m2 fill_block:  0.3
+// m2 fill min spacing to m2 block:	0.14
+// m2 fill min spacing to SEALID:  1.0
+// m2 fill min enclosure by areaid.ft  0.50  (frameRect)
+
+// Note: m2 includes m2:dg , m2:fill
+
+size -by 0.30 (OR via1 m2 via2 m2_fill_block) -outputlayer m2_KO_1
+size -by 0.14 m2_block -outputlayer m2_KO_2
+
+OR KO_all_1 KO_all_2 m2_KO_1 m2_KO_2 -outputlayer m2_KO
+
+NOT fill_area m2_KO -outputlayer m2_fill_area
+
+// use slightly larger size for M2 as some designs had global values that were too small
+// 0.6 x 0.6 space 0.4  gave 30%
+// v04 used 0.7 x 0.7 space 0.4  gave 31.8%
+rect_gen -width 0.8 -length 0.8 -spacing 0.4 -offset 0.1 0.1 -inside_of layer m2_fill_area -outputlayer m2_fillgen 
+
+rule m2_fillgen { copy m2_fillgen }
+
+
+//////////////////////////////////////////////////////////////////
+// m3
+
+// m3 fill:  0.5 x 2.0 largest
+
+// m3 fill min spacing to m3 fill: 0.3
+// m3 fill min spacing to via2 / via3 / m3 fill_block:  0.5
+// m3 fill min spacing to m3 block:	0.3 
+// m3 fill min spacing to SEALID:  1.0
+// m3 fill min enclosure by areaid.ft  0.50  (frameRect)
+
+// m3 min spacing to capm:  1.2 um
+//   I use 1.34 because SW uses "cap bottom" which is capm size by 0.14 um
+
+// Note: separate out m3:fill and m3:dg as the minimum spacings are different
+
+size -by 0.50 (OR via2 m3_dg via3 m3_fill_block) -outputlayer m3_KO_1
+size -by 0.3 (OR m3_fill m3_block) -outputlayer m3_KO_2
+size -by 0.14 m3_block -outputlayer m3_KO_3
+size -by 1.34 capm -outputlayer m3_KO_4
+
+OR KO_all_1 KO_all_2 m3_KO_1 m3_KO_2 m3_KO_3 m3_KO_4 -outputlayer m3_KO
+
+NOT fill_area m3_KO -outputlayer m3_fill_area
+
+rect_gen -width 1.0 -length 1.0 -spacing 0.75 -offset 0.5 0.25 -inside_of layer m3_fill_area -outputlayer m3_fillgen 
+
+rule m3_fillgen { copy m3_fillgen }
+
+//////////////////////////////////////////////////////////////////
+// m4
+
+// m4 fill:  0.5 x 2.0 largest
+
+// m4 fill min spacing to m4 fill:  0.3
+// m4 fill min spacing to via3 / via4 / m4 fill_block:  0.5
+// m4 fill min spacing to m4 block:	0.3 
+// m4 fill min spacing to SEALID:  1.0
+// m4 fill min enclosure by areaid.ft  0.50  (frameRect)
+
+// m4 min spacing to cap2m:  1.2 um
+//   I use 1.34 because SW uses "cap bottom" which is cap2m sized by 0.14 um
+
+size -by 0.50 (OR via3 m4_dg via4 m4_fill_block) -outputlayer m4_KO_1
+size -by 0.3 (OR m4_fill m4_block) -outputlayer m4_KO_2
+size -by 0.14 m4_block -outputlayer m4_KO_3
+size -by 1.34 cap2m -outputlayer m4_KO_4
+
+OR KO_all_1 KO_all_2 m4_KO_1 m4_KO_2 m4_KO_3 m4_KO_4 -outputlayer m4_KO
+
+NOT fill_area m4_KO -outputlayer m4_fill_area
+
+// 0.5 x 1.0 spacing 1.0 gave 18%
+//               X           Y                        X   Y
+//rect_gen -width 0.5 -length 1.0 -spacing 0.5 -offset 0.25 0.50 -inside_of layer m4_fill_area -outputlayer m4_fillgen 
+rect_gen -width 1.0 -length 1.0 -spacing 0.75 -offset 0.25 0.25 -inside_of layer m4_fill_area -outputlayer m4_fillgen 
+
+rule m4_fillgen { copy m4_fillgen }
+
+
+//////////////////////////////////////////////////////////////////
+// m5
+
+// m5 fill:  2.0 (smallest) x 5.0 (largest)
+
+// m5 fill min spacing to m5 fill: 1.6
+// m5 fill min spacing to m5 / via4 / viatop (?) / m5 fill_block:  3.0
+// m5 fill min spacing to m5 block:	1.6 
+// m5 fill min spacing to SEALID:  1.6
+// m5 fill min enclosure by areaid.ft  1.0  (frameRect)
+
+size -by 3.0 (OR via4 m5_dg m5_fill_block) -outputlayer m5_KO_1
+size -by 1.6 SEALID -outputlayer m5_KO_2
+edge_expand -inside_by 1.0 -corner_fill areaid.ft -outputlayer m5_KO_3
+size -by 1.6 (OR m5_fill m5_block) -outputlayer m5_KO_4
+size -by 1.6 m5_block -outputlayer m5_KO_5
+
+OR m5_KO_1 m5_KO_2 m5_KO_3 m5_KO_4 m5_KO_5 -outputlayer m5_KO
+
+NOT fill_area m5_KO -outputlayer m5_fill_area
+
+//rect_gen -width 5.0 -length 4.0 -spacing 1.6 -offset 0.5 0.4 -inside_of layer m5_fill_area -outputlayer m5_fillgen 
+
+CMACRO GEN_M5  m5_fill_area    m5_fillgen_1  5.0 5.0 m5_fill_area_2
+CMACRO GEN_M5  m5_fill_area_2  m5_fillgen_2  5.0 3.5 m5_fill_area_3
+CMACRO GEN_M5  m5_fill_area_3  m5_fillgen_3  3.5 5.0 m5_fill_area_4
+CMACRO GEN_M5  m5_fill_area_4  m5_fillgen_4  5.0 2.0 m5_fill_area_5
+CMACRO GEN_M5  m5_fill_area_5  m5_fillgen_5  2.5 2.5 m5_fill_area_6
+CMACRO GEN_M5  m5_fill_area_6  m5_fillgen_6  2.0 2.0 m5_fill_area_7
+CMACRO GEN_M5  m5_fill_area_7  m5_fillgen_7  2.0 2.0 m5_fill_area_8
+
+OR m5_fillgen_1 m5_fillgen_2 m5_fillgen_3 m5_fillgen_4 m5_fillgen_5 m5_fillgen_6 m5_fillgen_7 -outputlayer m5_fillgen
+
+rule m5_fillgen { copy m5_fillgen }
+
+
+DMACRO GEN_M5  REGION  FILL  W L  NEW_REGION {
+  rect_gen -width W -length L -spacing 1.6 -offset 0.1 -inside_of layer REGION -maintain_spacing -outputlayer FILL
+  size -by 1.6 FILL -outputlayer KO
+  NOT REGION KO -outputlayer NEW_REGION
+}
+
+
+//////////////////////////////////////////////////////////////////
+// Output
+
+// Use fill_CTL.pvl to control fillgen output
+
+// For debugging, do not use fill_CTL.pvl
+// Instead, uncomment out the "reults_db" line below to create ASCII output
+// This can be loaded into Virtuoso like any DRC output file
+// Set the DRC output limit to "ALL" to see all of the generated fill
+
+// results_db -drc "FILL.ascii" -ascii ;
+

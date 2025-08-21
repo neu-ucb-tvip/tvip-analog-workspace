@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  General rules (FIXME)		   			//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.1						//
 //////////////////////////////////////////////////////////////////
 
@@ -31,7 +31,7 @@ rule x.1b {
 	offgrid uhvi 5 ;	// v20
 	offgrid tunm 5 ;
 	offgrid poly 5 ;
-	offgrid npc 5 ;
+	offgrid npc 5 ;f
 	offgrid nsdm 5 ;
 	offgrid psdm 5 ;
 	offgrid licon 5 ;
@@ -109,28 +109,28 @@ rect_chk -not inductor	-orthogonal_only	inductor_not_rect
 //////////////////////////////////////////////////////////////////
 // these layers must be orthogonal :
 
-rule x.2.licon {
-	caption "Angles permitted on licon: 90"
+rule CDR.x.2.licon {
+	caption "CDR: licon shapes must be rectangles"
   	copy licon_not_rect ;
 }
-rule x.2.mcon {
-	caption "Angles permitted on mcon: 90"
+rule CDR.x.2.mcon {
+	caption "CDR: mcon shapes must be rectangles"
   	copy mcon_not_rect ;
 }
-rule x.2.via1 {
-	caption "Angles permitted on via: 90"
+rule CDR.x.2.via1 {
+	caption "CDR: via1 shapes must be rectangles"
   	copy via1_not_rect ;
 }
-rule x.2.via2 {
-	caption "Angles permitted on via2: 90"
+rule CDR.x.2.via2 {
+	caption "CDR: via2 shapes must be rectangles"
   	copy via2_not_rect ;
 }
-rule x.2.via3 {
-	caption "Angles permitted on via3: 90"
+rule CDR.x.2.via3 {
+	caption "CDR: via3 shapes must be rectangles"
   	copy via3_not_rect ;
 }
-rule x.2.via4 {
-	caption "Angles permitted on via4: 90"
+rule CDR.x.2.via4 {
+	caption "CDR: via4 shapes must be rectangles"
   	copy via4_not_rect ;
 }
 
@@ -149,114 +149,96 @@ rule x.2.via4 {
 // and there is not "orthogonal" option to angle (0 & 90 different),
 // so, first rule out 45, then look for angles 0 < angle < 90
 
-rule x.3a.nwell {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  nwell has non-45 degree edge "
+// Rules x.3:  Angles permitted on all other layers except WLCSP layers: 45 degrees
+
+rule x.3.nwell {
+	caption "nwell has non-45 degree edge "
   	angle (angle nwell_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.dnwell {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  dnwell has non-45 degree edge "
+rule x.3.dnwell {
+	caption "dnwell has non-45 degree edge "
   	angle (angle dnwell_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.hvtp {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  hvtp has non-45 degree edge "
+rule x.3.hvtp {
+	caption "hvtp has non-45 degree edge "
   	angle (angle hvtp_not_rect -ne 45) -ltgt 0 90 ;
 }
 rule x.3.diff {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  diff has non-45 degree edge "
+	caption "diff has non-45 degree edge "
   	angle (angle diff_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.tunm {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  tunm has non-45 degree edge "
+rule x.3.tunm {
+	caption "tunm has non-45 degree edge "
   	angle (angle tunm_not_rect -ne 45) -ltgt 0 90 ;
 }
 rule x.3.poly {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  poly has non-45 degree edge "
+	caption "poly has non-45 degree edge "
   	angle (angle poly_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.npc {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  npc has non-45 degree edge "
+rule x.3.npc {
+	caption "npc has non-45 degree edge "
   	angle (angle npc_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.nsdm {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  nsdm has non-45 degree edge "
+rule x.3.nsdm {
+	caption "nsdm has non-45 degree edge "
   	angle (angle nsdm_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.psdm {
+rule x.3.psdm {
 	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  psdm has non-45 degree edge "
+	caption "psdm has non-45 degree edge "
   	angle (angle psdm_not_rect -ne 45) -ltgt 0 90 ;
 }
 rule x.3.li1 {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  li has non-45 degree edge "
+	caption "li has non-45 degree edge "
   	angle (angle li1_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.met1 {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  met1 has non-45 degree edge "
+rule x.3.m1 {
+	caption "met1 has non-45 degree edge "
   	angle (angle met1_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.met2 {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  met2 has non-45 degree edge "
+rule x.3.m2 {
+	caption "met2 has non-45 degree edge "
   	angle (angle met2_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.met3 {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  met3 has non-45 degree edge "
+rule x.3.m3 {
+	caption "met3 has non-45 degree edge "
   	angle (angle met3_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.met4 {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  met4 has non-45 degree edge "
+rule x.3.m4 {
+	caption "met4 has non-45 degree edge "
   	angle (angle met4_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.met5 {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  met5 has non-45 degree edge "
+rule x.3.m5 {
+	caption "met5 has non-45 degree edge "
   	angle (angle met5_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.nsm {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  nsm has non-45 degree edge "
+rule x.3.nsm {
+	caption "nsm has non-45 degree edge "
   	angle (angle nsm_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.pad {
+rule x.3.pad {
 	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  pad has non-45 degree edge "
+	caption "pad has non-45 degree edge "
   	angle (angle pad_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.hvntm {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  hvntm has non-45 degree edge "
+rule x.3.hvntm {
+	caption "hvntm has non-45 degree edge "
   	angle (angle hvntm_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.capacitor {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  capacitor has non-45 degree edge "
+rule x.3.capacitor {
+	caption "capacitor has non-45 degree edge "
   	angle (angle capacitor_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.ncm {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  ncm has non-45 degree edge "
+rule x.3.ncm {
+	caption "ncm has non-45 degree edge "
   	angle (angle ncm_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.inductor {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  inductor has non-45 degree edge "
+rule x.3.inductor {
+	caption "inductor has non-45 degree edge "
   	angle (angle inductor_not_rect -ne 45) -ltgt 0 90 ;
 }
-rule x.3a.hvtr {
-	caption "Angles permitted on all other layers except WLCSP layers: 45"
-	caption "  hvtr has non-45 degree edge "
+rule x.3.hvtr {
+	caption "hvtr has non-45 degree edge "
   	angle (angle hvtr_not_rect -ne 45) -ltgt 0 90 ;
 }
 //////////////////////////////////////////////////////////////////
@@ -283,27 +265,27 @@ rule x.5.poly {
 }
 rule x.5.li {
 	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - LI'
-  	NOT li1_pin li1_dg ;
+  	NOT li1_pin li_dg ;
 }
 rule x.5.m1 {
 	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met1'
-  	NOT met1_pin met1_dg ;
+  	NOT met1_pin m1_dg ;
 }
 rule x.5.m2 {
 	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met2'
-  	NOT met2_pin met2_dg ;
+  	NOT met2_pin m2_dg ;
 }
 rule x.5.m3 {
 	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met3'
-  	NOT met3_pin met3_dg ;
+  	NOT met3_pin m3_dg ;
 }
 rule x.5.m4 {
 	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met4'
-  	NOT met4_pin met4_dg ;
+  	NOT met4_pin m4_dg ;
 }
 rule x.5.m5 {
 	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - met5'
-  	NOT met5_pin met5_dg ;
+  	NOT met5_pin m5_dg ;
 }
 rule x.5.pad {
 	caption 'All "pin" polygons must be within the 'drawing' polygons of the layer - pad'
@@ -317,15 +299,8 @@ rule x.5.pad {
 //////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
-// rule x.8  Use of areaid CORE layer must be approved by technology
-// 	Guideline only
-
-rule x.8 {
-	caption "WARNING: Use of areaid.ce layer (memory core ID layer) must be approved by SkyWater"
-	caption "WARNING: Some rules apply only to areas outside of areid.ce and and a core rule may not exist "
-	extent_drawn areaid.ce ;
-}
-
+// rule x.8  Use of areaid CORE layer must be approved by SkyWater Technology
+// 	Moved to section "Prohibited or Reserved layers"
 
 //////////////////////////////////////////////////////////////////
 
@@ -334,7 +309,7 @@ rule x.8 {
 //////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
-// rule x.10  res purpose layer for (diff, poly) cannot overlap licon
+// x.10  res purpose layer for (diff, poly) cannot overlap licon
 
 rule x.10.diff {
 	caption "res purpose layer for diff cannot overlap licon"
@@ -346,7 +321,7 @@ rule x.10.poly {
 }
 
 //////////////////////////////////////////////////////////////////
-// rule x.11  Fuses appear to be no longer supported 
+// rule x.11  Fuses are no longer supported 
 //////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
@@ -413,66 +388,79 @@ rule x.23c.li1 {
 	caption "areaid:seal (Seal Ring) must not overlap li1"
 	AND SEALID li1 ;
 }
-rule x.23c.met1 {
+rule x.23c.m1 {
 	caption "areaid:seal (Seal Ring) must not overlap met1"
 	AND SEALID met1 ;
 }
-rule x.23c.met2 {
+rule x.23c.m2 {
 	caption "areaid:seal (Seal Ring) must not overlap met2"
 	AND SEALID met2 ;
 }
-rule x.23c.met3 {
+rule x.23c.m3 {
 	caption "areaid:seal (Seal Ring) must not overlap met3"
 	AND SEALID met3 ;
 }
-rule x.23c.met4 {
+rule x.23c.m4 {
 	caption "areaid:seal (Seal Ring) must not overlap met4"
 	AND SEALID met4 ;
 }
-rule x.23c.met5 {
+rule x.23c.m5 {
 	caption "areaid:seal (Seal Ring) must not overlap met5"
 	AND SEALID met5 ;
 }
 
-// x.23d, x.23e will be found by x.23c
+// x.23d, x.23e will be found by x.23c 
 
 
 //////////////////////////////////////////////////////////////////
 //  Prohibited or Reserved layers 
 
-rule "x.prohibited.fuse" {
-	caption "WARNING: Use of the met4 fuse layer is prohibited"
+#IFNDEF NOWARN
+
+  rule CDRW.x.8 {
+	caption "CDRW: WARNING: Use of areaid.ce layer (memory core ID layer) must be approved by SkyWater Technology"
+	caption "CDRW: WARNING: Some rules apply only to areas outside of areid.ce and a core rule may not exist "
+	extent_drawn areaid.ce ;
+  }
+  rule "CDRW.x.fuse" {
+	caption "CDRW: WARNING: The met4 fuse layer (GDS 71:17) is no longer supported"
 	copy met4_fuse ;
-}
-rule "x.prohibited.target" {
-	caption "WARNING: Use of the fuse target layer is prohibited"
-	copy target ;
-}
-
-rule x.moduleCut {
-	caption "WARNING: Use of areaid.mt (moduleCut layer) is for SkyWater Technology only"
+  }
+  rule x.moduleCut {
+	caption "WARNING: Use of areaid.mt (moduleCut) layer (GDS 81:10) is for SkyWater Technology only"
 	extent_drawn areaid.mt ;
-}
-
-
-//////////////////////////////////////////////////////////////////
-// Addendum Rules
-
-
-rule x.prBndry {
-	caption "WARNING: prBoundary not allowed in IP"
+  }
+  rule CDRW.x.photo {
+	caption "CDRW: WARNING: Use of areaid:photo layer (GDS 81:81) is prohibited"
+	copy areaid.po;
+  }
+  rule x.prBndry {
+	caption "WARNING: Use of prBoundary layer (GDS 235:4) is prohibited"
 	copy prBndry;
-}
+  }
+  rule x.pwell {
+	caption "WARNING: pwell must connect by ptap at least once"
+	select -enclose -not pwell ptap
+	select -enclose -not localSub ptap
+  }
+  rule "CDRW.x.RDL" {
+	caption "CDRW: WARNING: Use of the RDL layer (GDS 74:20) is prohibited"
+  	copy target ;
+  }
+  rule "CDRW.x.target" {
+	caption "CDRW: WARNING: Use of the fuse target layer (GDS 76:44) is prohibited"
+  	copy target ;
+  }
+  rule "CDRW.x.tunm" {
+	caption "CDRW: WARNING: Use of the tunm layer (GDS 80:20) is prohibited"
+  	copy tunm ;
+  }
+
+#ENDIF // ifndef NOWARN
 
 //rule "x.pad {
 //	caption "pad pcells should be used for bondpad"
 //	to be added 
 //}
 
-
-rule x.pwell {
-	caption "WARNING: pwell must connect by ptap at least once"
-	select -enclose -not pwell ptap
-	select -enclose -not localSub ptap
-}
 

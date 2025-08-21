@@ -1,0 +1,100 @@
+************************************************************************
+* auCdl Netlist
+************************************************************************
+.OPTION SCALE=1
+
+.SUBCKT pad_bond pin0
+.ENDS
+
+.SUBCKT pad_microprobe pin0
+.ENDS
+
+.SUBCKT pad_probe pin0
+.ENDS
+
+.SUBCKT nmos_de_iso_v20 drn gate src b sub
+.ENDS nmos_de_iso_v20
+
+.SUBCKT npn_11v0  C B E BN
+.ENDS npn_11v0
+
+.SUBCKT npn_05v5  C B E BN
+.ENDS npn_05v5
+
+.SUBCKT pnp_05v5  C B E BN
+.ENDS pnp_05v5
+
+*************
+.SUBCKT cap_vpp_02p4x04p6_m1m2_noshield c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_02p7x06p1_m1m2m3m4_shieldl1_fingercap c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_02p7x11p1_m1m2m3m4_shieldl1_fingercap c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_02p7x21p1_m1m2m3m4_shieldl1_fingercap c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_02p7x41p1_m1m2m3m4_shieldl1_fingercap c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_02p9x06p1_m1m2m3m4_shieldl1_fingercap2 c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_04p4x04p6_l1m1m2_noshield c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_04p4x04p6_l1m1m2_shieldpo_floatm3 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_04p4x04p6_m1m2_noshield c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_04p4x04p6_m1m2_noshield_o2 c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_04p4x04p6_m1m2_shieldl1 c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_04p4x04p6_m1m2m3_shieldl1 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_04p4x04p6_m1m2m3_shieldl1m5_floatm4 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_05p9x05p9_m1m2m3m4_shieldl1_wafflecap c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_06p8x06p1_l1m1m2m3_shieldpom4 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_06p8x06p1_m1m2m3_shieldl1m4 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_08p6x07p8_l1m1m2_noshield c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_08p6x07p8_l1m1m2_shieldpo_floatm3 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_08p6x07p8_m1m2_noshield c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_08p6x07p8_m1m2_shieldl1 c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_08p6x07p8_m1m2m3_shieldl1 c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_08p6x07p8_m1m2m3_shieldl1m5_floatm4 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_11p3x11p3_m1m2m3m4_shieldl1_wafflecap c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_l1m1m2_noshield c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_l1m1m2_shieldpom3 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_l1m1m2m3_shieldm4 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_l1m1m2m3_shieldpom4 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_l1m1m2m3m4_shieldm5 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_l1m1m2m3m4_shieldpom5 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_m1m2_noshield c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_m1m2_shieldl1 c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_m1m2m3_shieldl1 c0 c1 b
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_m1m2m3_shieldl1m5_floatm4 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_m1m2m3m4_shieldl1m5 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_m1m2m3m4_shieldm5 c0 c1 b top
+.ENDS
+.SUBCKT cap_vpp_11p5x11p7_m1m4_noshield c0 c1 b
+.ENDS
+

@@ -1,0 +1,15 @@
+//////////////////////////////////////////////////////////////////
+//	  pwdem rules		 				//
+// Version 0.0_2.12  July 22, 2025				//
+// DRM Section 5.7.5						//
+//////////////////////////////////////////////////////////////////
+
+// No information provided
+
+//pwdem.1	Min width of pwdem	NV
+//pwdem.2	Min spacing between pwdem inside UHVI on same net	NV
+//pwdem.3	Min enclosure of pdwem by pwbm inside UHVI	NV
+//pwdem.4	pwdem must be enclosed by UHVI	
+//pwdem.5	pwdem inside UHVI must be enclosed by deep nwell	
+//pwdem.6	Min enclosure of pwdem by deep nwell inside UHVI	
+

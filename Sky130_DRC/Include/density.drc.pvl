@@ -1,0 +1,913 @@
+//////////////////////////////////////////////////////////////////
+//	 Density & Fill rules			 			//
+// Version 0.0_2.12  July 22, 2025				//
+// 					  			//
+//////////////////////////////////////////////////////////////////
+
+// layers needed for density
+
+// sealid_hole already defined
+//   holes SEALID -inner -empty -outputlayer sealid_hole
+
+    or sealid_hole SEALID -outputlayer chip_plus_sealhole
+//    not ALL chip_plus_sealhole -outputlayer ALL_not_sealhole
+    or chip_plus_sealhole (select -interact -not ALL SEALID) -outputlayer fill_extent
+    not fill_extent SEALID -outputlayer fill_extent_not_SEALID
+
+
+// mask layers:  
+//  diff_mask (diff), poly_mask (poly), li_mask (LI)
+//  m1_mask m2_mask m3_mask m4_mask m5_mask
+// "diff_in" is diff dg & tap dg
+
+OR diff_in diff_fill diff_mask -outputlayer diff_layers
+OR poly_dg poly_fill poly_mask -outputlayer poly_layers
+OR li_dg   li_fill   li_mask   -outputlayer li_layers
+OR m1_dg   m1_fill   m1_mask   -outputlayer m1_layers
+OR m2_dg   m2_fill   m2_mask   -outputlayer m2_layers
+OR m3_dg   m3_fill   m3_mask   -outputlayer m3_layers
+OR m4_dg   m4_fill   m4_mask   -outputlayer m4_layers
+OR m5_dg   m5_fill   m5_mask   -outputlayer m5_layers
+
+
+#IFNDEF NODEN
+
+// diff & poly have no global density requirements
+
+  rule "CDR.diff.local.low" {
+	caption "CDR: Min diff local density (700 square um window, 7 um step): 28%"
+	caption "  rdb file: diff_low_density.rdb"
+	density diff_layers -lt 0.28 -window 700 -step 70 -inside_of layer fill_extent_not_SEALID -rdb diff_low_density.rdb
+  }
+  rule "CDRW.diff.local.high" {
+	caption "CDRW: Max diff local density (700 square um window, 7 um step): 62%"
+	caption "  rdb file: diff_high_density.rdb"
+	density diff_layers -gt 0.62 -window 700 -step 70 -inside_of layer fill_extent_not_SEALID -rdb diff_high_density.rdb
+  }
+  rule "CDRW.poly.local.low" {
+	caption "CDRW: Min poly local density (700 square um window, 7 um step): 8%"
+	caption "  rdb file: poly_low_density.rdb"
+	density poly_layers -lt 0.08 -window 700 -step 70 -inside_of layer fill_extent_not_SEALID -rdb poly_low_density.rdb
+  }
+  rule "CDRW.poly.local.high" {
+	caption "CDRW: Max poly local density (700 square um window, 7 um step): 38%"
+	caption "  rdb file: poly_high_density.rdb"
+	density poly_layers -gt 0.38 -window 700 -step 70 -inside_of layer fill_extent_not_SEALID -rdb poly_high_density.rdb
+  }
+
+// LI has no local global density requirements
+
+  rule "CDRW.li.global.min" {
+	caption "CDRW: Min global density of LI inside seal ring: 33%"
+	caption "  rdb file: li_global_low.rdb"
+	density li_layers -lt 0.33 -inside_of layer fill_extent_not_SEALID -rdb li_global_low.rdb
+  }
+  rule "CDRW.li.global.max" {
+	caption "CDRW: Max global density of LI inside seal ring: 62%"
+	caption "  rdb file: li_global_high.rdb"
+	density li_layers -gt 0.62 -inside_of layer fill_extent_not_SEALID -rdb li_global_high.rdb
+  }
+
+  rule "CDRW.m1.global.min" {
+	caption "CDRW: Min global density of met1 inside seal ring: 33%"
+	caption "  rdb file: m1_global_low.rdb"
+	density m1_layers -lt 0.33 -inside_of layer fill_extent_not_SEALID -rdb m1_global_low.rdb
+  }
+  rule "CDRW.m1.global.max" {
+	caption "CDRW: Max global density of met1 inside seal ring: 62%"
+	caption "  rdb file: m1_global_high.rdb"
+	density m1_layers -gt 0.62 -inside_of layer fill_extent_not_SEALID -rdb m1_global_high.rdb
+  }
+  rule "CDRW.m2.global.min" {
+	caption "CDRW: Min global density of met2 inside seal ring: 33%"
+	caption "  rdb file: m2_global_low.rdb"
+	density m2_layers -lt 0.33 -inside_of layer fill_extent_not_SEALID -rdb m2_global_low.rdb
+  }
+  rule "CDRW.m2.global.max" {
+	caption "CDRW: Max global density of met2 inside seal ring: 62%"
+	caption "  rdb file: m2_global_high.rdb"
+	density m2_layers -gt 0.62 -inside_of layer fill_extent_not_SEALID -rdb m2_global_high.rdb
+  }
+  rule "CDRW.m3.global.min" {
+	caption "CDRW: Min global density of met3 inside seal ring: 33%"
+	caption "  rdb file: m3_global_low.rdb"
+	density m3_layers -lt 0.33 -inside_of layer fill_extent_not_SEALID -rdb m3_global_low.rdb
+  }
+  rule "CDRW.m3.global.max" {
+	caption "CDRW: Max global density of met3 inside seal ring: 62%"
+	caption "  rdb file: m3_global_high.rdb"
+	density m3_layers -gt 0.62 -inside_of layer fill_extent_not_SEALID -rdb m3_global_high.rdb
+  }
+  rule "CDRW.m4.global.min" {
+	caption "CDRW: Min global density of met4 inside seal ring: 33%"
+	caption "  rdb file: m4_global_low.rdb"
+	density m4_layers -lt 0.33 -inside_of layer fill_extent_not_SEALID -rdb m4_global_low.rdb
+  }
+  rule "CDRW.m4.global.max" {
+	caption "CDRW: Max global density of met4 inside seal ring: 62%"
+	caption "  rdb file: m4_global_high.rdb"
+	density m4_layers -gt 0.62 -inside_of layer fill_extent_not_SEALID -rdb m4_global_high.rdb
+  }
+  rule "CDRW.m5.global.min" {
+	caption "CDRW: Min global density of met5 inside seal ring: 43%"
+	caption "  rdb file: m5_global_low.rdb"
+	density m5_layers -lt 0.43 -inside_of layer fill_extent_not_SEALID -rdb m5_global_low.rdb
+  }
+  rule "CDRW.m5.global.max" {
+	caption "CDRW: Max global density of met5 inside seal ring: 78%"
+	caption "  rdb file: m5_global_high.rdb"
+	density m5_layers -gt 0.78 -inside_of layer fill_extent_not_SEALID -rdb m5_global_high.rdb
+  }
+
+// metal oxide pattern density rules moved here & renamed
+
+// m1.pd.1 ==>  m1.oxide.min
+// m2.pd.1 ==>  m2.oxide.min
+// m1.pd.1 ==>  m3.oxide.min
+// m4.pd.1 ==>  m4.oxide.min
+// m5.pd.1 ==>  m5.oxide.min
+
+// Oxide pattern density is pattern density after oversizing the metal and fill by 0.6
+// there are also mask layers but the designer should not see these except in seal ring
+
+// Note that met1/met2/met3/met4/met5 layers include dg & fill
+
+// met1
+  size met1 -by 0.6 -outputlayer met1_oxide
+
+// need "-inside_of layer fill_area" to check only inside of SEALID hole (if SEALID is present)
+
+  rule CDR.m1.local.min {
+      caption "CDR: Min met1 oxide pattern local density: 80%"
+      caption "  700 square micron window stepped at 70 um"
+      caption "  NOTE: 'met1 oxide pattern' is all met1 sized by 0.6 um'
+      caption "  rdb file:  m1_oxide_low.rdb"
+      density met1_oxide -lt 0.80 -window 700 -step 70 -inside_of layer fill_area -rdb "m1_local_low.rdb"
+  }
+
+// met2 
+  size met2 -by 0.6 -outputlayer met2_oxide
+
+  rule CDR.m2.local.min {
+ 	caption "CDR: Min met2 oxide pattern local density (AL): 80%"
+	caption "  700 square micron window stepped at 70 um "
+	caption "  NOTE: 'met2 oxide pattern' is all met2 sized by 0.6 um"
+	caption "  rdb file:  m2_oxide_low.rdb"
+	density met2_oxide -lt 0.80 -window 700 -step 70 -inside_of layer fill_area -rdb "m2_local_low.rdb"
+  }
+
+// met3  
+  size met3 -by 1.15 -outputlayer met3_oxide
+
+  rule CDR.m3.local.min {
+      caption "CDR: Min met3 oxide pattern local density (AL): 80%"
+      caption "  700 square micron window stepped at 70 um "
+      caption "  NOTE: 'met3 oxide pattern' is all met3 sized by 1.15 um"
+      caption "  rdb file:  m3_oxide_low.rdb"
+      density met3_oxide -lt 0.80 -window 700 -step 70 -inside_of layer fill_area -rdb "m3_local_low.rdb"
+  }
+
+// met4  
+  size met4 -by 1.15 -outputlayer met4_oxide
+
+  rule CDR.m4.local.min {
+      caption "CDR: Min met4 oxide pattern local density (AL): 80%"
+      caption "  700 square micron window stepped at 70 um "
+      caption "  NOTE: 'met4 oxide pattern' is all met4 sized by 0.6 um"
+      caption "  rdb file:  m4_oxide_low.rdb"
+      density met4_oxide -lt 0.80 -window 700 -step 70 -inside_of layer fill_area -rdb "m4_local_low.rdb"
+  }
+
+// met5  
+// This rule is applied only if "viatop" is present
+//   viatop is used to enable bonding
+//   not currently used in the PDK
+
+//  size met5 -by 1.15 -outputlayer met5_oxide
+
+//  rule CDR.m5.local.min {
+//      caption "Min met5 oxide pattern local density (AL): 80%"
+//      caption "  700 square micron window stepped at 70 um "
+//      caption "  NOTE: 'met5 oxide pattern' is all met5 sized by 1.15 um"
+//      caption "  rdb file:  m5_oxide_low.rdb"
+//      density met5_oxide -lt 0.80 -window 700 -step 70 -inside_of layer fill_area -rdb "m5_local_low.rdb"
+//  }
+
+#ENDIF  //  ifndef NODEN
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Fill rules
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////
+// Diff fill
+
+// Size
+rule diff.fill.1 {
+	caption "diff fill must be rectangles"
+	vertex diff_fill -gt 4.0 ;
+}
+rule diff.fill.2 {
+	caption "Min width of diff fill:  0.5 um"
+	rect_chk diff_fill -lt 0.5 ;
+}
+rule diff.fill.3 {
+	caption "Max length of diff fill:  25. um"
+	rect_chk diff_fill -gt 25.0 ;
+}
+
+// Overlap
+rule diff.fill.4 {
+	caption "diff fill must not overlap diff or tap"
+	select -outside -not diff_fill diff_in
+}
+rule diff.fill.5 {
+	caption "diff fill must not overlap poly"
+	select -outside -not diff_fill poly_dg
+}
+rule diff.fill.6 {
+	caption "diff fill must not overlap or touch licon"
+	select -interact diff_fill licon
+}
+rule diff.fill.7 {
+	caption "diff fill must not overlap areaid:seal"
+	select -outside -not diff_fill SEALID
+}
+rule diff.fill.8 {
+	caption "diff fill must not overlap diff fill block"
+	select -outside -not diff_fill diff_fillblock
+}
+// Spacing
+rule diff.fill.9 {
+	caption "Min spacing diff fill to diff fill: 0.4 um"
+	exte diff_fill -lt 0.40 -single_point -output region
+}
+rule diff.fill.10 {
+	caption "Min spacing (no touch) diff fill to diff or tap: 0.5 um"
+	exte diff_fill diff_in -lt 0.50 -output region
+	select -touch diff_fill diff_in ;
+}
+rule diff.fill.11 {
+	caption "Min spacing (no touch) diff fill to diff fill_block: 0.5 um"
+	exte diff_fill diff_fillblock -lt 0.50 -output region
+	select -touch diff_fill diff_fillblock 
+	select -interact -single_point only diff_fill diff_fillblock ;
+}
+rule diff.fill.12 {
+	caption "Min spacing (no touch) diff fill to nsdm / psdm: 0.13 um"
+	exte diff_fill (or nsdm psdm) -lt 0.13 -output region
+	select -touch diff_fill (or nsdm psdm) ;
+}
+rule diff.fill.13 {
+	caption "Min spacing (no touch) diff fill to poly: 0.5 um"
+	exte diff_fill poly_dg -lt 0.50 -output region
+	select -touch diff_fill poly_dg ;
+}
+rule diff.fill.14 {
+	caption "Min spacing diff fill to nwell: 0.34 um"
+	exte diff_fill nwell -lt 0.34 -output region
+	select -touch diff_fill nwell ;
+}
+rule diff.fill.15 {
+	caption "Min spacing (no touch) diff fill to HV nwell: 0.33 um"
+	exte diff_fill (AND nwell all_hvi) -lt 0.33 -output region
+	select -touch diff_fill (AND nwell all_hvi) ;
+}
+rule diff.fill.16 {
+	caption "Min spacing (no touch) diff fill to areaid.seal (SEALID): 1. um"
+	exte diff_fill SEALID -lt 1.0 -output region
+	select -touch diff_fill SEALID 
+	select -interact -single_point only diff_fill SEALID ;
+}
+
+// Enclosure
+
+// Could find the straddling case by *not* using the "-inside" modifier to edge_select
+// however, I find flagging the entire offending shape is better 
+
+// 5v regions don't need to be included in 0.18 enclosure check
+//   since they will flag the 0.43 check
+
+AND nwell hvi -outputlayer nwell_5v
+NOT nwell hvi -outputlayer nwell_not_5v
+	
+rule diff.fill.17 {
+	caption "Min enclosure of diff fill by nwell: 0.18 um"
+	caption " diff fill straddling nwell not allowed "
+	enc diff_fill nwell_not_5v -lt 0.18 -output region
+	edge_select -inside diff_fill nwell_not_5v ;
+	select -cut diff_fill nwell_not_5v ;
+}
+rule diff.fill.18 {
+	caption "Min enclosure of diff fill by 5 volt nwell: 0.43 um"
+	caption " diff fill straddling 5 volt nwell not allowed "
+	enc diff_fill nwell_5v -lt 0.43 -output region
+	edge_select -inside diff_fill nwell_5v ;
+	select -cut diff_fill nwell_5v ;
+}
+rule diff.fill.19 {
+	caption "Min enclosure, with no overlap, of diff fill by FRAME (areaid.fe): 0.5 um"
+	caption " diff fill straddling FRAME not allowed "
+	enc diff_fill areaid.fe -lt 0.50 -output region
+	edge_select -inside diff_fill areaid.fe 
+	select -cut diff_fill areaid.fe ;
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// Poly fill
+
+// Size
+rule poly.fill.1 {
+	caption "poly fill must be rectangles"
+	vertex poly_fill -gt 4.0 ;
+}
+rule poly.fill.2 {
+	caption "Min width of poly fill:  0.48 um"
+	rect_chk poly_fill -lt 0.48 ;
+}
+rule poly.fill.3 {
+	caption "Max length of poly fill:  0.72 um"
+	rect_chk poly_fill -gt 0.72 ;
+}
+
+// Overlap
+rule poly.fill.4 {
+	caption "poly fill must not overlap diff or tap"
+	select -outside -not poly_fill diff_in
+}
+rule poly.fill.5 {
+	caption "poly fill must not overlap poly"
+	select -outside -not poly_fill poly_dg
+}
+rule poly.fill.6 {
+	caption "poly fill must not overlap areaid:seal"
+	select -outside -not poly_fill SEALID
+}
+rule poly.fill.7 {
+	caption "poly fill must not overlap poly fill block"
+	select -outside -not poly_fill poly_fillblock
+}
+// Spacing
+
+rule poly.fill.8 {
+	caption "Min spacing poly fill to poly fill: 0.36 um"
+	exte poly_fill -lt 0.36 -single_point -output region
+}
+rule poly.fill.9 {
+	caption "Min spacing (no touch) poly fill to poly: 1. um"
+	exte poly_fill poly_dg -lt 1.0 -output region
+	select -touch poly_fill poly_dg ;
+}
+rule poly.fill.10 {
+	caption "Min spacing (no touch) poly fill to poly fill_block: 1. um"
+	exte poly_fill poly_fillblock -lt 1.00 -output region
+	select -touch poly_fill poly_fillblock ;
+}
+rule poly.fill.11 {
+	caption "Min spacing (no touch) poly fill to diff fill: 0.3 um"
+	exte poly_fill diff_fill -lt 0.30 -output region
+	select -touch poly_fill diff_fill ;
+}
+rule poly.fill.12 {
+	caption "Min spacing (no touch) poly fill to diff or tap: 1. um"
+	exte poly_fill diff_in -lt 1.0 -output region
+	select -touch poly_fill diff_in ;
+	select -interact -single_point only poly_fill diff_in ;
+}
+rule poly.fill.13 {
+	caption "Min spacing (no touch) poly fill to areaid.seal (SEALID): 1. um"
+	exte poly_fill SEALID -lt 1.0 -output region
+	select -touch poly_fill SEALID ;
+	select -interact -single_point only poly_fill SEALID ;
+}
+
+// Enclosure
+rule poly.fill.14 {
+	caption "Min enclosure of poly fill by FRAME (areaid.fe): 0.5 um"
+	caption " poly fill straddling FRAME not allowed "
+	enc poly_fill areaid.fe -lt 0.50 -output region
+	edge_select -inside poly_fill areaid.fe 
+	select -cut poly_fill areaid.fe ;
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// LI fill
+
+// Size
+rule li.fill.1 {
+	caption "li fill must be rectangles"
+	vertex li_fill -gt 4.0 ;
+}
+rule li.fill.2 {
+	caption "Min width of li fill:  0.5 um"
+	rect_chk li_fill -lt 0.50 ;
+}
+rule li.fill.3 {
+	caption "Max length of li fill:  5.0 um"
+	rect_chk li_fill -gt 5.0 ; 
+}
+
+// Overlap
+rule li.fill.4 {
+	caption "li fill must not overlap li"
+	select -outside -not li_fill li_dg
+}
+rule li.fill.5 {
+	caption "li fill must not overlap poly"
+	select -outside -not li_fill poly_dg
+}
+rule li.fill.6 {
+	caption "li fill must not overlap or touch licon"
+	select -interact li_fill licon
+}
+rule li.fill.7 {
+	caption "li fill must not overlap or touch mcon"
+	select -interact li_fill mcon
+}
+rule li.fill.8 {
+	caption "li fill must not overlap areaid:seal"
+	select -outside -not li_fill SEALID
+}
+rule li.fill.9 {
+	caption "li fill must not overlap li fill block"
+	select -outside -not li_fill li_fillblock
+}
+// Spacing
+
+rule li.fill.10 {
+	caption "Min spacing li fill to li fill: 0.5 um"
+	exte li_fill -lt 0.50 -single_point -output region
+}
+rule li.fill.11 {
+	caption "Min spacing (no touch) li fill to li: 0.5 um"
+	exte li_fill li_dg -lt 0.50 -output region
+	select -touch li_fill li_dg ;
+	select -interact -single_point only li_fill li_dg ;
+}
+rule li.fill.12 {
+	caption "Min spacing (no touch) li fill to li fill_block: 0.5 um"
+	exte li_fill li_fillblock -lt 0.50 -output region
+	select -touch li_fill li_fillblock 
+	select -interact -single_point only li_fill li_fillblock ;
+}
+rule li.fill.13 {
+	caption "Min spacing (no touch) li fill to licon: 0.5 um"
+	exte li_fill licon -lt 0.50 -output region
+	select -touch li_fill licon 
+}
+rule li.fill.14 {
+	caption "Min spacing (no touch) li fill to mcon: 0.5 um"
+	exte li_fill mcon -lt 0.50 -output region
+	select -touch li_fill mcon 
+}
+rule li.fill.15 {
+	caption "Min spacing (no touch) li fill to areaid.seal (SEALID): 1. um"
+	exte li_fill SEALID -lt 1.0 -output region
+	select -touch li_fill SEALID 
+	select -interact -single_point only li_fill SEALID ;
+}
+
+// Enclosure
+rule li.fill.16 {
+	caption "Min enclosure of LI fill by FRAME (areaid.fe): 0.5 um"
+	caption " LI fill straddling FRAME not allowed "
+	enc li_fill areaid.fe -lt 0.50 -output region
+	edge_select -inside li_fill areaid.fe 
+	select -cut li_fill areaid.fe ;
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// met1 fill
+
+// Size
+rule m1.fill.1 {
+	caption "met1 fill must be rectangles"
+	vertex m1_fill -gt 4.0 ;
+}
+rule m1.fill.2 {
+	caption "Min width of met1 fill:  0.3 um"
+	rect_chk m1_fill -lt 0.30 ;
+}
+rule m1.fill.3 {
+	caption "Max length of met1 fill:  2. um"
+	rect_chk m1_fill -gt 2.0 ; 
+}
+
+// Overlap
+rule m1.fill.4 {
+	caption "met1 fill must not overlap met1"
+	select -outside -not m1_fill m1_dg
+}
+rule m1.fill.5 {
+	caption "met1 fill must not overlap areaid:seal"
+	select -outside -not m1_fill SEALID
+}
+rule m1.fill.6 {
+	caption "met1 fill must not overlap mcon"
+	select -outside -not m1_fill mcon
+}
+rule m1.fill.7 {
+	caption "met1 fill must not overlap via1"
+	select -outside -not m1_fill via1
+}
+rule m1.fill.8 {
+	caption "met1 fill must not overlap met1 fill block"
+	select -outside -not m1_fill m1_fillblock
+}
+// Spacing
+
+rule m1.fill.9 {
+	caption "Min spacing met1 fill to met1 fill: 0.3 um"
+	exte m1_fill -lt 0.30 -single_point -output region
+}
+rule m1.fill.10 {
+	caption "Min spacing (no touch) met1 fill to areaid.seal (SEALID): 1. um"
+	exte m1_fill SEALID -lt 1.0 -output region
+	select -touch m1_fill SEALID 
+	select -interact -single_point only m1_fill SEALID ;
+}
+rule m1.fill.11 {
+	caption "Min spacing (no touch) met1 fill to mcon: 0.3 um"
+	exte m1_fill mcon -lt 0.30 -output region
+	select -touch m1_fill mcon 
+}
+rule m1.fill.12 {
+	caption "Min spacing (no touch) met1 fill to met1 dg: 0.3 um"
+	exte m1_fill m1_dg -lt 0.30 -output region
+	select -touch m1_fill m1_dg 
+	select -interact -single_point only m1_fill m1_dg ;
+}
+rule m1.fill.13 {
+	caption "Min spacing (no touch) met1 fill to via1: 0.3 um"
+	exte m1_fill via1 -lt 0.30 -output region
+	select -touch m1_fill via1 
+}
+rule m1.fill.14 {
+	caption "Min spacing (no touch) met1 fill to met1 fill_block: 0.3 um"
+	exte m1_fill m1_fillblock -lt 0.30 -output region
+	select -touch m1_fill m1_fillblock 
+	select -interact -single_point only m1_fill m1_fillblock ;
+}
+
+// Enclosure
+rule m1.fill.15 {
+	caption "Min enclosure of met1 fill by FRAME (areaid.fe): 0.5 um"
+	caption " met1 fill straddling FRAME not allowed "
+	enc m1_fill areaid.fe -lt 0.50 -output region
+	edge_select -inside m1_fill areaid.fe 
+	select -cut m1_fill areaid.fe ;
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// met2 fill
+
+// Size
+rule m2.fill.1 {
+	caption "met2 fill must be rectangles"
+	vertex m2_fill -gt 4.0 ;
+}
+rule m2.fill.2 {
+	caption "Min width of met2 fill:  0.3 um"
+	rect_chk m2_fill -lt 0.30 ;
+}
+rule m2.fill.3 {
+	caption "Max length of met2 fill:  2. um"
+	rect_chk m2_fill -gt 2.0 ; 
+}
+
+// Overlap
+rule m2.fill.4 {
+	caption "met2 fill must not overlap met2"
+	select -outside -not m2_fill m2_dg
+}
+rule m2.fill.5 {
+	caption "met2 fill must not overlap areaid:seal"
+	select -outside -not m2_fill SEALID
+}
+rule m2.fill.6 {
+	caption "met2 fill must not overlap via1"
+	select -outside -not m2_fill via1
+}
+rule m2.fill.7 {
+	caption "met2 fill must not overlap via2"
+	select -outside -not m2_fill via2
+}
+rule m2.fill.8 {
+	caption "met2 fill must not overlap met2 fill block"
+	select -outside -not m2_fill m2_fillblock
+}
+// Spacing
+
+rule m2.fill.9 {
+	caption "Min spacing met2 fill to met2 fill: 0.3 um"
+	exte m2_fill -lt 0.30 -single_point -output region
+}
+rule m2.fill.10 {
+	caption "Min spacing (no touch) met2 fill to areaid.seal (SEALID): 1. um"
+	exte m2_fill SEALID -lt 1.0 -output region
+	select -touch m2_fill SEALID 
+	select -interact -single_point only m2_fill SEALID ;
+}
+rule m2.fill.11 {
+	caption "Min spacing (no touch) met2 fill to via1: 0.3 um"
+	exte m2_fill via1 -lt 0.30 -output region
+	select -touch m2_fill via1 ;
+}
+rule m2.fill.12 {
+	caption "Min spacing (no touch) met2 fill to met2 dg: 0.3 um"
+	exte m2_fill m2_dg -lt 0.30 -output region
+	select -touch m2_fill m2_dg ;
+	select -interact -single_point only m2_fill m2_dg
+}
+rule m2.fill.13 {
+	caption "Min spacing (no touch) met2 fill to via2: 0.3 um"
+	exte m2_fill via2 -lt 0.30 -output region
+	select -touch m2_fill via2 ;
+}
+rule m2.fill.14 {
+	caption "Min spacing (no touch) met2 fill to met2 fill_block: 0.3 um"
+	exte m2_fill m2_fillblock -lt 0.30 -output region
+	select -touch m2_fill m2_fillblock 
+ 	select -interact -single_point only m2_fill m2_fillblock ;
+}
+
+// Enclosure
+rule m2.fill.15 {
+	caption "Min enclosure of met2 fill by FRAME (areaid.fe): 0.5 um"
+	caption " met2 fill straddling FRAME not allowed "
+	enc m2_fill areaid.fe -lt 0.50 -output region
+	edge_select -inside m2_fill areaid.fe 
+	select -cut m2_fill areaid.fe ;
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////
+// met3 fill
+
+// Size
+rule m3.fill.1 {
+	caption "met3 fill must be rectangles"
+	vertex m3_fill -gt 4.0 ;
+}
+rule m3.fill.2 {
+	caption "Min width of met3 fill:  0.5 um"
+	rect_chk m3_fill -lt 0.50 ;
+}
+rule m3.fill.3 {
+	caption "Max length of met3 fill:  2. um"
+	rect_chk m3_fill -gt 2.0 ; 
+}
+
+// Overlap
+rule m3.fill.4 {
+	caption "met3 fill must not overlap met3"
+	select -outside -not m3_fill m3_dg
+}
+rule m3.fill.5 {
+	caption "met3 fill must not overlap areaid:seal"
+	select -outside -not m3_fill SEALID
+}
+rule m3.fill.6 {
+	caption "met3 fill must not overlap via2"
+	select -outside -not m3_fill via2
+}
+rule m3.fill.7 {
+	caption "met3 fill must not overlap via3"
+	select -outside -not m3_fill via3
+}
+rule m3.fill.8 {
+	caption "met3 fill must not overlap met3 fill block"
+	select -outside -not m3_fill m3_fillblock
+}
+// Spacing
+
+rule m3.fill.9 {
+	caption "Min spacing met3 fill to met3 fill: 0.3 um"
+	exte m3_fill -lt 0.30 -single_point -output region
+}
+rule m3.fill.10 {
+	caption "Min spacing (no touch) met3 fill to areaid.seal (SEALID): 1. um"
+	exte m3_fill SEALID -lt 1.0 -output region
+	select -touch m3_fill SEALID 
+ 	select -interact -single_point only m3_fill SEALID ;
+}
+rule m3.fill.11 {
+	caption "Min spacing (no touch) met3 fill to via2: 0.5 um"
+	exte m3_fill via2 -lt 0.50 -output region
+	select -touch m3_fill via2 ;
+}
+rule m3.fill.12 {
+	caption "Min spacing (no touch) met3 fill to met3 dg: 0.5 um"
+	exte m3_fill m3_dg -lt 0.50 -output region
+	select -touch m3_fill m3_dg 
+	select -interact -single_point only m3_fill m3_dg ;
+}
+rule m3.fill.13 {
+	caption "Min spacing (no touch) met3 fill to via3: 0.5 um"
+	exte m3_fill via3 -lt 0.50 -output region
+	select -touch m3_fill via3 ;
+}
+rule m3.fill.14 {
+	caption "Min spacing (no touch) met3 fill to met3 fill_block: 0.5 um"
+	exte m3_fill m3_fillblock -lt 0.50 -output region
+	select -touch m3_fill m3_fillblock 
+	select -interact -single_point only m3_fill m3_fillblock ;
+}
+
+// Enclosure
+rule m3.fill.15 {
+	caption "Min enclosure of met3 fill by FRAME (areaid.fe): 0.5 um"
+	caption " met3 fill straddling FRAME not allowed "
+	enc m3_fill areaid.fe -lt 0.50 -output region
+	edge_select -inside m3_fill areaid.fe ;
+	select -cut m3_fill areaid.fe ;
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// met4 fill
+
+// Size
+rule m4.fill.1 {
+	caption "met4 fill must be rectangles"
+	vertex m4_fill -gt 4.0 ;
+}
+rule m4.fill.2 {
+	caption "Min width of met4 fill:  0.5 um"
+	rect_chk m4_fill -lt 0.50 ;
+}
+rule m4.fill.3 {
+	caption "Max length of met4 fill:  2. um"
+	rect_chk m4_fill -gt 2.0 ; 
+}
+
+// Overlap
+rule m4.fill.4 {
+	caption "met4 fill must not overlap met4"
+	select -outside -not m4_fill m4_dg
+}
+rule m4.fill.5 {
+	caption "met4 fill must not overlap areaid:seal"
+	select -outside -not m4_fill SEALID
+}
+rule m4.fill.6 {
+	caption "met4 fill must not overlap via3"
+	select -outside -not m4_fill via3
+}
+rule m4.fill.7 {
+	caption "met4 fill must not overlap via4"
+	select -outside -not m4_fill via4
+}
+rule m4.fill.8 {
+	caption "met4 fill must not overlap met4 fill block"
+	select -outside -not m4_fill m4_fillblock
+}
+// Spacing
+
+rule m4.fill.9 {
+	caption "Min spacing met4 fill to met4 fill: 0.3 um"
+	exte m4_fill -lt 0.30 -single_point -output region
+}
+rule m4.fill.10 {
+	caption "Min spacing (no touch) met4 fill to areaid.seal (SEALID): 1. um"
+	exte m4_fill SEALID -lt 1.0 -output region
+	select -touch m4_fill SEALID 
+	select -interact -single_point only m4_fill SEALID ;
+}
+rule m4.fill.11 {
+	caption "Min spacing (no touch) met4 fill to via3: 0.5 um"
+	exte m4_fill via3 -lt 0.50 -output region
+	select -touch m4_fill via3 ;
+}
+rule m4.fill.12 {
+	caption "Min spacing (no touch) met4 fill to met4 dg: 0.5 um"
+	exte m4_fill m4_dg -lt 0.50 -output region
+	select -touch m4_fill m4_dg 
+	select -interact -single_point only m4_fill m4_dg ;
+}
+rule m4.fill.13 {
+	caption "Min spacing (no touch) met4 fill to via4: 0.5 um"
+	exte m4_fill via4 -lt 0.50 -output region
+	select -touch m4_fill via4 ;
+}
+rule m4.fill.14 {
+	caption "Min spacing (no touch) met4 fill to met4 fill_block: 0.5 um"
+	exte m4_fill m4_fillblock -lt 0.30 -output region
+	select -touch m4_fill m4_fillblock 
+	select -interact -single_point only m4_fill m4_fillblock ;
+}
+
+// Enclosure
+rule m4.fill.15 {
+	caption "Min enclosure of met4 fill by FRAME (areaid.fe): 0.5 um"
+	caption " met4 fill straddling FRAME not allowed "
+	enc m4_fill areaid.fe -lt 0.50 -output region
+	edge_select -inside m4_fill areaid.fe ;
+	select -cut m4_fill areaid.fe ;
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// met5 fill
+
+// Size
+rule m5.fill.1 {
+	caption "met5 fill must be rectangles"
+	vertex m5_fill -gt 4.0 ;
+}
+rule m5.fill.2 {
+	caption "Min width of met5 fill:  2. um"
+	rect_chk m5_fill -lt 2.0 ;
+}
+rule m5.fill.3 {
+	caption "Max length of met5 fill:  5. um"
+	rect_chk m5_fill -gt 5.0 ; 
+}
+
+// Overlap
+rule m5.fill.4 {
+	caption "met5 fill must not overlap met5"
+	select -outside -not m5_fill m5_dg
+}
+rule m5.fill.5 {
+	caption "met5 fill must not overlap areaid:seal"
+	select -outside -not m5_fill SEALID
+}
+rule m5.fill.6 {
+	caption "met5 fill must not overlap via4"
+	select -outside -not m5_fill via4
+}
+rule m5.fill.7 {
+	caption "met5 fill must not overlap met5 fill block"
+	select -outside -not m5_fill m5_fillblock
+}
+// Spacing
+
+rule m5.fill.8  {
+	caption "Min spacing met5 fill to met5 fill: 1.6 um"
+	exte m5_fill -lt 1.60 -single_point -output region
+}
+rule m5.fill.9  {
+	caption "Min spacing (no touch) met5 fill to areaid.seal (SEALID): 1. um"
+	exte m5_fill SEALID -lt 1.0 -output region
+	select -touch m5_fill SEALID 
+	select -interact -single_point only m5_fill SEALID ;	
+}
+rule m5.fill.10 {
+	caption "Min spacing (no touch) met5 fill to met5 dg: 3. um"
+	exte m5_fill m5_dg -lt 3.0 -output region
+	select -touch m5_fill m5_dg 
+	select -interact -single_point only m5_fill m5_dg ;
+}
+rule m5.fill.11 {
+	caption "Min spacing (no touch) met5 fill to via4: 3. um"
+	exte m5_fill via4 -lt 3.0 -output region
+	select -touch m5_fill via4 ;
+}
+rule m5.fill.12 {
+	caption "Min spacing (no touch) met5 fill to met5 fill_block: 3. um"
+	exte m5_fill m5_fillblock -lt 3.0 -output region
+	select -touch m5_fill m5_fillblock ;
+	select -interact -single_point only m5_fill m5_fillblock ;
+}
+
+// Enclosure
+rule m5.fill.13 {
+	caption "Min enclosure of met5 fill by FRAME (areaid.fe): 0.5 um"
+	caption " met5 fill straddling FRAME not allowed "
+	enc m5_fill areaid.fe -lt 0.50 -output region
+	edge_select -inside m5_fill areaid.fe ;
+	select -cut m5_fill areaid.fe ;
+}
+
+
+// fill rules involving capm & cap2m 
+// m3_fill, m4_fill should completely avoid capm
+// m4_fill, m5_fill should completely avoid cap2m
+
+rule "m3.fill.capm.1" {
+	caption "met3 fill should not overlap or touch capm"
+	select -interact -single_point also m3_fill capm ;
+}
+rule "m3.fill.capm.2" {
+	caption "Min space met3 fill to capm: 1.2
+	exte capm m3_fill -lt 1.2 -abut -lt 90 -exclude_shielded -output region
+}
+
+// repeat for m4 fill to capm ??
+// repeat for m4,m5 & cap2m
+
+rule "m4.fill.cap2m.1" {
+	caption "met4 fill should not overlap or touch cap2m"
+	select -interact -single_point also m4_fill cap2m ;
+}
+rule "m4.fill.cap2m.2" {
+	caption "Min space met4 fill to capm: 1.2
+	exte capm m3_fill -lt 1.2 -abut -lt 90 -exclude_shielded -output region
+}
+

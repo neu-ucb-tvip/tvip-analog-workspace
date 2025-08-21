@@ -1,22 +1,22 @@
 //////////////////////////////////////////////////////////////////
-//	  hvtr rules		  				//
-// Version 0.0_2.8  June 17, 2025				//
+//	hvtr rules		  				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.7						//
 //////////////////////////////////////////////////////////////////
 
 
 rule hvtr.1 {
-	caption "Min width of hvtr: 0.380 um"
+	caption "CDR: Min width of hvtr: 0.38 um"
 	inte hvtr -lt 0.380 -single_point -output region
 }
 	
 rule hvtr.2 {
-	caption "Min spacing between hvtp to hvtr: 0.380 um"
+	caption "CDR: Min spacing of hvtp to hvtr: 0.38 um"
 	exte hvtp hvtr -lt 0.380 -single_point -output region
 }
 
 rule hvtr.3 {
-	caption "Min enclosure of pfet by hvtr: 0.180 um"
+	caption "Min enclosure of pfet by hvtr: 0.18 um"
 	enc pfet hvtr -lt 0.180 -output region
 }
 

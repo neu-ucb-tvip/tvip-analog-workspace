@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  vhvi rules		  //
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.46			   //
 //////////////////////////////////////////////////////////////////
 
@@ -49,7 +49,7 @@ rule "vhvi.uhvi" {
 // Removing trailing ".-" as it's superfluous
 
 rule vhvi.1 {
-	caption "Min width of vhvi:dg: 0.020 um"
+	caption "Min width of vhvi:dg: 0.02 um"
 	inte vhvi -lt 0.020 -single_point -output region
 }
 
@@ -85,6 +85,6 @@ rule vhvi.7 {
 }
 
 //rule vhvi.8 {
-//	caption "Min space between nwell tagged with vhvi:dg and deep nwell, nwell, or n+diff on a separate net (except for n+diff overlapping nwell tagged with vhvi:dg): 11.240 um"
+//	caption "Min space between nwell tagged with vhvi:dg and deep nwell, nwell, or n+diff on a separate net (except for n+diff overlapping nwell tagged with vhvi:dg): 11.24 um"
 //	exte vhvi nwell -lt 11.240 -single_point -output region	
 //}

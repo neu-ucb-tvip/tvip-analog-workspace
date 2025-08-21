@@ -1,16 +1,16 @@
 //////////////////////////////////////////////////////////////////
 //	  nwell rules		 				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.3						//
 //////////////////////////////////////////////////////////////////
 
 rule nwell.1 {
-	caption "Width of nwell: 0.840 um"
+	caption "Width of nwell: 0.84 um"
 	inte nwell -lt 0.840 -output region
 }
 
-rule nwell.2a.lv {
-	caption "Min space/notch between two LV n-wells: 1.270 um"
+rule CDR.nwell.2a.lv {
+	caption "CDR: Min space/notch between two LV n-wells: 1.27 um"
 	caption "  Manual merge wells if less than minimum "
 	exte nwell_lv -lt 1.270 -notch also -single_point -output region
 }
@@ -36,7 +36,7 @@ rule nwell.4 {
 }
 
 rule nwell.5 {
-	caption "Deep nwell must be enclosed by nwell by atleast: 0.400 um"
+	caption "Deep nwell must be enclosed by nwell by atleast: 0.40 um"
 	caption "Exempted inside UHVI (layer v20) or areaid.lw"
 	caption "Nwells can merge over deep nwell if spacing too small"
 	caption "NOTE: exceptions have NOT been considered, there may be false errors"
@@ -56,7 +56,7 @@ rule nwell.5 {
 //}
 
 rule nwell.6 {
-	caption "Min enclosure of nwell hole by deep nwell outside UHVI: 1.030 um"
+	caption "Min enclosure of nwell hole by deep nwell outside UHVI: 1.03 um"
 	caption "shapes in cell "*_tech_CD_top" exempted"
 	inside_cell -not nwell "*_tech_CD_top" -outputlayer nwell.6_a
 	select -outside nwell.6_a uhvi -outputlayer nwell.6_b
@@ -87,21 +87,29 @@ rule nwell.ntap {
 
 // both layers 1st / 2nd so that both shapes are output
 // this will show nwell shapes connected to another nwell with a different voltage marker,
-// but it doesn't show the path !
+// but it doesn't show the path !  RDB file doesn't help
+// leaving these checks out for now until a better methodology can be implemented
+// LVS should report these as stamping conflicts since the nwells will be connected to diferent pinss
 
- rule nwell.sameNet {
-      caption "Different voltage nwell should not be on the same net"
-      antenna nwell_lv  nwell_hv  -gt 0 // -rdb "TEST.rdb" -by_layer  nwell_lv ;
-      antenna nwell_lv  nwell_vhv -gt 0
-      antenna nwell_lv  nwell_uhv -gt 0
-      antenna nwell_hv  nwell_lv  -gt 0
-      antenna nwell_hv  nwell_vhv -gt 0
-      antenna nwell_hv  nwell_uhv -gt 0
-      antenna nwell_vhv nwell_lv  -gt 0
-      antenna nwell_vhv nwell_hv  -gt 0
-      antenna nwell_vhv nwell_uhv -gt 0
-      antenna nwell_uhv nwell_lv  -gt 0
-      antenna nwell_uhv nwell_hv  -gt 0
-      antenna nwell_uhv nwell_vhv -gt 0
- }
+#IFNDEF NOWARN
 
+//  rule nwell.sameNet.1 {
+//      caption "WARNING: Different voltage nwell (LV, hvi) found on the same net"
+//      antenna nwell_lv  nwell_hv  -gt 0  // -rdb "nwell.sameNet1.rdb" -by_layer nwell_lv nwell_hv ;  }
+//  rule nwell.sameNet.2{
+//      caption "WARNING: Different voltage nwell (LV, vhvi) found on the same net"
+//      antenna nwell_lv  nwell_vhv -gt 0  }
+//  rule nwell.sameNet.3{
+//      caption "WARNING: Different voltage nwell (LV, uhvi) found on the same net"
+//      antenna nwell_lv  nwell_uhv -gt 0    }
+//  rule nwell.sameNet.4 {
+//      caption "WARNING: Different voltage nwell (hvi, vhvi) found on the same net"
+//      antenna nwell_hv  nwell_vhv -gt 0    }
+//  rule nwell.sameNet.5 {
+//      caption "WARNING: Different voltage nwell (hvi, uhvi) found on the same net"
+//      antenna nwell_hv  nwell_uhv -gt 0   }
+//  rule nwell.sameNet.6 {
+//      caption "WARNING: Different voltage nwell (vhvi, uhvi) found on the same net"
+//      antenna nwell_vhv nwell_uhv -gt 0   }
+  
+#ENDIF 	// ifndef NOWARN
