@@ -1,6 +1,8 @@
 # TVIP Analog Workspace
 
 [![Static Badge](https://img.shields.io/badge/%F0%9F%93%93-Documentation-blue?labelColor=white)](https://neu-ucb-tvip.github.io/tvip-analog-workspace/)
+![Cadence Virtuoso PDK Release v0.1.0](https://img.shields.io/badge/Cadence%20Virtuoso%20PDK-Release%20v0.1.0-8A2BE2?labelColor=white)
+![Cadence SCL Library Release v0.1.1](https://img.shields.io/badge/Cadence%20SCL%20Library-Release%20v0.1.1-228B22?labelColor=white)
 
 This is a Cadence Virtuoso workspace for working with the Cadence-provided Skywater 130nm PDK for the Northeastern University (NEU) - UC Berkeley (UCB) test vehicle innovation program for CMOS + X integration.
 
