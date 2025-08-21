@@ -57,19 +57,19 @@ However, these transistors are truly four-terminal devices: gate, drain, source,
 
 In a schematic, the body node is typically drawn as a separate terminal on the MOS symbol. But in the actual layout, this same body (or bulk) connection appears as substrate contacts, "taps," or tap cells:
 
-<img src="/images/planar_body_contact.png" alt="planar body contact" width="400px" />
+![planar body contact](/images/planar_body_contact.png)
 
 In many simpler or smaller analog layouts, you might place substrate taps on either side of your active device.
 This provides two direct pathways to the substrate, ensuring reasonably low-resistance paths from the
 device body to ground (for NMOS) or to VDD (for PMOS).
 
-<img src="/images/planar_double_sided_body_contact.png" alt="planar double sided body contact" width="400px" />
+![planar double sided body contact](/images/planar_double_sided_body_contact.png)
 
 ### Guard rings
 
 Instead of just placing body contacts on the left and right (or top and bottom), you can create a continuous "ring" or guard structure of substrate contacts around the device. This is often referred to as a **guard ring** when it fully encircles the transistor or transistor array.
 
-<img src="/images/planar_guard_ring.png" alt="planar guard ring" width="400px" />
+![planar guard ring](/images/planar_guard_ring.png)
 
 The ring can act like a shield that helps keep substrate noise out (or in). In sensitive analog circuits, this can be very important for performance.
 
@@ -87,7 +87,7 @@ Below is an overview of key concepts and best practices.
 
 ### Systematic vs random mismatch
 
-<img src="/images/asymmetric_mosfet.png" alt="asymmetric mosfet" width="600px" />
+![asymmetric mosfet](/images/asymmetric_mosfet.png)
 
 Image from [F. Maloberti, "Layout of Analog CMOS Integrated Circuits" (Part 2)](/resources/Maloberti_Layout_of_Analog_CMOS_ICs.pdf). This is an example of a **systematic mismatch** due fabrication, where the wafer is intentionally tilted by ~7 degrees to prevent channeling of implanted ions. This creates shadowing and mismatch
 in source/drain doping.
@@ -120,11 +120,11 @@ Common-centroid layout arranges matched devices (like current-mirror transistors
 
 For example, in the input stage of a five-transistor operational transconductance amplifier (5T OTA), the differential input transistors are often interleaved. Rather than placing all $V_{in}^+$ transistors in one row and all $V_{in}^-$ transistors in another, they are mixed. The image below shows the highlighted nets for such an input pair.
 
-<img src="/images/common_centroid_5t_input_pair.png" alt="5T Input Pair Net Highlighting" width="600px" />
+![5T Input Pair Net Highlighting](/images/common_centroid_5t_input_pair.png)
 
 The method used here is called **common-centroid** layout. The idea is that the "center of mass" (the geometric average of the centers of each unit transistor) is identical for both halves of the differential pair. This is important because process gradients across the wafer can cause mismatch in device parameters. By ensuring a common centroid, the layout becomes resilient to linear gradients. For any linear variation, the average device parameter will be a function of the average transistor position. The figure below illustrates the common centroid for the same input pair.
 
-<img src="/images/common_centroid_5t_input_pair_centroid.png" alt="5T Input Pair Common Centroid" width="600px" />
+![5T Input Pair Common Centroid](/images/common_centroid_5t_input_pair_centroid.png)
 
 #### Mathematical Justification
 
@@ -144,7 +144,7 @@ This shows that the average mobility is a function only of the transistor's aver
 
 Since drain current $I_D \propto \mu$, the total current for a composite device is proportional to $\mu_{avg}$. Therefore, ensuring a common centroid leads to matched I-V characteristics, mitigating the effects of linear process gradients.
 
-<img src="/images/common_centroid_arrays.png" alt="common centroid arrays" width="600px" />
+![common centroid arrays](/images/common_centroid_arrays.png)
 
 Image from [F. Maloberti, "Layout of Analog CMOS Integrated Circuits" (Part 2)](/resources/Maloberti_Layout_of_Analog_CMOS_ICs.pdf).
 
@@ -186,7 +186,7 @@ particular device (e.g., A and B might be the two transistors in a differential 
 Well-designed analog blocks exploit symmetry to reduce mismatches. For instance, in differential pairs or current mirrors,
 	 each transistor is laid out with identical orientation, guard rings, and spacing to body contacts.
 
-<img src="/images/mirror_matching.png" alt="mirror matching" width="800px" />
+![mirror matching](/images/mirror_matching.png)
 
 When possible, repeated devices should be grouped into consistent "unit cells" with carefully replicated surroundings. This helps ensure each sub-device experiences the same environment for doping, stress, and parasitic effects.
 
@@ -211,13 +211,13 @@ Accurate capacitor ratios are often vital in sample-and-hold circuits, filters, 
 
 - MOM capacitors (metal-oxide-metal) also called Metal Finger Capacitors (MFCs), which leverage lateral coupling in multiple metal layers for relatively high density without extra process steps.
 
-<img src="/images/mfc_capacitors.png" alt="mfc capacitors" width="600px" />
+![mfc capacitors](/images/mfc_capacitors.png)
 
 For good matching, designers frequently use "unit capacitors" arranged in a common-centroid pattern, similar to matched transistors.
 
 #### Resistors
 
-<img src="/images/matched_resistors.png" alt="matched resistors" width="800px" />
+![matched resistors](/images/matched_resistors.png)
 
 Image from [Lienig, Scheible, "Fundamentals of Layout Design for Electronic Circuits," Springer 2020](/resources/Lienig_Fundamentals_of_Layout_Design_for_Electronic_Circuits.pdf).
 
@@ -237,13 +237,13 @@ Narrow metals and too few vias can introduce tens of ohms of parasitic resistanc
 
 Always consider adding more metal width and multiple vias to keep IR drops minimal and symmetrical.
 
-<img src="/images/ir_drop_gate_resistance.png" alt="ir drop gate resistance" width="600px" />
+![ir drop gate resistance](/images/ir_drop_gate_resistance.png)
 
 Image from [F. Maloberti, "Layout of Analog CMOS Integrated Circuits" (Part 2)](/resources/Maloberti_Layout_of_Analog_CMOS_ICs.pdf).
 
 ### Matching IR drop
 
-<img src="/images/matching_connections.png" alt="matching connections" width="600px" />
+![matching connections](/images/matching_connections.png)
 
 Image from [Lienig, Scheible, "Fundamentals of Layout Design for Electronic Circuits," Springer 2020](/resources/Lienig_Fundamentals_of_Layout_Design_for_Electronic_Circuits.pdf).
 
