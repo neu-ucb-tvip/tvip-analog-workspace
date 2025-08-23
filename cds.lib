@@ -3,3 +3,5 @@ DEFINE     basic        $CDS_HOME/tools/dfII/etc/cdslib/basic
 DEFINE     sky130_fd_pr_main ./libs/sky130_fd_pr_main
 DEFINE     tvip_example tvip_example
 DEFINE     Bandgap_reference    ./Bandgap_reference
+DEFINE avTech /share/instsww/cadence/ASSURA41-618/tools.lnx86/assura/etc/avtech/avTech
+DEFINE ring_osc /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc
