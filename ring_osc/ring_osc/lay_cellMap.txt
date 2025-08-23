@@ -1,3 +1,0 @@
-ring_osc ring_osc layout ring_osc
-ring_osc inverter_nmos4finger_6_2u layout inverter_nmos4finger_6_2u
-ring_osc inverter_nmos3finger_3u layout inverter_nmos3finger_3u

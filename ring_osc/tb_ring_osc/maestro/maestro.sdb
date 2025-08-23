@@ -58,6 +58,15 @@
 					<output>average_tail
 						<evalType>point</evalType>
 					</output>
+					<output>bias_10u
+						<evalType>point</evalType>
+					</output>
+					<output>mirr_curr
+						<evalType>point</evalType>
+					</output>
+					<output>temp
+						<evalType>point</evalType>
+					</output>
 				</outputs>
 				<vars>
 					<var>VDDA
@@ -82,7 +91,7 @@
 				<value>(None)</value>
 			</plottingoption>
 			<plottingoption>plottingmode
-				<value>Replace</value>
+				<value>Append</value>
 			</plottingoption>
 			<plottingoption>plottype
 				<value>None</value>
@@ -182,6 +191,15 @@
 							<output>average_tail
 								<evalType>point</evalType>
 							</output>
+							<output>bias_10u
+								<evalType>point</evalType>
+							</output>
+							<output>mirr_curr
+								<evalType>point</evalType>
+							</output>
+							<output>temp
+								<evalType>point</evalType>
+							</output>
 						</outputs>
 						<vars>
 							<var>VDDA
@@ -206,7 +224,7 @@
 						<value>Auto</value>
 					</plottingoption>
 					<plottingoption>autoplotmode
-						<value>Replace</value>
+						<value>Append</value>
 					</plottingoption>
 					<plottingoption>useMaestroPlottingTemplate
 						<value>yes</value>
@@ -283,7 +301,7 @@
 						<value>(None)</value>
 					</exploreroption>
 					<exploreroption>autoplotmode
-						<value>Replace</value>
+						<value>Append</value>
 					</exploreroption>
 				</exploreroptions>
 				<incrementalsimsetup>
@@ -301,8 +319,8 @@
 				<allsweepsenabled>1</allsweepsenabled>
 				<sortVariableValues>0</sortVariableValues>
 			</checkpoint>
-			<timestamp>Jul 1 00:30:47 2025</timestamp>
-			<uuid>{fabf486a-ddf9-4bdc-bc05-e1a08940dfdc}</uuid>
+			<timestamp>Aug 19 22:16:40 2025</timestamp>
+			<uuid>{22a86403-a715-448b-95d8-4a0d05193f49}</uuid>
 			<resultsname>/home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc/tb_ring_osc/maestro/results/maestro/ExplorerRun.0.rdb</resultsname>
 			<simresults>$AXL_SETUPDB_DIR/results/maestro/ExplorerRun.0.rdb</simresults>
 			<rawdatadelstrategy>SaveAll
@@ -311,7 +329,7 @@
 			<saveevalerrorstrategy>SaveNone</saveevalerrorstrategy>
 			<netlistdelstrategy>SaveAll</netlistdelstrategy>
 			<uselocalpsfdir>false</uselocalpsfdir>
-			<localpsfdir>/tmp/eda-2.EECS.Berkeley.EDU_cs199-anb_003047451</localpsfdir>
+			<localpsfdir>/tmp/eda-2.EECS.Berkeley.EDU_cs199-anb_221640786</localpsfdir>
 			<psfdir>/home/aa/users/cs199-anb/simulation/ring_osc/tb_ring_osc/maestro/results/maestro/ExplorerRun.0</psfdir>
 			<simdir>$AXL_PROJECT_DIR/ring_osc/tb_ring_osc/maestro/results/maestro/ExplorerRun.0</simdir>
 			<gendatasheetplotsonsimulation>0</gendatasheetplotsonsimulation>
