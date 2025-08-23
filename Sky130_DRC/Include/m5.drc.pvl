@@ -1,31 +1,34 @@
 //////////////////////////////////////////////////////////////////
 //	 m5 rules			 			//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.33			   			//
 //////////////////////////////////////////////////////////////////
 
+// v2.10:  m5 fill rules added
+// m5_fill removed here since m5 fill rules have larger minimum value:
+//   m5_fill minimum width is 0.3 um
+//   m5_fill minimum spacing is 0.3 um 
+//   enclosure rules are not relevant since m5_fill cannot overlap via4
+//   Also, removing the fill shapes from these checks will speed processing.
 
-rule m5.1 {
-	caption "Width of metal5: 1.600 um"
-	inte met5 -lt 1.600 -output region
+rule CDR.m5.1 {
+	caption "CDR: Min width of met5: 1.60 um"
+	inte m5_dg -lt 1.60 -output region
 }
 
-rule m5.2 {
-	caption "Spacing of metal5 to metal5: 1.600 um"
-	exte met5 -lt 1.600 -single_point -output region
+rule CDR.m5.2 {
+	caption "CDR: Min spacing/notch of met5: 1.60 um"
+	exte m5_dg -lt 1.60 -single_point -output region
 }
 
-rule m5.3 {
-	caption "CDR: via4 must be enclosed by Met5 by at least: 0.310 um"
-	enc via4 met5 -lt 0.310 -output region
-	edge_select via4 met5 ;  // finds 0.0 enc
+rule CDR.m5.3 {
+	caption "CDR: Min enclosure of via4 by met5: 0.31 um"
+	enc via4 m5_dg -lt 0.31 -output region
+	edge_select -inside via4 m5_dg ;  // finds 0.0 enc
 }
 
-rule m5.4 {
-	caption "Min area of met5: 4.000 sq um"
-	caption "(rule exempted for probe pads which are exactly 1.42um by 1.42um)"
-	caption "NOTE: exceptions have NOT been considered, there may be false errors"
-	area met5 -lt 4.000
+rule CDR.m5.4 {
+	caption "CDR: Min area of met5: 4.0 sq um"
+	area m5_dg -lt 4.000
 }
-
 

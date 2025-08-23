@@ -1,16 +1,16 @@
 //////////////////////////////////////////////////////////////////
 //	  mcon rules		  			//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.20			   			//
 //////////////////////////////////////////////////////////////////
 
-rule mcon.1 {
-	caption "Min and max L and W of mcon: 0.170 um"
+rule CDR.mcon.1 {
+	caption "CDR: Min and max L and W of mcon: 0.17 um"
 	rect_chk mcon -ne 0.170 -orthogonal_only
 }
 
-rule mcon.2 {
-	caption "Spacing of mcon to mcon: 0.190 um"
+rule CDR.mcon.2 {
+	caption "CDR: Min spacing of mcon: 0.19 um"
 	exte mcon -lt 0.190 -single_point -output region
 }
 
@@ -23,7 +23,7 @@ rule mcon.2 {
 // since min enclosure is 0.0, and mcon uncovered by LI is an error, rule mcon.4 is unecessary
 
 //rule mcon.4 { 
-//	caption "Mcon must be enclosed by LI by at least 0.0 um"
+//	caption "Mcon must be enclosed by LI by at least 0. um"
 //}
 
 
@@ -44,8 +44,10 @@ rule mcon.2 {
 //	caption "	 TBA	"
 //}
 
-rule mcon.core {
+#IFNDEF NOWARN
+  rule mcon.core {
 	caption "WARNING: mcon straddling areaid.ce (CORE)"
 	not (select -cut mcon areaid.ce) areaid.ce
-}
+  }
+#ENDIF	// ifndef NOWARN
 

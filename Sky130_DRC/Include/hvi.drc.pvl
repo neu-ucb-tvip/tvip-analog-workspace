@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  hvi rules		   				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.37			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -12,27 +12,26 @@
 //  find edges of hvi over nwell,
 //  easier to see / understand than outputing the entire hvi or nwell shape
 
-rule "hvi.nwell" {
+rule hvi.nwell {
 	caption "hvi must not straddle nwell"
 	edge_boolean -inside hvi nwell
 }
 
 rule hvi.1 {
-	caption "Min width of Hvi: 0.020 um"
+	caption "Min width of Hvi: 0.02 um"
 	inte hvi -lt 0.020 -single_point -output region
 }
 
-// Rule hvi.5 is no longer needed due to additions of nwell spacing rules nwell.2a.XXX and nwell.8.XXX
-//#IFNDEF FALSEOFF
+// Rule hvi.5 is obsolete due to additions of nwell spacing rules nwell.2a.XXX and nwell.8.XXX
 //rule hvi.5 {
-//	caption "Min space between hvi and nwell (exclude coincident edges): 0.700 um"
+//	caption "Min space between hvi and nwell (exclude coincident edges): 0.70 um"
 //	caption "  NOTE: possible false errors due to out-of-date DRM information"
 //	exte hvi nwell -lt 0.700 -single_point -output region
 //}
-//#ENDIF
 
-rule hvi.2a {
-	caption "Min spacing of Hvi to Hvi: 0.700 um"
+rule hvi.2 {
+	caption "Min spacing of Hvi to Hvi: 0.70 um"
+	caption "Manual merge if space is below minimum"
 	exte hvi hvi -lt 0.700 -single_point -output region
 }
 

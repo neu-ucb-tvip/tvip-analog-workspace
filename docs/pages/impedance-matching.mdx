@@ -12,6 +12,7 @@ lastUpdated: 2025-06-10
 
 import { Callout } from 'nextra/components'
 import AuthorInfo from '../components/AuthorInfo'
+import BasePathImage from '../components/BasePathImage'
 
 # Impedance Matching (for Voltage/Current/Power)
 
@@ -21,13 +22,13 @@ For your design, you will likely be using ideal input sources and a load capacit
 
 Figure 1 shows the standard two-port model with voltage gain $A_v$:
 
-![Standard Two-Port Model](/images/impedance_matching/Two_Port.png)
+<BasePathImage src="/images/impedance_matching/Two_Port.png" alt="Standard Two-Port Model" width="500px" />
 
 *Figure 1: Standard Two-Port Model*
 
 Now, suppose we hook up an actual source voltage (with source impedance) and load impedance as shown in Figure 2.
 
-![Standard Two-Port Model with Source and Load](/images/impedance_matching/Two_Port_with_Source_Load.png)
+<BasePathImage src="/images/impedance_matching/Two_Port_with_Source_Load.png" alt="Standard Two-Port Model with Source and Load" width="600px" />
 
 *Figure 2: Standard Two-Port Model with Source and Load*
 
@@ -39,7 +40,7 @@ Notice the voltage dividers here! Ideally, we would want $v_{out} = A_v v_{S}$, 
 
 Suppose we have to hook up two blocks together; the two-port model would look something like Figure 3.
 
-![Cascaded Two-Ports](/images/impedance_matching/Two_Port_Cascade.png)
+<BasePathImage src="/images/impedance_matching/Two_Port_Cascade.png" alt="Cascaded Two-Ports" width="700px" />
 
 *Figure 3: Cascaded Two-Ports*
 
@@ -72,7 +73,7 @@ For RF communications systems, the act of transmitting and receiving a signal us
 
 Consider Figure 4, which is a circuit model where the antenna is modeled as a voltage source in series with a resistance (representing a power source) and the input impedance at the start of your Rx chain is the load for the antenna.
 
-![Antenna Drive Model](/images/impedance_matching/Antenna.png)
+<BasePathImage src="/images/impedance_matching/Antenna.png" alt="Antenna Drive Model" width="500px" />
 
 *Figure 4: Antenna Drive Model*
 
@@ -84,7 +85,7 @@ The maximum of this expression occurs at $Z_{in} = Z_S^*$; this is called a *con
 
 Okay, assume we have a $50\ \mathrm{\Omega}$ system, so we ideally want $Z_{in} = 50\ \mathrm{\Omega}$ for maximum power transfer. How does that factor into our design? You can't/shouldn't alter your block design since the sizing for that is designed for particular parameters needed for that block's specs. To match to your desired impedance, you design a *matching network* (using inductors and capacitors at resonance) to change the impedance looking into your block into $50\ \mathrm{\Omega}$, like shown in Figure 5 (the exact structure will depend on the impedance values, but it will be some shunt/series LC network).
 
-![Antenna Drive Model with Matching](/images/impedance_matching/Antenna_Match.png)
+<BasePathImage src="/images/impedance_matching/Antenna_Match.png" alt="Antenna Drive Model with Matching" width="600px" />
 
 *Figure 5: Antenna Drive Model with Matching Network*
 

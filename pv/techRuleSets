@@ -1,0 +1,16 @@
+;; Pegasus Rulesets
+pegasusRuleSet( "default"
+  ( DrcRules     "../Sky130_DRC/sky130_rev_0.0_2.3.drc.pvl" )
+  ( DrcGuiPreset "drc.preset" )
+  ( LvsRules     "../Sky130_LVS/sky130.lvs.pvl" )
+  ( LvsGuiPreset "lvs.preset" )
+)
+pegasusRuleSet( "lvs_qrc"
+  ( LvsRules     "../Sky130_LVS/sky130.lvs.pvl" )
+  ( LvsGuiPreset "lvs_qrc.preset" )
+)
+
+;; Quantus Rulesets
+ruleSet( "typical"
+  ( RcxSetupDir "../quantus/extraction/typical" )
+)

@@ -1,0 +1,37 @@
+text_depth -primary;
+virtual_connect -colon no;
+virtual_connect -semicolon_as_colon yes;
+virtual_connect -noname;
+virtual_connect -report no;
+virtual_connect -depth -primary;
+report_summary -drc "fill.sum" -replace;
+max_results -drc -all;
+keep_layers -none;
+abort_on_layout_error yes;
+layout_format gdsii;
+layout_path "./CELLNAME.gds.gz";
+
+//////////////////////////////////////////////////////////////////
+// Output
+
+// _FILL will add "_FILL" to all cells created (including the poly-fill cell)
+
+ results_db -drc "CELLNAME.fill.gds.gz" -gdsii _FILL ;
+
+ output -drc "diff_fillgen" -gdsii 65 99 CELLNAME.fill.gds.gz  ;
+ output -drc "poly_fillgen" -gdsii 66 99 CELLNAME.fill.gds.gz  ;
+
+ output -drc "LI_fillgen"   -gdsii 67 99 CELLNAME.fill.gds.gz  ;
+ output -drc "m1_fillgen"   -gdsii 68 99 CELLNAME.fill.gds.gz  ;
+ output -drc "m2_fillgen"   -gdsii 69 99 CELLNAME.fill.gds.gz  ;
+ output -drc "m3_fillgen"   -gdsii 70 99 CELLNAME.fill.gds.gz  ;
+ output -drc "m4_fillgen"   -gdsii 71 99 CELLNAME.fill.gds.gz  ;
+ output -drc "m5_fillgen"   -gdsii 72 99 CELLNAME.fill.gds.gz  ;
+
+// This will create a holding place cell for the poly-fill cells
+// Note: the sizes should match the sizes of the poly-fill cells
+
+ output -drc "diff_poly_fillgen_3"  -gdsii 65 99 -aref poly_diff_3   3.0 2.5 CELLNAME.fill.gds.gz  ;
+ output -drc "diff_poly_fillgen_10" -gdsii 65 99 -aref poly_diff_10 10.0 2.5 CELLNAME.fill.gds.gz  ;
+ output -drc "diff_poly_fillgen_25" -gdsii 65 99 -aref poly_diff_25 25.0 2.5 CELLNAME.fill.gds.gz  ;
+

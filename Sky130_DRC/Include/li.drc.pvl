@@ -1,16 +1,18 @@
 //////////////////////////////////////////////////////////////////
 //	  li rules						//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.19			   			//
 //////////////////////////////////////////////////////////////////
 
+// v2.10:  li fill rules added
+// li_fill removed here since li fill rules have larger minimum values  
 
-select -cut     li1 areaid.ce -outputlayer li_crossing_core
-select -inside  li1 areaid.ce -outputlayer li_inside_core
-select -outside li1 areaid.ce -outputlayer li_outside_core
+select -cut     li_dg areaid.ce -outputlayer li_crossing_core
+select -inside  li_dg areaid.ce -outputlayer li_inside_core
+select -outside li_dg areaid.ce -outputlayer li_outside_core
 
-NOT li1 areaid.ce -outputlayer li_notcore
-AND li1 areaid.ce -outputlayer li_core
+NOT li_dg areaid.ce -outputlayer li_notcore
+AND li_dg areaid.ce -outputlayer li_core
 
 
 //////////////////////////////////////////////////////////////////
@@ -18,16 +20,16 @@ AND li1 areaid.ce -outputlayer li_core
 
 // li.1 rules should include LI that crosses CORE
 
-rule li.1a {
-	caption "CDR: Width of LI inside areaid.ce: 0.140 um"
+rule CDR.li.1a {
+	caption "CDR: Width of LI inside areaid.ce: 0.14 um"
 	inte li_inside_core -lt 0.140 -output region
 }
-rule li.1b {
-	caption "CDR: Width of LI outside areaid.ce: 0.170 um"
+rule CDR.li.1b {
+	caption "CDR: Width of LI outside areaid.ce: 0.17 um"
 	inte li_outside_core -lt 0.170 -output region
 }
-rule li.1c {
-	caption "CDR: Width of LI crossing areaid.ce border: 0.170 um"
+rule CDR.li.1c {
+	caption "CDR: Width of LI crossing areaid.ce border: 0.17 um"
 	inte li_crossing_core -lt 0.170 -output region
 }
 
@@ -43,16 +45,16 @@ rule li.1c {
 
 // li.3 rules should include LI that crosses CORE
 
-rule li.3a {
-	caption "CDR: Spacing of LI to LI inside areaid.ce: 0.140 um"
+rule CDR.li.3a {
+	caption "CDR: Spacing of LI to LI inside areaid.ce: 0.14 um"
 	exte li_inside_core li1 -lt 0.140 -single_point -output region
 }
-rule li.3b {
-	caption "CDR: Spacing of LI to LI outside areaid.ce: 0.170 um"
+rule CDR.li.3b {
+	caption "CDR: Spacing of LI to LI outside areaid.ce: 0.17 um"
 	exte li_outside_core li1 -lt 0.170 -single_point -output region
 }
-rule li.3c {
-	caption "CDR: Spacing of LI to LI crossing areaid.ce border: 0.170 um"
+rule CDR.li.3c {
+	caption "CDR: Spacing of LI to LI crossing areaid.ce border: 0.17 um"
 	exte li_crossing_core li1 -lt 0.170 -single_point -output region
 }
 
@@ -60,22 +62,19 @@ rule li.3c {
 //////////////////////////////////////////////////////////////////
 // OTHER
 
-rule li.5 {
-	caption "CDR: Min enclosure of licon outside areaid.ce by one of two adjacent LI sides: 0.080 um"
+rule CDR.li.5 {
+	caption "CDR: Min enclosure of licon outside areaid.ce by one of two adjacent LI sides: 0.08 um"
 	rect_enc licon_notcore li1 -good 0.000 0.080 0.000 0.080
 }
 
-// minimum LI area should only apply to LI in periphery or crossing CORE; use li_crossing_core
+// Updating minimum LI area to match SW deck (
+// Change value to 0.0561 and no CORE specific rules
 
-rule li.6a {
-	caption "CDR: Min area of Li outside areaid.ce: 0.056 sq um"
-	area li_outside_core -lt 0.056 ;
+rule CDR.li.6 {
+	caption "CDR: Min area of LI: 0.0561 sq um"
+	area li_outside_core -lt 0.0561 ;
 }
-rule li.6b {
-	caption "CDR: Min area of Li crossing areaid.ce border: 0.056 sq um"
-	area li_crossing_core -lt 0.056 ;
-}
-   
+  
 
 //////////////////////////////////////////////////////////////////
 // RES
@@ -86,15 +85,16 @@ rule li.6b {
 select -inside li1_res areaid.ed li1_res_esd
 NOT li1_res li1_res_esd li1_res_not_esd
 
-rule li.7 {
-	caption "Min LI resistor width 0.29 um (rule exempted within areaid.ed)"
-	caption "Inside areaid.ed, min width of the li resistor is determined by rule li.1)"
-	inte li1_res_not_esd -lt 0.290 -output region
+rule CDR.li.7 {
+	caption "CDR: Min LI resistor width 0.29 um"
+	inte li1_res -lt 0.290 -output region
 }
 
-rule li.7.esd {
-	caption "Min LI resistor width inside areaid.ed 0.17 um"
-	caption "Note: LI resistors inside cells with name s8rf2_xcmvpp_hd5_* NOT considered" 
-	inte li1_res_esd -lt 0.170 -output region
-}
+// rule is obsolete
+
+//rule li.7.esd {
+//	caption "Min LI resistor width inside areaid.ed 0.17 um"
+//	caption "Note: LI resistors inside cells with name s8rf2_xcmvpp_hd5_* NOT considered" 
+//	inte li1_res_esd -lt 0.170 -output region
+//}
 

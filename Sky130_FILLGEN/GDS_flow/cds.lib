@@ -1,0 +1,15 @@
+# #########################################################################
+# Cadence libraries
+DEFINE basic $CDSHOME/tools/dfII/etc/cdslib/basic
+DEFINE analogLib $CDSHOME/tools/dfII/etc/cdslib/artist/analogLib
+DEFINE functional $CDSHOME/tools/dfII/etc/cdslib/artist/functional
+DEFINE sbaLib $CDSHOME/tools/dfII/etc/cdslib/artist/sbaLib
+DEFINE US_8ths $CDSHOME/tools/dfII/etc/cdslib/sheets/US_8ths
+
+# #########################################################################
+# sky130 PDK library
+DEFINE sky130_fd_pr_main $PDK_HOME/libs/sky130_fd_pr_main
+
+# #########################################################################
+# User libraries go here
+

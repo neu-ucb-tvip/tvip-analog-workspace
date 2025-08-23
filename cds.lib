@@ -1,7 +1,16 @@
-DEFINE     analogLib    $CDS_HOME/tools/dfII/etc/cdslib/artist/analogLib
-DEFINE     basic        $CDS_HOME/tools/dfII/etc/cdslib/basic
+INCLUDE $CDS_HOME/share/cdssetup/cds.lib
+
+##### Cadence-provided Sky130 PDK libraries
+## Analog libs for custom design
 DEFINE     sky130_fd_pr_main ./libs/sky130_fd_pr_main
+
+## Digital stdcells
+DEFINE     sky130_scl_9T ./libs/sky130_scl_9T/oa/sky130_scl_9T/
+DEFINE     sky130_scl_9T_LP ./libs/sky130_scl_9T_LP/oa/sky130_scl_9T_LP/
+DEFINE     sky130_scl_9T_HS ./libs/sky130_scl_9T_HS/oa/sky130_scl_9T_HS/
+
+##### User/custom designs
+
 DEFINE     tvip_example tvip_example
 DEFINE     Bandgap_reference    ./Bandgap_reference
-DEFINE avTech /share/instsww/cadence/ASSURA41-618/tools.lnx86/assura/etc/avtech/avTech
-DEFINE ring_osc /home/aa/users/cs199-anb/Desktop/tvip-analog-workspace/ring_osc
+

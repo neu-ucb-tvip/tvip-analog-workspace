@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  denmos rules						//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.42			  			 //
 //////////////////////////////////////////////////////////////////
 
@@ -46,7 +46,7 @@ NOT de_nFet_source poly -outputlayer de_nFet_source_not_poly ;
 AND de_nFet_source poly -outputlayer de_nFet_source_and_poly ;
 
 rule denmos.2 {
-	caption "Min width of de_nFet_source not overlapping poly: 0.280 um"
+	caption "Min width of de_nFet_source not overlapping poly: 0.28 um"
 	inte de_nFet_source_not_poly -lt 0.280 -single_point -output region
 }
 
@@ -58,14 +58,14 @@ rule denmos.3 {
 
 // The minimum width is the edge between the bevels,
 //   NOT the width of the long parallel edges
-// "inte" won't work here, need to find edges < 0.170 um
+// "inte" won't work here, need to find edges < 0.17 um
 //   but ignore edges not (0 or 90) degrees
 
 angle -not de_nFet_drain -ltgt 0 90 -outputlayer de_nFet_drain_ortho
 edge_length de_nFet_drain_ortho -lt 0.170 -outputlayer de_nFet_drain_bad
 
 rule denmos.4 {
-	caption "Min width of the de_nFet_drain: 0.170 um"
+	caption "Min width of the de_nFet_drain: 0.17 um"
 	copy de_nFet_drain_bad ;
 }
 
@@ -106,7 +106,7 @@ select -touch -not de_nFet_source de_nFet_good_region -outputlayer de_nFet_sourc
 // This one is OK except the drain shape is not shown unless it is bad on both sides
 //  select -touch -not de_nFet_drain de_nFet_good_region -outputlayer de_nFet_drain_bad
 //  OR de_nFet_source_bad de_nFet_drain_bad -outputlayer de_nFet_sd_bad
-//  rule denmos.6alt { copy de_nFet_sd_bad ; }
+//  rule denmos.# { copy de_nFet_sd_bad ; }
 
 // instead, output the region between the "bad" source and the nearby drain (3.0 might be overkill)
 
@@ -121,7 +121,7 @@ rule denmos.6 {
 edge_boolean -inside de_nFet_gate diff -outputlayer denmos_width
 
 rule denmos.7 {
-	caption "Min channel width for de_nFet_gate: 5.000 um"
+	caption "Min channel width for de_nFet_gate: 5.00 um"
 	edge_length denmos_width -lt 5.0 
 }
 
@@ -149,30 +149,29 @@ enc ntap nwell_ovlp_de_nFET_Drain -lt 0.660 -output region -outputlayer denmos.1
 select -interact -not denmos.10.region  de_nFet_source  -outputlayer denmos.10.bad
 
 rule denmos.10 { 
-	caption "Min enclosure of de_nFet_drain by nwell: 0.660 um"
+	caption "Min enclosure of de_nFet_drain by nwell: 0.66 um"
   	copy denmos.10.bad ; 
 }
 
 select -cut nwell de_nFET_drain -outputlayer nwell_ovlp_de_nFET_Drain
 
 rule denmos.11 {
-	caption "Min spacing between p+ tap and (nwell overlapping de_nFet_drain): 0.860 um"
+	caption "Min spacing between p+ tap and (nwell overlapping de_nFet_drain): 0.86 um"
 	exte ptap_actual nwell_ovlp_de_nFET_Drain -lt 0.860 -single_point -output region
 }
 
 rule denmos.12 {
-	caption "Min spacing between nwells overlapping de_nFET_drain: 2.400 um"
+	caption "Min spacing between nwells overlapping de_nFET_drain: 2.40 um"
 	exte nwell_ovlp_de_nFET_Drain -lt 2.400 -single_point -output region
 }
 
 rule denmos.13 {
-	caption "de_nFet_source must be enclosed by nsdm by: 0.130 um"
+	caption "de_nFet_source must be enclosed by nsdm by: 0.13 um"
 	enc de_nFet_source nsdm -lt 0.130 -output region
 }
 
 
-// this rule may no longer be valid...
-
+// Rule is obsolete
 //rule denmos.14 {
 // 	caption "nvhv FETs must be enclosed by areaid.mt"
 //}

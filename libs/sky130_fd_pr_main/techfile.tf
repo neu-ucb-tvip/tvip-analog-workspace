@@ -271,6 +271,8 @@ layerDefinitions(
   ( uhvi                      300        uhvi         )
   ( pwbm                      301        pwbm         )
   ( urpm                      302        urpm         )
+  ( lv_net                    304        lv_net       )
+  ( thkox                     305        thkox        )
  ) ;techLayers
 
  techLayerPurposePriorities(
@@ -505,6 +507,8 @@ layerDefinitions(
   ( npn                       label      )
   ( rpm                       drawing    )
   ( urpm                      drawing    )
+  ( lv_net                    drawing    )
+  ( thkox                     drawing    )
   ( hvi                       drawing    )
   ( capacitor                 drawing    )
   ( ncm                       drawing    )
@@ -978,6 +982,8 @@ layerDefinitions(
   ( npn          label        npnlabel         t t t t t )
   ( rpm          drawing      elm              t t t t t )
   ( urpm         drawing      rpolyRes         t t t t t )
+  ( lv_net       drawing      ncm              t t t t t )
+  ( thkox        drawing      thkOx            t t t t t )
   ( hvi          drawing      hvi              t t t t t )
   ( capacitor    drawing      capacitor        t t t t t )
   ( ncm          drawing      ncm              t t t t t )

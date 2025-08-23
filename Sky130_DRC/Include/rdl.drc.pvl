@@ -1,30 +1,28 @@
 //////////////////////////////////////////////////////////////////
 //	  RDL rules		   				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.35			   			//
 //////////////////////////////////////////////////////////////////
 
 // Use of RDL not implemented in this PDK, file kept for reference
 
-#IFDEF CU
+//rule rdl.1 {
+//	caption "Min width of rdl: 1 um"
+//	inte rdl -lt 10 -single_point -output region
+//}
 
-rule rdl.1 {
-	caption "Min width of rdl: 10 um"
-	inte rdl -lt 10 -single_point -output region
-}
-
-rule rdl.2 {
-	caption "Min spacing between two rdl: 10 um"
-	exte rdl -lt 10 -single_point -output region
-}
+//rule rdl.2 {
+//	caption "Min spacing between two rdl: 1 um"
+//	exte rdl -lt 10 -single_point -output region
+//}
 
 //rule rdl.3 {
-//	caption "Min enclosure of pad by rdl, except rdl interacting with bump: 10.750 um"
+//	caption "Min enclosure of pad by rdl, except rdl interacting with bump: 10.75 um"
 //	enc pad by rdl -lt 10.750 -output region
 //}
 
 //rule rdl.4 {
-//	caption "Min spacing between rdl and outer edge of the seal ring: 15.000 um" 
+//	caption "Min spacing between rdl and outer edge of the seal ring: 15.00 um" 
 //}
 
 //rule rdl.5 {
@@ -32,9 +30,8 @@ rule rdl.2 {
 //}
 
 //rule rdl.6 {
-//	caption "Min spacing of rdl to pad, except rdl interacting with bump: 19.660 um"
+//	caption "Min spacing of rdl to pad, except rdl interacting with bump: 19.66 um"
 //	caption "Had a confusion between rdl3 and this rule"	
 //	enc rdl by pad -lt 19.660 -output region
 //}
 	
-#ENDIF  // ifdef CU

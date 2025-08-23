@@ -1,0 +1,104 @@
+//////////////////////////////////////////////////////////////////
+//	  	 Sky130 Fill Generation Routine	                //
+// 		    Version 08 July 22, 2025			//
+//////////////////////////////////////////////////////////////////
+
+Fill Generation and Insertion
+
+** This file is for the Oasis flow (all input, output files in Oasis format) **
+** The steps for the GDS flow are similar **
+** Note that the GDS with fill cells is called:  poly_diff_3_10_25.gds.gz **
+
+** Oasis flow is recommended as the file sizes will be smaller **
+** If pegasusDesignReview is used, oasis file size of the final output **
+**   might be smaller than expected due to hierarchy optimiaztion **
+
+OVERVIEW:
+
+This directory contains a "beta" fill generation routine and control scripts.
+
+Flow:
+[1]   Export oasis file of top level design from Virtuoso
+[2]   Run fill generation routine; creates separate Oasis file
+[3a]  Insert poly-diff fill cells into fill file from [2]; creates new Oasis file
+[3b]  Insert fill file from [3a] into top level design; creates new Oasis file
+[4]   Import design Oasis file with fill from [3b] into Virtuoso
+[5]   Run SKY130 DRC
+
+** 3 poly-diff fill cells are used since poly fill and diff fill cannot overlap. **
+
+Steps 3a & 3b require the use of Pegasus Design Review. 
+User can instead import the Oasis files into their layout tool for insertion.
+
+USAGE:
+
+[1]  ENV Variables
+
+User should have the following ENV variables set appropriately:
+
+  setenv PDK_HOME    /projects/SkyWater/sky130_release_0.0.9
+  setenv PEGASUS_DRC /projects/SkyWater/Sky130_DRC_rev_0.0_2.11
+
+[2]  Libraries
+
+cds.lib must be updated to point to user's design libraries.
+
+[3]  Poly & diff fill cell
+
+The fill cell oasis file must be present in this directory:
+
+	poly_diff_3_10_25.oasis
+	
+[4}  Fill generation Pegasus routine
+
+The file "fillgen.pvl" must be copied to this directory
+
+[5]  Executable Files 
+
+  step1_oasisout.csh	- makes top level design Oasis file: CELLNAME.oasis
+  step2_fillgen.csh	- makes fill Oasis file: 	     CELLNAME.fill.oasis
+  step3_merge.csh	- merges fill cell & fill data into top level:
+  	3a: Inserts poly_diff FILLCELLs into fill, outputs:  CELLNAME.fill_aref.oas
+	3b: Inserts fill data into top level, outputs:	     CELLNAME.wFill.oas	
+  step4_oasisin.csh	- makes Virtuoso library (user controlled library name)
+  step5_sky130_DRC.csh 	- runs sky130 DRC on resulting filled data
+
+NOTE:  v08 uses 3 different fill cells:
+  poly_diff_3_FILLCELL 
+  poly_diff_10_FILLCELL 
+  poly_diff_25_FILLCELL 
+
+[6]  Control Files 
+
+  step 2:  fill_CTL.pvl
+  step 3a: pdr_CTL_aref
+  step 3b: pdr_CTL
+  step 5:  drc_CTL.pvl
+
+[7]  Edits
+
+** In all executable and control files, the following changes must be made: **
+
+  MYLIBRARY ->  user's Virtuoso library containing layout to fill
+  CELLNAME  ->  user's top level layout cell name to fill
+
+In "step1_oasisout.csh" 
+	"-libary" option must be updated
+	"-layerMap" option must be updated
+	
+In "step4_oasisin.csh" 
+	"-library" option can be changed as desired
+	"-layerMap" option must be updated
+
+In "step5_run_sky130_DRC.csh" the "-run_dir" option can be changed as desired.
+
+[8] Outputs
+
+CELLNAME.oas		- top level Oasis file, created by step 1
+CELLNAME.fill.oas	- fill (only) Oasis file, created by step 2
+CELLNAME.fill_aref.oas	- fill (only) file, with poly-fill cell inserted
+CELLNAME.wFill.oas	- top level Oasis file, with fill inserted !!
+
+step 4 will create the Virtuoso library locally
+step 5 will create the DRC run directory locally
+

@@ -1,0 +1,10 @@
+# This Pegasus GUI forms presets file is created automatically.
+# Do not edit it unless you 100% sure what you do!
+
+# Pegasus Version 21.31-e324
+
+[ virtuoso6.RunLVS ]
+#RulesFile                                   "$PDKDIR/Sky130_LVS/sky130.lvs.pvl"
+RunDir                                      "LVS_RUN"
+CreateQRCInput 				    "TRUE"
+QRCDataDir 				    "svdb"

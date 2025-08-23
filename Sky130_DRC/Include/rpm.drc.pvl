@@ -1,37 +1,37 @@
 //////////////////////////////////////////////////////////////////
-//	  rpm rules		   				//
-// Version 0.0_2.8  June 17, 2025				//
+//	  rpm / urpm rules		   			//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.13			   			//
 //////////////////////////////////////////////////////////////////
 
 
-//rule rpm.1a {
-//      caption "Min width of rpm: 1.270 um"
-//      inte rpm -lt 1.270 -single_point -output region
-//}
+rule CDR.rpm.1a {
+      caption "CDR: Min width of rpm: 1.27 um"
+      inte rpm -lt 1.270 -single_point -output region
+}
 
 //rule rpm.1b {
-//	caption "Min/Max prec_resistor width xhrpoly_0p35 == 0.350 um"
+//	caption "Min/Max prec_resistor width xhrpoly_0p35: 0.35 um"
 //	rect_chk xhrpoly_0p35 -eq 0.350
 //}
 
 //rule rpm.1c {
-//	caption "Min/Max prec_resistor width xhrpoly_0p69 == 0.690 um"
+//	caption "Min/Max prec_resistor width xhrpoly_0p69: 0.69 um"
 //	rect_chk xhrpoly_0p69 -eq 0.690
 //}
 
 //rule rpm.1d {
-//	caption "Min/Max prec_resistor width xhrpoly_1p41 == 1.410 um"
+//	caption "Min/Max prec_resistor width xhrpoly_1p41: 1.41 um"
 //	rect_chk xhrpoly_1p41 -eq 1.410
 //}
 
 //rule rpm.1e {
-//	caption "Min/Max prec_resistor width xhrpoly_2p85 == 2.850 um"
+//	caption "Min/Max prec_resistor width xhrpoly_2p85: 2.85 um"
 //	rect_chk xhrpoly_2p85 -eq 2.850
 //}
 
 //rule rpm.1f {
-//	caption "Min/Max prec_resistor width xhrpoly_5p73 == 5.730 um"
+//	caption "Min/Max prec_resistor width xhrpoly_5p73: 5.73 um"
 //	rect_chk xhrpoly_5p73 -eq 5.730 
 //}
 
@@ -56,33 +56,33 @@
 //	caption "Only 8 licon is allowed in xhrpoly_5p73 prec_resistor_terminal"
 //	}
 
-rule rpm.2 {
-	caption "Min spacing of rpm to rpm: 0.840 um"
+rule CDR.rpm.2 {
+	caption "CDR: Min spacing of rpm: 0.84 um"
 	exte rpm -lt 0.840 -single_point -output region
 }
 
 rule rpm.3 {
-	caption "rpm must enclose prec_resistor by atleast: 0.200 um"
+	caption "Min enclosure of prec_resistor by rpm: 0.20 um"
 	enc rpm prec_resistor -lt 0.200 -output region
 }
 
 rule rpm.4 {
-	caption "prec_resistor must be enclosed by psdm by atleast: 0.110 um"
+	caption "Min enclosure of prec_resistor by psdm: 0.11 um"
 	enc prec_resistor psdm -lt 0.110 -output region
 }
 
 rule rpm.5 {
-	caption "prec_resistor must be enclosed by npc by atleast: 0.095 um"
+	caption "Min enclosure of prec_resistor by npc: 0.095 um"
 	enc prec_resistor npc -lt 0.095 -output region
 }
 
 rule rpm.6 {
-	caption "Min spacing, no overlap, of rpm and nsdm: 0.200 um"
+	caption "Min spacing, no overlap, of rpm and nsdm: 0.20 um"
 	exte rpm nsdm -lt 0.200 -overlap -single_point -output region
 }
 
 rule rpm.7 {
-	caption "Min spacing between rpm and poly: 0.200 um"
+	caption "Min spacing between rpm and poly: 0.20 um"
 	exte rpm poly -lt 0.200 -single_point -output region
 }
 
@@ -104,4 +104,13 @@ rule rpm.9 {
 rule rpm.11 {
 	caption "rpm should not overlap or straddle pwbm"
 	select -interact rpm pwbm
+}
+
+rule CDR.urpm.1a {
+      caption "CDR: Min width of urpm: 1.27 um"
+      inte urpm -lt 1.270 -single_point -output region
+}
+rule CDR.urpm.2 {
+	caption "CDR: Min spacing of urpm: 0.84 um"
+	exte urpm -lt 0.840 -single_point -output region
 }

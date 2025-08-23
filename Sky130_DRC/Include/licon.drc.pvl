@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  licon rules		 				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.18			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -42,11 +42,10 @@ AND poly licon_core -outputlayer poly_licon_core
 //////////////////////////////////////////////////////////////////
 // licon size rules
 
-
 // update wording to use "bar licon" instead of prec_resistor
 
-rule licon.1 {
-	caption "CDR: Min and max L and W of licon, except for bar licon: 0.170 um"
+rule CDR.licon.1 {
+	caption "CDR: Min and max L and W of licon, except for bar licon: 0.17 um"
 	rect_chk -not licon_not_precR -eq 0.170 -by -eq 0.170 -orthogonal_only 
 }
 
@@ -60,18 +59,17 @@ rule licon.1a {
 	caption "licon inside (rpm OR urpm) should be 0.19 um X 2.0 um bar licon " 
 	copy licon_017_in_prec ;
 }
-rule licon.1b {
-	caption "CDR: Min and max width of bar licon == 0.190 um"
+rule CDR.licon.1b {
+	caption "CDR: Min and max width of bar licon == 0.19 um"
 	rect_chk -not (not licon_precR licon_017_in_prec) -eq 0.19 ;
 }
-rule licon.1c {
-	caption "CDR: Min and max length of bar licon == 2.000 um"
+rule CDR.licon.1c {
+	caption "CDR: Min and max length of bar licon == 2.00 um"
 	rect_chk -not (not licon_precR licon_017_in_prec) -eq 2.0 ;
 }
 
-
 rule licon.3 {
-	caption "Only min. square licons are allowed except die seal ring where licons are (licon CD)*L: 0.170 um"
+	caption "Only min. square licons are allowed except die seal ring where licons are (licon CD)*L: 0.17 um"
 	caption "  this seal ring licon does not have width = 0.17 um "
 	rect_chk -not licon_insideSR -eq 0.17
 }
@@ -82,12 +80,12 @@ rule licon.3 {
 // licon to licon spacing rules
 
 // need to exclude CORE licon
-rule licon.2 {
+rule CDR.licon.2 {
 	caption "CDR: Min spacing of licon to licon: 0.17 um"
 	caption "  For non-bar licon outside of areaid.ce "
 	exte licon_notcore -lt 0.170 -single_point -output region
 }
-rule licon.2a {
+rule CDR.licon.2a {
 	caption "CDR: Min spacing of licon to licon: 0.165 um"
 	caption "  For non-bar licon inside of areaid.ce "
 	exte licon_core -lt 0.165 -single_point -output region
@@ -95,18 +93,18 @@ rule licon.2a {
 
 rect_chk licon -eq 0.19 -by -eq 2.0 -outputlayer licon_bar 
 
-rule "licon.2b" {
-	caption "Min end-to-end space of bar licon: 0.35 um"
+rule CDR.licon.2b {
+	caption "CDR: Min end-to-end space of bar licon: 0.35 um"
 	edge_length licon_bar -lt 2.0 -outputlayer licon_end
 	exte licon_end -lt 0.35 -abut -lt 90 -output region
 }
-rule "licon.2c" {
-	caption "Min side-to-side spacing of bar licon: 0.51 um"
+rule "CDR.licon.2c" {
+	caption "CDR: Min side-to-side spacing of bar licon: 0.51 um"
 	edge_length licon_bar -gt 0.19 -outputlayer licon_side
 	exte licon_side -lt 0.510 -abut -lt 90 -output region
 }
-rule "licon.2d" {
-	caption "Min space from bar licon to square licon: 0.51 um"
+rule "CDR.licon.2d" {
+	caption "CDR: Min space from bar licon to square licon: 0.51 um"
 	exte licon_square licon_bar -lt 0.510 -abut -lt 90 -output region -single_point
 }
 
@@ -115,28 +113,28 @@ rule "licon.2d" {
 // Other licon spacing rules
 
 // licon.5b has no CORE equivalent
-rule licon.5b {
-	caption "CDR: Min space between tap_licon outside areaid.ce and diff-abutting tap edge: 0.060 um"
+rule CDR.licon.5b {
+	caption "CDR: Min space between tap_licon outside areaid.ce and diff-abutting tap edge: 0.06 um"
 	and tap licon_notcore -outputlayer licon.5b
 	exte licon.5b ( edge_boolean -coincident_only -outside diff tap ) -lt 0.06 -abut -lt 90 -output region
 }
 
 // licon.9 has no CORE equivalent
 // No need to check bar-licon since these will fail bar-licon spacing rules
-rule licon.9 {
-	caption "CDR: Min spacing, no overlap, between poly_licon outside areaid.ce and psdm: 0.110 um"
+rule CDR.licon.9 {
+	caption "CDR: Min spacing, no overlap, between poly_licon outside areaid.ce and psdm: 0.11 um"
 	select -outside poly_licon_notcore rpm_urpm -outputlayer licon.9_a
 	exte licon.9_a psdm -lt 0.110 -overlap -output region
 	and licon.9_a psdm ;
 }
 
-rule licon.14 {
-	caption "Min spacing of poly_licon outside areaid.ce to diff or tap: 0.190 um"
+rule licon.14a {
+	caption "Min spacing of poly_licon outside areaid.ce to diff or tap: 0.19 um"
 	or diff tap -outputlayer licon.14_2
 	exte poly_licon_notcore licon.14_2 -lt 0.190 -output region
 }
-rule licon.14a {
-	caption "Min spacing of poly_licon inside areaid.ce to diff or tap: 0.130 um"
+rule licon.14b {
+	caption "Min spacing of poly_licon inside areaid.ce to diff or tap: 0.13 um"
 	or diff tap -outputlayer licon.14a_2
 	exte poly_licon_core licon.14a_2 -lt 0.190 -output region
 }
@@ -145,17 +143,17 @@ rule licon.14a {
 //////////////////////////////////////////////////////////////////
 
 //rule licon 2b {
-//	caption "Min spacing between two slotted_licon (when the both the edges are 0.19um in length): 0.350 um"
+//	caption "Min spacing between two slotted_licon (when the both the edges are 0.19um in length): 0.35 um"
 //	caption "	TBA   "
 //}
 
 //rule licon.2c {
-//	caption "Min spacing between two slotted_licon (except for rule licon.2b): 0.510 um"
+//	caption "Min spacing between two slotted_licon (except for rule licon.2b): 0.51 um"
 //	caption "	TBA   "
 //}
 
 //rule licon.2d {
-//	caption "Min spacing between a slotted_licon and 0.17um square licon: 0.510 um"
+//	caption "Min spacing between a slotted_licon and 0.17um square licon: 0.51 um"
 //	caption "	TBA   "
 //}
  
@@ -195,9 +193,9 @@ rule licon.14a {
 	select -outside licon_core (or poly diff tap) ;
   }
   rule licon.WARNING {
-  	caption "WARNING: alternate licon.4a & licon.4b rules used in areaid.ce regions "
-	caption "WARNING: real licon.4a & licon.4b  errors may be missed "
-	extent_drawn areaid.ce ; ;
+	caption "CORE WARNING: alternate licon.4a & licon.4b rules used in areaid.ce regions "
+	caption "CORE WARNING: real licon.4a & licon.4b errors may be missed "
+	extent_drawn areaid.ce ;
   }
 #ENDIF
 
@@ -206,13 +204,13 @@ rule licon.14a {
 // licon ENC rules
 
 rule licon.5a {
-	caption "Min enclosure of licon outside areaid.ce by diff (not tap): 0.040 um"
+	caption "Min enclosure of licon outside areaid.ce by diff (not tap): 0.04 um"
 	enc licon_notcore diff_all -lt 0.040 -output region
 	edge_select licon_notcore diff ;
 }
 
 rule licon.5c {
-	caption "Min enclosure of licon outside areaid.ce by diff on one of two adjacent sides: 0.060 um"
+	caption "Min enclosure of licon outside areaid.ce by diff on one of two adjacent sides: 0.06 um"
 	rect_enc licon_notcore diff_in -good 0.060 0.000 0.060 0.000 
 }
 
@@ -220,29 +218,29 @@ select -with_edge tap ( edge_boolean -coincident_only -outside tap diff ) -outpu
 not tap non_isolated_tap -outputlayer isolated_tap
 
 rule licon.7 {
-	caption "Min enclosure of licon outside areaid.ce by one of two adjacent sides of isolated tap: 0.120 um"
+	caption "Min enclosure of licon outside areaid.ce by one of two adjacent sides of isolated tap: 0.12 um"
 	rect_enc licon_notcore isolated_tap -good 0.120 0.000 0.120 0.000 
 }
 
 rule licon.8 {
-	caption "Min enclosure of poly_licon outside areaid.ce by poly: 0.050 um"
+	caption "Min enclosure of poly_licon outside areaid.ce by poly: 0.05 um"
 	enc poly_licon_notcore poly -lt 0.050 -output region
 	edge_select poly_licon_notcore poly ;
 }
 
 rule licon.8a {
-	caption "Min enclosure of poly_licon outside areaid.ce by poly on one of two adjacent sides: 0.080 um"
+	caption "Min enclosure of poly_licon outside areaid.ce by poly on one of two adjacent sides: 0.08 um"
 	rect_enc poly_licon_notcore poly -good 0.080 0.000 0.080 0.000
 }
 
-rule licon.15 {
-	caption "poly_licon outside areaid.ce must be enclosed by npc by: 0.100 um"
+rule licon.15a {
+	caption "Min enclosure of poly_licon outside areaid.ce by npc: 0.10 um"
 	enc poly_licon_notcore npc -lt 0.100 -output region ;
 	edge_select poly_licon_notcore npc ;
 }
 
-rule licon.15b {
-	caption "poly_licon inside areaid.ce must be enclosed by npc by: 0.045 um"
+rule CDR.licon.15b {
+	caption "CDR: Min enclosure of poly_licon inside areaid.ce by npc: 0.045 um"
 	enc poly_licon_core npc -lt 0.045 -output region ;
 	edge_select poly_licon_core npc ;
 }
@@ -258,7 +256,7 @@ rule licon.6 {
 
 
 //rule licon.10 {
-//	caption "Spacing of licon on (tap AND (nwell NOT hvi)) to Var_channel: 0.250 um"
+//	caption "Spacing of licon on (tap AND (nwell NOT hvi)) to Var_channel: 0.25 um"
 //	caption "   TBA   "
 //}
 
@@ -277,8 +275,8 @@ rule licon.11 {
 	exte licon.11_a licon.11_c -lt 0.055 -output region
 }
 
-rule licon.11a {
-	caption "CDR: Spacing of licon on diff or tap to poly on diff: 0.050 um"
+rule CDR.licon.11a {
+	caption "CDR: Spacing of licon on diff or tap to poly on diff: 0.05 um"
 	caption "(for all FETs inside areaid.sc except 0.15um phighvt)"
 	caption "NOTE: exceptions have NOT been considered, there may be false errors"
 	and gate areaid.sc -outputlayer licon.11a_a
@@ -288,18 +286,21 @@ rule licon.11a {
 	exte licon.11a_c licon.11a_d -lt 0.050 -output region
 }
 
+// obsolete
 //rule licon.11b {
-//	caption "Spacing of licon on diff or tap to poly on diff (for 0.15um phighvt inside areaid.sc): 0.050 um"
+//	caption "Spacing of licon on diff or tap to poly on diff (for 0.15um phighvt inside areaid.sc): 0.05 um"
 //	caption "	TBA   "
 //}
 
+// obsolete
 //rule licon.11c {
-//	caption "Spacing of licon on diff or tap to poly on diff: 0.040 um"
+//	caption "Spacing of licon on diff or tap to poly on diff: 0.04 um"
 //	caption "(for 0.5um phv inside cell names s8fs_gwdlvx4, s8fs_gwdlvx8,"
 //	caption "s8fs_hvrsw_x4, s8fs_hvrsw8, s8fs_hvrsw264, and s8fs_hvrsw520)"
 //	caption "   TBA   "
 //}
 
+// obsolete
 //rule licon.11d {
 //	caption "Spacing of licon on diff or tap to poly on diff: 0.045 um"
 //	caption "(for 0.15um nshort inside cell names s8fs_rdecdrv, s8fs_rdec8,"
@@ -307,7 +308,7 @@ rule licon.11a {
 //	caption "	TBA	"
 //}
    
-#IFDEF NC
+#IFNDEF NOGLR
   not diff gate -outputlayer diff_not_gate
   select -enclose -not diff_not_gate licon -outputlayer diff_no_licon
   edge_select -coincident_only diff_no_licon gate -outputlayer diff_no_licon_edge
@@ -315,25 +316,25 @@ rule licon.11a {
 	  
 // This rule is Guideline only (NC)
   rule licon.12 {
-	  caption "GUIDELINE: Max SD width without licon: 5.700 um"
+	  caption "GUIDELINE: Max SD width without licon: 5.70 um"
 	  copy diff_edge57_no_licon ; 
   }
-#ENDIF  // NC
+#ENDIF  // ifndef NOGLR
 
-rule licon.13 {
-	caption "CDR: Spacing (no overlap) of NPC to licon on diff or tap: 0.090 um"
+rule CDR.licon.13 {
+	caption "CDR: Spacing (no overlap) of NPC to licon on diff or tap: 0.09 um"
 	or diff tap -outputlayer licon.13_a
 	and licon licon.13_a -outputlayer licon.13_b
 	exte npc licon.13_b -lt 0.090 -overlap -output region
 }
 
 
-
 //rule licon.16 {
+//Every source diff and tap must enclose at least one licon, including diff/tap straddling areaid.ce; rule exempted inside UHVI.
 //}
 
-rule licon.17 {
-	caption "Licons may not overlap both poly and (diff or tap)"
+rule CDR.licon.17 {
+	caption "CDR: licon may not overlap both poly and (diff or tap)"
 	select -cut licon poly -outputlayer licon.17_a
 	or diff tap -outputlayer licon.17_b
 	select -cut licon.17_a licon.17_b ;
@@ -362,7 +363,10 @@ rule licon.21 {
 	and (and poly_licon_core psdm) areaid.ce ;
 }
 
-rule licon.core {
+#IFNDEF NOWARN
+  rule licon.core {
 	caption "WARNING: licon straddling areaid.ce (CORE)"
 	not (select -cut licon areaid.ce) areaid.ce
-}
+  }
+#ENDIF	// ifndef NOWARN
+

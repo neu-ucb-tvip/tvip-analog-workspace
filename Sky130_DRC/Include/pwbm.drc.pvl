@@ -1,0 +1,14 @@
+//////////////////////////////////////////////////////////////////
+//	  pwbm rules		 				//
+// Version 0.0_2.12  July 22, 2025				//
+// DRM Section 5.7.4						//
+//////////////////////////////////////////////////////////////////
+
+// No information provided
+
+//pwbm.1	Min width of pwbm	NV
+//pwbm.2	Min spacing between pwbm inside UHVI	NV
+//pwbm.3	Min enclosure of dnwell by pwbm inside UHVI (exempt pwbm hole inside dnwell)	NV
+//pwbm.4	dnwell inside UHVI must be enclosed by pwbm (exempt pwbm hole inside dnwell)	NV
+//pwbm.5	Min Space between pwbm holes inside UHVI	NV
+

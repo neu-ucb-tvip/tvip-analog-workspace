@@ -1,0 +1,43 @@
+#############################################################################
+#	  	 Sky130 Fill Generation Routine	                
+# 		    Version 08 July 18, 2025			
+#
+# Pegasus Design Review Control File
+#
+# this file will insert the poly_diff fill cell into the fill file
+#
+# Fill generation routine will create temporary cells containing diff fill
+# These cells must be replaced with the poly_diff fill cell
+
+# CELLNAME.fill.oas  		- Oasis file with generated fill shapes
+# CELLNAME_FILL 		- top level cell name in fill Oasis file
+# REPLACE			- replaces cells in 2nd column with 3rd column
+#	
+# poly_diff_3_10_25.oasis	- Oasis file containing the poly-diff fill cells (3)
+#	poly_diff_3_FILL   replaced with  poly_diff_3_FILLCELL 
+#	poly_diff_10_FILL  replaced with  poly_diff_10_FILLCELL
+#	poly_diff_25_FILL  replaced with  poly_diff_25_FILLCELL
+#
+# "CELLNAME" should be replaced with the user's top level cell name
+#
+#############################################################################
+
+FILE CELLNAME.fill.oas
+PRIME CELLNAME_FILL
+ENDPLACES
+
+# Replace <cell_to_be_replaced> <cell_to_be_replace_with>
+REPLACE poly_diff_3_FILL  poly_diff_3_FILLCELL 
+REPLACE poly_diff_10_FILL poly_diff_10_FILLCELL 
+REPLACE poly_diff_25_FILL poly_diff_25_FILLCELL 
+#
+# Cell Libraries...
+#
+FILE poly_diff_3_10_25.oasis
+PRIME _NONE_
+ENDPLACES
+#
+
+ENDFILES
+
+#############################################################################

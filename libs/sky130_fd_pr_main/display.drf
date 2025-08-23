@@ -1581,6 +1581,7 @@ drDefinePacket(
  ( display      text                 blank      solid      white      white      outline   )
  ( display      text1                blank      dashed     white      white      outline   )
  ( display      text2                solid      solid      white      white      solid     )
+ ( display      thkOx                blank      thickLine  green      green      outlineStipple)
  ( display      tunm                 slash2     solid      purple     purple     outlineStipple)
  ( display      unknown              blank      solid      yellow     yellow     outline   )
  ( display      unset                blank      solid      forest     forest     outline   )

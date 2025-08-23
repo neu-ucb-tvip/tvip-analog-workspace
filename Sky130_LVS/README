@@ -1,0 +1,52 @@
+********************************************************************************
+// Sky130 Open Source LVS README 
+// Version 0.0_1.1  Tue Jul 23 10:40:09 PDT 2025 
+********************************************************************************
+The following CDF changes are needed for proper LVS device matching
+  sky130_fd_pr_main PDK library
+********************************************************************************
+Cap devices:
+
+All VPP caps:  
+CDF "auCdl" - namePrefix must be "X"
+
+Some VPP caps need "top" pin added to the layout view.
+
+All VPP cap edits (CDF and layouts) can be found in "cap_vpp_fixes.tar" file --
+un-tar inside the directory of the PDK library:  sky130_release_0.0.#/libs/sky130_fd_pr_main
+********************************************************************************
+Diode devices:
+
+Diodes netlist this way (0.36 is the area, 2.4 is the perimeter)
+
+DD0 net044 net045 diode_pd2nw_05v5 0.36 2.4 m=1
+
+changed CDF "auCdl" netlistProcedure:
+  from:	ansCdlCompPrim
+  to:	ansCdlSubcktCallExtended
+
+** componentName should be empty **
+
+********************************************************************************
+BJT devices:
+
+changed CDF "auCdl" netlistProcedure:
+  from:	ansCdlCompPrim
+  to:	ansCdlSubcktCallExtended
+
+Other CDF changes:
+  "modelName" should much the cellName (such as: npn_05v5)
+  componentName should be empty
+
+********************************************************************************
+HVmos devices:
+
+All 3 HVmos devices (nfet_20v0, nfet_20v0_zvt, pfet_20v0)
+
+changed CDF "auCdl" netlistProcedure:
+  from:	ansCdlCompPrim
+  to:	ansCdlSubcktCallExtended
+
+added "nf" to CDL parameters
+********************************************************************************
+

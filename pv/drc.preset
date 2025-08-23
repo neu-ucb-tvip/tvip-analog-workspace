@@ -1,0 +1,8 @@
+# This Pegasus GUI forms presets file is created automatically.
+# Do not edit it unless you 100% sure what you do!
+
+# Pegasus Version 21.31-e324
+
+[ virtuoso6.RunDRC ]
+#RulesFile                            "$PEGASUS_DRC/sky130_rev_0.0_2.3.drc.pvl"
+RunDir                               "DRC_RUN"

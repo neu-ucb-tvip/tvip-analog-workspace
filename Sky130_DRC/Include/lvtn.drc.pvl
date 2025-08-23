@@ -1,50 +1,50 @@
 //////////////////////////////////////////////////////////////////
 //	  lvtn rules		  				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.8						//
 //////////////////////////////////////////////////////////////////
 
-rule lvtn.1a {
-	caption "Min width of lvtm: 0.380 um"
-	inte lvtn -lt 0.380 -single_point -output region
+rule CDR.lvtn.1a {
+	caption "CDR: Min width of lvtn: 0.38 um"
+	inte lvtn -lt 0.38 -single_point -output region
 }
 
-rule lvtn.2 {
-	caption "Min space lvtm to lvtm: 0.380 um"
-	exte lvtn -lt 0.380 -single_point -output region 
+rule CDR.lvtn.2 {
+	caption "CDR: Min spacing lvtn to lvtn: 0.38 um"
+	exte lvtn -lt 0.38 -single_point -output region 
 }
 
 rule lvtn.3a {
-	caption "Mim spacing of lvtn to gate. Rule exempted inside UHVI: 0.180 um"
+	caption "Min spacing of lvtn to gate. Rule exempted inside UHVI: 0.18 um"
 	not lvtn uhvi -outputlayer lvtn.3a_exempt
 	exte lvtn.3a_exempt -lt 0.180 -single_point -output region
 }
 
 rule lvtn.3b {
-	caption "Min spacing of lvtn to pfet along the S/D direction: 0.235 um"
+	caption "Min spacing of lvtn to pfet along the S/D direction: 0.19 um"
 	edge_boolean -coincident_only -outside gate pdiff -outputlayer lvtn.3b_a
-	exte lvtn lvtn.3b_a -lt 0.235 -single_point -output region
+	exte lvtn lvtn.3b_a -lt 0.19 -single_point -output region
 }
 
 rule lvtn.4b {
-	caption "Min enclosure of gate by lvtn. Rule exempted inside UHVI: 0.180 um"
+	caption "Min enclosure of gate by lvtn. Rule exempted inside UHVI: 0.18 um"
 	not lvtn uhvi -outputlayer lvtn.3a_exempt
 	enc gate lvtn -lt 0.180 -abut -lt 90 -output region
 }
 
 rule lvtn.9 {
-	caption "Min spacing, no overlap, between lvtn and hvtp: 0.380 um"
+	caption "Min spacing, no overlap, between lvtn and hvtp: 0.38 um"
 	exte lvtn hvtp -lt 0.380 -overlap -single_point -output region
 }
 
 rule lvtn.10 {
-	caption "Min enclosure of lvtn by (nwell not overlapping Var_channel) (exclude coincident edges): 0.380 um"
+	caption "Min enclosure of lvtn by (nwell not overlapping Var_channel) (exclude coincident edges): 0.38 um"
 	select -cut -not nwell Var_channel -outputlayer lvtn.10_a
 	enc lvtn lvtn.10_a -lt 0.380 -output region
 }
 
 rule lvtn.12 {
-	caption "Min spacing between lvtn and (nwell inside areaid.ce): 0.380 um"
+	caption "Min spacing between lvtn and (nwell inside areaid.ce): 0.38 um"
 	select -inside nwell areaid.ce -outputlayer lvtn.12_a
 	exte lvtn lvtn.12_a -lt 0.380 -single_point -output region
 }
@@ -55,9 +55,12 @@ rule lvtn.13 {
 }
 
 rule lvtn.14 {
-	caption "Min area of lvtn Holes: 0.265 sq um"
+	caption "Min area of lvtn holes: 0.265 sq um"
 	holes lvtn -outputlayer lvtn.14_a
 	area lvtn.14_a -lt 0.265
 }
 
-
+rule CDR.lvtn.15 {
+	caption "CDR: lvtn cannot straddle nwell"
+	select -cut lvtn nwell ;
+}

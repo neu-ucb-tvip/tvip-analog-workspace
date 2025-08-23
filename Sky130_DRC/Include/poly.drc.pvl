@@ -1,14 +1,16 @@
 //////////////////////////////////////////////////////////////////
 //	  poly rules		 				//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.12						//
 //////////////////////////////////////////////////////////////////
 
 // Some rules apply to periphery only (outside areaid.ce). A corresponding core rule may or may not exist
 //  "on field" below means the same as periphery (outside areaid.ce)
 
-AND poly areaid.ce -outputlayer poly_core
-NOT poly areaid.ce -outputlayer poly_notcore
+// v2.10:  poly_fill checks added, remove from poly checks
+
+AND poly_dg areaid.ce -outputlayer poly_core
+NOT poly_dg areaid.ce -outputlayer poly_notcore
 
 //rule poly.X.1 {
 //	caption "All FETs would be checked for W/Ls as documented in spec 001-02735"
@@ -23,13 +25,13 @@ NOT poly areaid.ce -outputlayer poly_notcore
 //	caption " NOT CHECKED Informational Only"
 //}
 
-rule poly.1a {
-	caption "Width of poly: 0.150 um"
-	inte poly -lt 0.150 -output region
+rule CDR.poly.1a {
+	caption "CDR: Min width of poly: 0.15 um"
+	inte poly_dg -lt 0.150 -output region
 }
 
 rule poly.1b {
-	caption "Min channel length (poly width) for pfet overlapping lvtn: 0.350 um"
+	caption "Min channel length (poly width) for pfet overlapping lvtn: 0.35 um"
 	caption "(exempt rule for dummy_poly in cells listed on Table H3)"
 	select -interact pfet lvtn -outputlayer poly.1b_a
 	inte poly.1b_a -lt 0.350 -output region
@@ -39,20 +41,20 @@ rule poly.1b {
 //////////////////////////////////////////////////////////////////
 // Poly Spacing
 
-rule poly.2 {
-	caption "CDR: Spacing of poly to poly outside of areaid.ce: 0.21 um"
-	exte (not poly_notcore poly_res) -lt 0.210 -output region ;
+rule CDR.poly.2 {
+	caption "CDR: Min spacing of poly to poly outside of areaid.ce: 0.21 um"
+	exte poly_notcore -lt 0.210 -output region ;
 }
 
 edge_length poly_core -le 0.15 -outputlayer poly_gap_edge
 edge_length poly_core -gt 0.20 -outputlayer poly_not_gap_edge
 
-rule poly.2a {
+rule CDR.poly.2a {
   	exte poly_gap_edge -lt 0.16 -para only -output region ;
 	caption "CDR: Min spacing of poly core gap: 0.16 um"
 	caption "  (end-to-end spacing of poly in areaid.ce) "
 }
-rule poly.2b {
+rule CDR.poly.2b {
   	exte poly_not_gap_edge -lt 0.175 -para only -output region ;
 	caption "CDR: Min spacing of poly inside areaid.ce: 0.175 um"
 	caption "  (except for end-to-end spacing of poly in areaid.ce) "
@@ -90,22 +92,22 @@ select -touch ntap_actual pdiff_actual -outputlayer tap_pdiff
 
 // poly.6 is obsolete 
 //rule poly.6 {
-//	caption "Min spacing of poly on diff to abutting tap (min source): 0.300 um"
+//	caption "Min spacing of poly on diff to abutting tap (min source): 0.30 um"
 //	exte gate tap_ndiff -lt 0.300 -output region
 //	exte gate tap_pdiff -lt 0.300 -output region
 //}
 
 // poly.9 replaced with 9a & 9b
 //rule poly.9 {
-//	caption "Poly resistor spacing to poly or spacing (no overlap) to diff/tap: 0.480 um"
+//	caption "Poly resistor spacing to poly or spacing (no overlap) to diff/tap: 0.48 um"
 
 rule poly.9a {
-	caption "Min poly resistor spacing to diff/tap: 0.480 um"
+	caption "Min poly resistor spacing to diff/tap: 0.48 um"
 	exte poly_res diff_in -lt 0.48 -abut -lt 90 -single_point -output region 
 }
 rule poly.9b {
 	caption "Min poly resistor spacing to poly: 0.21" um
-	exte poly_res poly -lt 0.21 -abut -ltgt 0 90 -single_point -output region 
+	exte poly_res poly_dg -lt 0.21 -abut -ltgt 0 90 -single_point -output region 
 }
 
 //////////////////////////////////////////////////////////////////
@@ -113,8 +115,8 @@ rule poly.9b {
 
 AND poly poly_res -outputlayer poly_res_body
 
-rule poly.3 {
-	caption "Min poly resistor width: 0.330 um"
+rule CDR.poly.3 {
+	caption "CDR: Min poly resistor width: 0.33 um"
 	inte poly_res_body -lt 0.330 -output region
 }
 
@@ -128,13 +130,13 @@ rule poly.3a {
 edge_boolean -coincident_only -inside (and poly_res rpm_urpm) poly -outputlayer poly_prec_len
 edge_boolean -coincident_only -inside (not poly_res rpm_urpm) poly -outputlayer poly_res_len
 
-rule poly.3b {
+rule CDR.poly.3b {
 	caption "CDR: Min length of precision poly resistor: 0.66 um"
 	path_length poly_prec_len -lt 0.66
 }
 
-rule poly.3c {
-	caption "CDR: Min length of non-precision poly resistor: 0.47 um"
+rule CDRW.poly.3c {
+	caption "CDRW: Min length of non-precision poly resistor: 0.47 um"
 	path_length poly_res_len -lt 0.47
 }
 
@@ -146,7 +148,7 @@ enc poly_notcore diff_in -lt 0.250 -output region -outputlayer poly_dif_enc
 select -inside poly_dif_enc diff_in -outputlayer poly.7
 
 rule poly.7 {
-	caption "Extension of diff beyond poly in periphery (outside areaid.ce): 0.250 um"
+	caption "Min extension of diff beyond poly in periphery (outside areaid.ce): 0.25 um"
 	copy poly.7 ;
 }
 
@@ -156,7 +158,7 @@ edge_boolean -coincident_only -inside (select -interact -not gate tap) diff -out
 edge_boolean -outside gate_endcap areaid.ce -outputlayer gate_peri_endcap
 
 rule poly.8 {
-	caption "Min extension of poly outside areaid.ce beyond gate end (endcap): 0.130 um"
+	caption "Min extension of poly outside areaid.ce beyond gate end (endcap): 0.13 um"
 	enc gate_peri_endcap poly -lt 0.130 -output region
 }
 
@@ -174,7 +176,7 @@ rule poly.8 {
 // Angles that are not multiples of 45 are not considered,
 // as these poly and diff shapes are illegal.
 
-AND poly diff polydiff ;
+AND poly_dg diff_in polydiff ;
 vertex polydiff -gt 4 -outputlayer polydiff_gt4 
 
 bbox polydiff_gt4 -outputlayer polydiff_bbox ;
@@ -205,7 +207,7 @@ rule poly.11 {
 //////////////////////////////////////////////////////////////////
 
 not nwell hvi -outputlayer poly.12_a
-select -interact -not poly poly.12_a -outputlayer poly.12_b
+select -interact -not poly_dg poly.12_a -outputlayer poly.12_b
 select -donut -not poly.12_b -outputlayer poly.12_c
 
 rule poly.12 {

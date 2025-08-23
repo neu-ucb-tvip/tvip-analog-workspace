@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
 //	  hvpoly rules						//
-// Version 0.0_2.8  June 17, 2025				//
+// Version 0.0_2.12  July 22, 2025				//
 // DRM Section 5.7.40			   			//
 //////////////////////////////////////////////////////////////////
 
@@ -23,12 +23,12 @@
 edge_boolean -coincident_only hvpoly.13_b gate_a -outputlayer poly_edges
 
 rule hvpoly.13 {
-	caption "Min width of poly over diff inside Hvi: 0.500 um" 
+	caption "Min width of poly over diff inside hvi: 0.50 um" 
 	inte poly_edges -lt 0.5 -metric opposite -para ONLY -output region 
 }
 
 rule hvpoly.14 {
-	caption "(poly and diff) cannot straddle Hvi"
+	caption "(poly and diff) cannot straddle hvi"
 	select -cut gate hvi
 }
 

@@ -1,298 +1,465 @@
-img {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	transition: transform 0.2s ease;
+/* Badge images should display inline */
+img[src*="shields.io"], img[src*="img.shields.io"] {
+  display: inline !important;
+  margin: 0 0.25rem 0 0 !important;
+  vertical-align: middle !important;
 }
 
-img:hover {
-	transform: scale(1.01);
-}
-
-/* Global tokens: soft gradient + link colors */
+/* UC Berkeley Brand Colors */
 :root {
-  --grad-start: #5b7ef7; /* soft blue */
-  --grad-end:   #7ac9ff; /* soft cyan-blue */
-  --link-light: #2563eb;
-  --link-dark:  #60a5fa;
+  --berkeley-blue: #003262;
+  --california-gold: #FDB515;
+  --pacific-blue: #46535E;
+  --golden-gate-orange: #ED4E33;
+  --sather-gate-brass: #D9661F;
+  --berkeley-blue-light: #6C9BD1;
+  --california-gold-light: #FFE066;
+
+  /* Typography & layout density */
+  --font-size-base: 15.5px;
+  --line-height-base: 1.6;
+  --heading-letter-spacing: -0.01em;
+
+  /* Hairline separators */
+  --line: rgba(3, 7, 18, 0.08);
+
+  /* Ambient gradient tokens */
+  --bg: #0b1220;
+  --bg-grad-1: 70, 130, 180; /* steel blue */
+  --bg-grad-2: 31, 59, 77;   /* deep steel */
+  --bg-grad-opacity: 0.05;
 }
 
+/* Minimal font improvements - let Nextra handle layout */
+html {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  font-size: var(--font-size-base);
+}
+
+/* Base text rhythm */
+.nextra-content {
+  line-height: var(--line-height-base);
+}
+
+.nextra-content h1,
+.nextra-content h2,
+.nextra-content h3 {
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+.nextra-content p,
+.nextra-content li {
+  font-size: 0.95rem;
+}
+
+/* Ambient background gradients */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(2600px 1800px at -12% -18%, rgba(var(--bg-grad-1), var(--bg-grad-opacity)) 0%, rgba(var(--bg-grad-2), 0) 80%);
+    /* radial-gradient(2200px 1500px at 112% 8%, rgba(var(--bg-grad-1), var(--bg-grad-opacity)) 0%, rgba(var(--bg-grad-1), 0) 80%); */
+  z-index: 0;
+}
+
+/* Ensure layout appears above the overlay */
+#__next, .nextra-nav-container, .nextra-sidebar, .nextra-content, .nextra-toc {
+  position: relative;
+  z-index: 1;
+}
+
+/* Clean header styling without dividers */
+.nextra-content h2 {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.25rem;
+}
+
+/* Tighter content spacing */
+.nextra-content h1 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.nextra-content h2 {
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.nextra-content h3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.nextra-content p {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.nextra-content ul,
+.nextra-content ol {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+/* Cards container styling - NO hover effects on container */
+.nextra-content [class*="cards"] {
+  gap: 1rem !important;
+  margin: 1.5rem 0 !important;
+}
+
+.nextra-content [class*="cards"]:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Individual card styling */
+.nextra-card {
+  padding: 0.9rem !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid #e5e7eb !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+/* Individual card hover with nice pop effect */
+.nextra-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 4px 16px rgba(0, 50, 98, 0.15) !important;
+  border-color: var(--berkeley-blue) !important;
+}
+
+/* Dark mode cards */
+.dark .nextra-card {
+  border-color: #4b5563 !important;
+  background: rgba(31, 41, 55, 0.95) !important;
+  color: #f9fafb !important;
+}
+
+.dark .nextra-card:hover {
+  transform: translateY(-3px) !important;
+  border-color: var(--berkeley-blue-light) !important;
+  box-shadow: 0 4px 16px rgba(108, 155, 209, 0.15) !important;
+}
+
+/* Card title improvements */
+.nextra-card h3,
+.nextra-card [class*="title"],
+.nextra-card strong {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  color: var(--berkeley-blue) !important;
+  margin-bottom: 0.75rem !important;
+  line-height: 1.4 !important;
+}
+
+.dark .nextra-card h3,
+.dark .nextra-card [class*="title"],
+.dark .nextra-card strong {
+  color: var(--berkeley-blue-light) !important;
+}
+
+/* Card content text */
+.nextra-card p {
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  color: #6b7280 !important;
+  margin-bottom: 0.5rem !important;
+  flex-grow: 1 !important;
+}
+
+.dark .nextra-card p {
+  color: #d1d5db !important;
+}
+
+/* Arrow and link styling */
+.nextra-card [class*="arrow"] {
+  color: var(--berkeley-blue) !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+}
+
+.dark .nextra-card [class*="arrow"] {
+  color: var(--berkeley-blue-light) !important;
+}
+
+/* Site logo styling with dark mode support */
+.nextra-logo {
+  font-weight: 600;
+  color: var(--berkeley-blue);
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+}
+
+.nextra-logo-docs {
+  opacity: 0.7;
+  font-weight: 500;
+  color: var(--pacific-blue);
+}
+
+/* Dark mode logo styling */
+.dark .nextra-logo {
+  color: var(--berkeley-blue-light);
+}
+
+.dark .nextra-logo-docs {
+  color: #9ca3af;
+}
+
+/* Better blockquote styling */
+.nextra-content blockquote {
+  border-left-color: var(--line);
+  background: linear-gradient(90deg, rgba(0,0,0,0.02), transparent 60%);
+}
+
+.dark .nextra-content blockquote {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05), transparent 60%);
+}
+
+/* Custom theme overrides */
+[data-theme="light"] {
+  --nextra-primary-hue: 215deg;
+  --nextra-primary-saturation: 100%;
+  --line: rgba(3, 7, 18, 0.08);
+  --bg: #ffffff;
+  --bg-grad-opacity: 0.07;
+}
+
+.dark {
+  --nextra-primary-hue: 215deg;
+  --nextra-primary-saturation: 80%;
+  --line: rgba(255, 255, 255, 0.12);
+  --bg: #0b1220;
+  --bg-grad-opacity: 0.06;
+}
+
+/* UC Berkeley branded elements */
+.nextra-nav-container {
+  border-bottom: 1px solid var(--line);
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+}
+
+/* Custom callout styling */
+.nextra-callout-info {
+  border-left-color: var(--berkeley-blue);
+}
+
+.nextra-callout-warning {
+  border-left-color: var(--golden-gate-orange);
+}
+
+/* Code block improvements */
+.nextra-code-block {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace;
+}
+
+/* Table styling */
+.nextra-content table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.nextra-content table th {
+  background-color: var(--berkeley-blue);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.nextra-content table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.dark .nextra-content table td {
+  border-bottom-color: var(--line);
+}
+
+/* AuthorInfo component styling */
 .author-info {
-	margin: 2rem 0;
-	padding: 1rem;
-	background-color: #f7f7f8;
-	border-radius: 8px;
-	border-left: 4px solid #0070f3;
+  margin: 1.25rem 0;
+  padding: 1rem 1rem;
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--berkeley-blue);
+}
+
+.dark .author-info {
+  background-color: #1f2937;
+  border-color: rgba(255, 255, 255, 0.12);
+  border-left-color: var(--berkeley-blue-light);
+  color: #e5e7eb;
 }
 
 .author-section h3 {
-	margin: 0 0 1rem 0;
-	font-size: 1.1rem;
+  margin: 0 0 0.75rem 0;
+  font-size: 1.05rem;
+  color: var(--berkeley-blue);
+}
+
+.dark .author-section h3 {
+  color: var(--berkeley-blue-light);
 }
 
 .authors-list {
-	display: flex;
-	flex-direction: column;
-	gap: 0.75rem;
-}
-
-.author {
-	display: flex;
-	flex-direction: column;
-	gap: 0.25rem;
-}
-
-.author-name {
-	font-weight: 600;
-	font-size: 1rem;
-}
-
-.author-email {
-	font-size: 0.9rem;
-	color: #666;
-}
-
-.author-email a {
-	color: #0070f3;
-	text-decoration: none;
-}
-
-.author-email a:hover {
-	text-decoration: underline;
-}
-
-.author-affiliation {
-	font-size: 0.9rem;
-	color: #666;
-	font-style: italic;
-}
-
-.last-updated {
-	margin-top: 1rem;
-	padding-top: 1rem;
-	border-top: 1px solid #eaeaea;
-	font-size: 0.9rem;
-	color: #666;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 @media (min-width: 640px) {
-	.authors-list {
-		flex-direction: row;
-		flex-wrap: wrap;
-		gap: 1.5rem;
-	}
-	.author {
-		min-width: 250px;
-	}
+  .authors-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+  }
+  .author {
+    min-width: 220px;
+  }
 }
 
-/* Home cards: clean, balanced layout */
-.nextra-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
-  margin-top: 1.25rem;
+.author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-.nextra-card {
-  position: relative;
-  background: #ffffff;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 0; /* crisp corners */
-  padding: 1rem 1rem;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+.author-name {
+  font-weight: 600;
 }
 
-/* subtle gradient accent on top edge */
-.nextra-card::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  height: 3px;
-  /* soft two-stop gradient (tokenized with fallback) */
-  background: linear-gradient(90deg, var(--grad-start, #5b7ef7) 0%, var(--grad-end, #7ac9ff) 100%);
-  opacity: 0.6;
+.author-email {
+  font-size: 0.9rem;
+  color: #6b7280;
 }
 
-.nextra-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-  border-color: rgba(0,0,0,0.12);
+.dark .author-email { color: #d1d5db; }
+
+.author-email a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-.nextra-card h3 {
-  margin: 0 0 0.35rem 0;
-  font-size: 1.05rem;
-  line-height: 1.35;
+.author-affiliation {
+  font-size: 0.9rem;
+  color: #6b7280;
+  font-style: italic;
 }
 
-.nextra-card p {
-  margin: 0;
-  color: #4b5563; /* gray-600 */
-  line-height: 1.5;
-}
-
-/* Dark mode card adjustments */
-/* Dark theme (next-themes adds .dark on html) */
-.dark .nextra-card {
-  background: #0f1115;
-  border-color: rgba(255,255,255,0.08);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.28);
-}
-.dark .nextra-card:hover {
-  border-color: rgba(255,255,255,0.18);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-.dark .nextra-card p {
-  color: #a3a3a3;
-}
-
-/* Tighten content width for readability */
-.nextra-content {
-  max-width: 64rem; /* ~1024px */
-}
-
-/* Gradient page title (optional, used on index) */
-.page-title-gradient {
-  /* gentle two-stop gradient (tokenized) */
-  background: linear-gradient(90deg, var(--grad-start, #5b7ef7) 0%, var(--grad-end, #7ac9ff) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.25rem;
-  line-height: 1.1;
-}
-
-/* Author component: dark theme support */
-.dark .author-info {
-  background-color: #0f1115;
-  border-left-color: #22d3ee; /* cyan-400 accent */
-  color: #d1d5db;
-}
-.dark .author-email { color: #9ca3af; }
 .dark .author-affiliation { color: #9ca3af; }
-.dark .last-updated { border-top-color: #1f2937; color: #9ca3af; }
 
-/* Sidebar nav: subtle pill style */
-.nextra-menu-desktop li > a,
-.nextra-menu-mobile li > a {
-  position: relative;
-  padding: 6px 10px !important;
-  border-radius: 2px !important; /* very subtle rounding */
-  transition: color 150ms ease;
+.last-updated {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+  color: #6b7280;
 }
 
-/* Footer refinements: smaller, calmer, consistent type */
-footer {
-  background: inherit !important; /* avoid heavy ribbon feel */
-}
-footer hr {
-  margin: 0 !important;
-  border-color: rgba(0,0,0,0.06) !important;
-}
-.dark footer hr { border-color: #1f2937 !important; }
-footer > div:last-child {
-  padding-top: 12px !important;
-  padding-bottom: 16px !important;
-}
-.site-footer-text {
-  font-size: 0.875rem; /* 14px */
-  line-height: 1.5;
-  color: #6b7280; /* gray-500 */
-}
-.dark .site-footer-text { color: #9ca3af; }
-.site-footer-text a { color: inherit; text-decoration: underline; }
-
-/* gradient underline on hover/active */
-.nextra-menu-desktop li > a::after,
-.nextra-menu-mobile li > a::after {
-  content: "";
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: 2px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--grad-start, #5b7ef7), var(--grad-end, #7ac9ff));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 160ms ease;
-  opacity: 0.8;
+.dark .last-updated {
+  border-top-color: rgba(255, 255, 255, 0.12);
+  color: #9ca3af;
 }
 
-.nextra-menu-desktop li > a:hover::after,
-.nextra-menu-mobile li > a:hover::after,
-.nextra-menu-desktop li.active > a::after,
-.nextra-menu-mobile li.active > a::after {
-  transform: scaleX(1);
-}
-
-/* dark mode keeps the same accent but slightly brighter */
-.dark .nextra-menu-desktop li > a::after,
-.dark .nextra-menu-mobile li > a::after {
-  background: linear-gradient(90deg, var(--grad-start, #5b7ef7), var(--grad-end, #7ac9ff));
-}
-
-/* Lead paragraph under hero */
-.lead {
-  font-size: 1.1rem;
-  color: #6b7280; /* gray-500 */
-  margin: 0.25rem 0 0.75rem 0;
-}
-.dark .lead { color: #9ca3af; }
-
-/* CTA buttons (thin gradient borders) */
-.cta-row { display: flex; gap: 0.5rem; margin: 0.25rem 0 1rem 0; }
-.cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 6px 10px;
-  border-radius: 4px;
-  background: transparent;
-  border: 1px solid transparent;
-  background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(90deg, var(--grad-start), var(--grad-end));
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  color: var(--link-light);
+/* Custom badge styling */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
   font-weight: 500;
-}
-.cta-btn:hover { text-decoration: none; opacity: 0.9; }
-.dark .cta-btn { background-image: linear-gradient(#0f1115, #0f1115), linear-gradient(90deg, var(--grad-start), var(--grad-end)); color: var(--link-dark); }
-.cta-btn.secondary { opacity: 0.9; }
-
-/* Unified link + focus states */
-.nextra-content a { color: var(--link-light); text-underline-offset: 2px; }
-.nextra-content a:hover { text-decoration: underline; }
-.dark .nextra-content a { color: var(--link-dark); }
-
-/* Accessible focus ring (subtle) */
-a:focus-visible, button:focus-visible, .nextra-card:focus-visible {
-  outline: 2px solid rgba(99, 102, 241, 0.5);
-  outline-offset: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* Code blocks: flat, bordered, minimal radius */
-.nextra-content pre {
-  background: #fafafa !important;
-  border: 1px solid rgba(0,0,0,0.08) !important;
-  border-radius: 2px !important;
-  box-shadow: none !important;
+.badge-current {
+  background-color: var(--california-gold);
+  color: var(--berkeley-blue);
 }
-.dark .nextra-content pre {
-  background: #0f1115 !important;
-  border-color: rgba(255,255,255,0.12) !important;
+
+.badge-archive {
+  background-color: var(--pacific-blue);
+  color: white;
 }
-/* Inline code */
-.nextra-content :not(pre) > code {
-  background: #f5f5f5;
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: 2px;
+
+/* Memory map and register table styling */
+.memory-map-table {
+  font-family: monospace;
+  font-size: 0.9rem;
 }
-.dark .nextra-content :not(pre) > code {
-  background: #111217;
-  border-color: rgba(255,255,255,0.1);
+
+.memory-map-table th,
+.memory-map-table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.memory-map-table .address {
+  font-family: 'SF Mono', monospace;
+  font-weight: 600;
+  color: var(--berkeley-blue);
+}
+
+.dark .memory-map-table .address {
+  color: var(--berkeley-blue-light);
+}
+
+/* Pin diagram styling */
+.pin-diagram {
+  border: 2px solid var(--berkeley-blue);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: #f8fafc;
+}
+
+.dark .pin-diagram {
+  background-color: #1f2937;
+  border-color: var(--berkeley-blue-light);
+}
+
+/* Protocol frame styling */
+.protocol-frame {
+  font-family: monospace;
+  background-color: var(--berkeley-blue);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .nextra-content table {
+    font-size: 0.875rem;
+  }
+  
+  .nextra-content table th,
+  .nextra-content table td {
+    padding: 0.5rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .nextra-nav-container,
+  .nextra-sidebar,
+  .nextra-toc {
+    display: none !important;
+  }
+  
+  .nextra-content {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 }

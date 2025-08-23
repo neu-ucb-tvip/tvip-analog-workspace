@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////
+//	  	 Sky130 Fill Generation Routine	                //
+// 		    Version 08 July 18, 2025			//
+//////////////////////////////////////////////////////////////////
+
+text_depth -primary;
+virtual_connect -colon no;
+virtual_connect -semicolon_as_colon yes;
+virtual_connect -noname;
+virtual_connect -report no;
+virtual_connect -depth -primary;
+report_summary -drc "fill.sum" -replace;
+max_results -drc -all;
+keep_layers -none;
+abort_on_layout_error yes;
+layout_format oasis;
+layout_path "./CELLNAME.oas";
+
+//////////////////////////////////////////////////////////////////
+// Output
+
+// _FILL will add "_FILL" to all cells created (including the poly-fill cell)
+
+ results_db -drc "CELLNAME.fill.oas" -oasis _FILL ;
+
+ output -drc "diff_fillgen" -oasis 65 99 CELLNAME.fill.oas  ;
+ output -drc "poly_fillgen" -oasis 66 99 CELLNAME.fill.oas  ;
+
+ output -drc "LI_fillgen"   -oasis 67 99 CELLNAME.fill.oas  ;
+ output -drc "m1_fillgen"   -oasis 68 99 CELLNAME.fill.oas  ;
+ output -drc "m2_fillgen"   -oasis 69 99 CELLNAME.fill.oas  ;
+ output -drc "m3_fillgen"   -oasis 70 99 CELLNAME.fill.oas  ;
+ output -drc "m4_fillgen"   -oasis 71 99 CELLNAME.fill.oas  ;
+ output -drc "m5_fillgen"   -oasis 72 99 CELLNAME.fill.oas  ;
+
+// This will create a holding place cell for the poly-fill cells
+// Note: the sizes should match the sizes of the poly-fill cells
+
+ output -drc "diff_poly_fillgen_3"  -oasis 65 99 -aref poly_diff_3   3.0 2.5 CELLNAME.fill.oas  ;
+ output -drc "diff_poly_fillgen_10" -oasis 65 99 -aref poly_diff_10 10.0 2.5 CELLNAME.fill.oas  ;
+ output -drc "diff_poly_fillgen_25" -oasis 65 99 -aref poly_diff_25 25.0 2.5 CELLNAME.fill.oas  ;
+
