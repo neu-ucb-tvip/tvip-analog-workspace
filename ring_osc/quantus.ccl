@@ -1,0 +1,10 @@
+extract -selection "all" -type "rc_decoupled"
+input_db -type pegasus \
+  -directory_name ../cadence \
+  -run_name "res_35k"
+output_setup \
+  -file_name "res_35k.post.sp" \
+  -net_name_space "LAYOUT" \
+  -temporary_directory_name "res_35k"
+process_technology \
+  -technology_directory "sky130_release_0.0.4/quantus/extraction/typical"
