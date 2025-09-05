@@ -3,4 +3,4 @@ DEFINE     basic        $CDS_HOME/tools/dfII/etc/cdslib/basic
 DEFINE     sky130_fd_pr_main ./libs/sky130_fd_pr_main
 DEFINE     tvip_example tvip_example
 DEFINE     Bandgap_reference    ./Bandgap_reference
-DEFINE     TIA ./TIA
+DEFINE     piezo_osc_tia ./piezo_osc_tia
